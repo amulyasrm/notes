@@ -16,6 +16,7 @@
             --accent-teal: #3bc7b7;
             --accent-blue: #58a6ff;
             --accent-orange: #f9826c;
+            --accent-purple: #9d4edd;
             --text-main: #c9d1d9;
         }
 
@@ -116,6 +117,10 @@
             --accent: var(--accent-orange);
         }
 
+        .card-java {
+            --accent: var(--accent-purple);
+        }
+
         .card-icon {
             font-size: 3.5rem;
             color: var(--accent);
@@ -191,12 +196,20 @@
 
             <!-- Maven Module -->
             <a href="maven/index.html" class="course-card card-maven">
-                <div class="badge">Next Up</div>
                 <i class='bx bx-code-block card-icon'></i>
                 <h2>Maven Masterclass</h2>
                 <p>Master enterprise application builds, XML dependency management, and lifecycle phases. Learn exactly
                     how Maven orchestrates large-scale Java deployments.</p>
                 <div class="course-btn">Enter Module <i class='bx bx-right-arrow-alt'></i></div>
+            </a>
+
+            <!-- Java OOPs Module -->
+            <a href="java-oops/index.html" class="course-card card-java">
+                <div class="badge">Next Up</div>
+                <i class='bx bxl-java card-icon'></i>
+                <h2>OOPs in Java</h2>
+                <p>Establish a rigorous foundational understanding of critical Java Architecture: Inheritance, Polymorphism, Abstraction, and Encapsulation.</p>
+                <div class="course-btn">Prepare Module <i class='bx bx-right-arrow-alt'></i></div>
             </a>
         </div>
     </main>

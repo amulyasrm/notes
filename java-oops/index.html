@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java OOPs Masterclass</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --accent-blue: #9d4edd;
+            --accent-teal: #f9826c;
+        }
+        .hero { background: radial-gradient(circle at top, rgba(157, 78, 221, 0.15), transparent 60%); }
+        .hero h1 span { background: linear-gradient(90deg, #9d4edd, #f9826c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-blue); text-decoration: none; font-weight: bold; margin-bottom: 30px; }
+        .color-safe { color: #4ade80 !important; font-weight: 600; }
+        .color-danger { color: #f87171 !important; font-weight: 600; }
+        .color-caution { color: #fbbf24 !important; font-weight: 600; }
+
+        .section-header { font-size: 2rem; border-bottom: 2px solid rgba(157,78,221,0.3); padding-bottom: 10px; margin-top: 50px; margin-bottom: 20px; color: var(--accent-blue); font-family: 'Outfit', sans-serif;}
+        .sub-header { color: #fff; font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--accent-blue); padding-left: 10px;}
+        
+        .interactive-q { background: rgba(0,0,0,0.3); border-left: 4px solid var(--accent-teal); margin-bottom: 15px; border-radius: 6px; overflow: hidden; }
+        .interactive-q summary { padding: 15px 20px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #fff; background: rgba(255,255,255,0.05); list-style: none; display: flex; justify-content: space-between; align-items: center;}
+        .answer-box { padding: 20px; color: #e5e7eb; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.6); line-height: 1.6;}
+        
+        ul.bullet-list { margin-left: 25px; margin-bottom: 15px; color: #c9d1d9; line-height: 1.7;}
+        ul.bullet-list li strong { color: var(--accent-teal); }
+        .code-box { background: #0d1117; padding: 15px; border-radius: 6px; font-family: 'Fira Code', monospace; color: #a5d6ff; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); white-space: pre;}
+        table.styled-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 0.9em; font-family: 'Inter', sans-serif; min-width: 400px; border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
+        table.styled-table thead tr { background-color: rgba(22, 27, 34, 0.8); color: #ffffff; text-align: left; }
+        table.styled-table th, table.styled-table td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+    <header class="hero" style="min-height: 40vh;">
+        <div class="hero-image-overlay" style="background: rgba(13, 17, 23, 0.8);"></div>
+        <div class="hero-content">
+            <h1>The <span class="highlight">OOPs</span> Masterclass</h1>
+            <p>From core Memory Foundations to advanced Polymorphism and Architectural Design.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Developer Hub</a>
+
+        <!-- MY DETAILED VERSION -->
+        <!-- 1. OOP FOUNDATION -->
+        <h2 class="section-header">Part 1: The Core Framework</h2>
+        
+        <h3 class="sub-header">1. OOP Foundation</h3>
+        <p><strong>What is OOP?</strong> Object-Oriented Programming is a paradigm that models software around real-world objects rather than arbitrary logic trees.</p>
+        <ul class="bullet-list">
+            <li><strong>Why use it?</strong> It maps real-world behavior directly to code (e.g., modeling a Bank Account or a Car).</li>
+            <li><strong>Procedural vs OOP:</strong> Procedural executes top-down sequence functions globally (C). OOP secures state and behavior into encapsulated instances (Java, Python).</li>
+            <li><strong>Features (The 4 Pillars):</strong> Encapsulation, Inheritance, Polymorphism, Abstraction.</li>
+        </ul>
+
+        <!-- 2. CLASSES & OBJECTS -->
+        <h3 class="sub-header">2. Classes & Objects</h3>
+        <ul class="bullet-list">
+            <li><strong>Class:</strong> A logical blueprint or template (e.g., the architectural drawing of a house).</li>
+            <li><strong>Object:</strong> A physical instance of the class consuming exact memory (e.g., the actual house built from the drawing).</li>
+            <li><strong>Creation:</strong> Use the `new` keyword to initialize a fresh object. <code>Car bmw = new Car();</code></li>
+            <li><strong>Instance vs Local:</strong> Instance variables belong uniquely to the object throughout its lifetime. Local variables exist purely inside a single method scope and die immediately.</li>
+            <li><strong>`this` keyword:</strong> Represents the current executing object dynamically. Used to distinguish instance variables from identically-named local method parameters.</li>
+        </ul>
+
+        <!-- 16. MEMORY CONCEPT -->
+        <h3 class="sub-header">3. The Memory Concept (Stack vs Heap)</h3>
+        <ul class="bullet-list">
+            <li><strong>Heap Memory:</strong> Every time you use the `new` keyword, the actual physical Object is allocated inside the vast Heap map.</li>
+            <li><strong>Stack Memory:</strong> Holds short-lived local variables and the actual Reference pointers tracking the Heap objects.</li>
+            <li><strong>Scenario:</strong> <code>Student s = new Student();</code> -> The physical student exists on the Heap. The letter `s` lives in the Stack pointing to it.</li>
+        </ul>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <!-- Part 2: Actions & Scope -->
+        <h2 class="section-header">Part 2: Actions & Scope Modifiers</h2>
+
+        <!-- 3. METHODS -->
+        <h3 class="sub-header">4. Methods</h3>
+        <p>A method defines the exactly executable behavior of an object.</p>
+        <ul class="bullet-list">
+            <li><strong>Parameters vs Arguments:</strong> Parameters are the variables declared in the method definition. Arguments are the actual values passed during the calling.</li>
+            <li><strong>Static vs Non-Static:</strong> Static belongs to the Class entirely (called via `ClassName.method()`). Non-static belongs uniquely to an explicit Object snapshot.</li>
+            <li><strong>Overloading:</strong> Creating multiple methods utilizing the exact same name, but demanding entirely different parameter lists conceptually.</li>
+        </ul>
+
+        <!-- 4. CONSTRUCTORS -->
+        <h3 class="sub-header">5. Constructors</h3>
+        <p>A specialized block to perfectly initialize an object dynamically the moment it hits the Heap.</p>
+        <ul class="bullet-list">
+            <li><strong>Rules:</strong> Must explicitly share the identical class name. Cannot inherently possess a return type (not even `void`).</li>
+            <li><strong>Default vs Parameterized:</strong> A Default constructor takes 0 arguments. A Parameterized passes specific initial data.</li>
+            <li><strong>this() Chaining:</strong> Permits one constructor to actively call a secondary constructor inside the identical class to reduce code duplication.</li>
+        </ul>
+
+        <!-- 5. ACCESS MODIFIERS -->
+        <h3 class="sub-header">6. Access Modifiers</h3>
+        <table class="styled-table" style="width: 100%;">
+            <thead><tr><th>Modifier</th><th>Same Class</th><th>Same Package</th><th>Subclass</th><th>Global World</th></tr></thead>
+            <tbody>
+            <tr><td class="color-safe">public</td><td>✔️</td><td>✔️</td><td>✔️</td><td>✔️</td></tr>
+            <tr><td class="color-caution">protected</td><td>✔️</td><td>✔️</td><td>✔️</td><td>❌ (unless subclass)</td></tr>
+            <tr><td>default</td><td>✔️</td><td>✔️</td><td>❌</td><td>❌</td></tr>
+            <tr><td class="color-danger">private</td><td>✔️</td><td>❌</td><td>❌</td><td>❌</td></tr>
+            </tbody>
+        </table>
+
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <!-- PART 3: THE 4 PILLARS -->
+        <h2 class="section-header">Part 3: The 4 Pillars of OOP</h2>
+
+        <!-- 6. ENCAPSULATION -->
+        <h3 class="sub-header color-safe">Pillar 1: Encapsulation</h3>
+        <p><strong>Definition:</strong> Binding data (variables) and logic (methods) securely into a single unit (Data Hiding).</p>
+        
+        <div class="interactive-q">
+            <summary>The Mechanics: Private Variables + Public Getters/Setters</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li><strong>Private variables:</strong> Prevent external classes from directly editing data maliciously.</li>
+                    <li><strong>Getter Method:</strong> A read-only tunnel to extract the value. <code>public String getName() { return name; }</code></li>
+                    <li><strong>Setter Method:</strong> A write tunnel to change the value securely. Provides strict <strong>Data Validation</strong> internally. <code>public void setAge(int a) { if(a>0) age =a; }</code></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="interactive-q">
+            <summary>Constructors vs Getters/Setters (Difference & Usage)</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li><strong>Constructor:</strong> Executes strictly <strong>once</strong> during object creation for initial birth mapping.</li>
+                    <li><strong>Setters:</strong> Executes <strong>unlimited</strong> times specifically for post-birth modifications.</li>
+                    <li><strong>Immutable Classes:</strong> To create an object that can never be modified (like `String`), solely use a Constructor + Getters. Delete all Setters to freeze it completely.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- 7. INHERITANCE -->
+        <h3 class="sub-header color-safe">Pillar 2: Inheritance</h3>
+        <p><strong>Definition:</strong> Utilizing one core Parent class fundamentally to automatically supply properties and methods down into Child classes.</p>
+        <ul class="bullet-list">
+            <li><strong>Concept:</strong> It forms a strict <strong>IS-A</strong> relationship (e.g., A Dog IS-A Animal). Facilitates tremendous Code Reusability.</li>
+            <li><strong>Types Supported:</strong> Single, Multilevel, and Hierarchical. Java completely rejects Multiple Inheritance through standard classes forcefully blocking the "Diamond Problem".</li>
+            <li><strong>The `super` Keyword:</strong> Points natively exactly at the direct Parent class object. <code>super.method()</code> calls the parent version.</li>
+        </ul>
+
+        <!-- 8 & 9. POLYMORPHISM & OVERRIDING -->
+        <h3 class="sub-header color-safe">Pillar 3: Polymorphism</h3>
+        <p><strong>Definition:</strong> "Many Forms." Permitting identical methods conceptually to execute uniquely differently depending entirely on context.</p>
+        <ul class="bullet-list">
+            <li><strong>Compile-time (Overloading):</strong> Using the identical method name but varying the parameter argument structures. Java natively maps this directly during the compiling phase.</li>
+            <li><strong>Runtime (Method Overriding):</strong> When a Child completely rewrites a Parent's method uniquely. The actual decision on which literal method actively triggers resolves dynamically during runtime via "Dynamic Method Dispatch".</li>
+        </ul>
+        <div class="code-box">Parent p = new Child();
+p.draw(); // Calls the Child's draw() exclusively at runtime dynamically!</div>
+
+        <!-- 10. ABSTRACTION -->
+        <h3 class="sub-header color-safe">Pillar 4: Abstraction</h3>
+        <p><strong>Definition:</strong> Hiding complex implementation architectures securely while exclusively exposing purely necessary structural features.</p>
+
+        <table class="styled-table mt-10">
+            <thead><tr><th>Abstract Classes</th><th>Interfaces (Java 8+)</th></tr></thead>
+            <tbody>
+            <tr><td>Made via <code>abstract</code> keyword.</td><td>Made via <code>interface</code> keyword.</td></tr>
+            <tr><td>Can house standard methods AND abstract methods.</td><td>By default, exclusively houses abstract empty methods completely.</td></tr>
+            <tr><td>Can declare specific Constructors explicitly.</td><td>Cannot declare Constructors structurally whatsoever.</td></tr>
+            <tr><td>Supports Single Inheritance accurately.</td><td>Permits structurally bypassing rules via <strong>Multiple Inheritance</strong> universally.</td></tr>
+            <tr><td>--</td><td>All variables are strictly <code>public static final</code> dynamically.</td></tr>
+            </tbody>
+        </table>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <!-- PART 4: Architecture & Keywords -->
+        <h2 class="section-header">Part 4: Crucial Architecture Keywords</h2>
+
+        <h3 class="sub-header">Contextual Relationships</h3>
+        <ul class="bullet-list">
+            <li><strong>IS-A (Inheritance):</strong> A Truck literally IS-A Vehicle structurally. Accomplished smoothly using <code>extends</code>.</li>
+            <li><strong>HAS-A (Composition):</strong> A Car HAS-A Engine component dynamically. Accomplished strictly by declaring an Engine variable physically inside the Car class securely.</li>
+        </ul>
+
+        <h3 class="sub-header">The Final & Static Concepts</h3>
+        <ul class="bullet-list">
+            <li><strong>Final variable:</strong> Completely freezes the value immutably globally. Cannot be altered mathematically.</li>
+            <li><strong>Final method:</strong> Absolutely blocks structural Method Overriding universally by child classes completely.</li>
+            <li><strong>Final class:</strong> Absolutely blocks structural Inheritance universally. The class completely cannot be extended whatsoever.</li>
+            <li><strong>Static:</strong> Means the component is intrinsically bound fundamentally to the Class structurally, completely ignoring individual individual Objects. Accessible purely via standard Class name.</li>
+        </ul>
+
+        <h3 class="sub-header">The Object Class</h3>
+        <p>The implicit universal Parent explicitly backing every singular creatively created Java Class globally seamlessly.</p>
+        <ul class="bullet-list">
+            <li><strong>toString():</strong> Explicitly returns a structurally readable String mapping representation intuitively. By default, it prints a useless Hashcode natively without overriding intelligently.</li>
+            <li><strong>equals():</strong> Explicitly physically verifies precisely if two objects functionally contain identical structural business values logically natively explicitly.</li>
+        </ul>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <!-- PART 5: INTERVIEW PREP -->
+        <h2 class="section-header">Part 5: Senior Interview Comparisons</h2>
+
+        <details class="interactive-q">
+            <summary>Compare: Method Overloading vs Overriding?</summary>
+            <div class="answer-box">
+                <p><strong>Overloading:</strong> Occurs explicitly inside the identical class structurally. Identical method name definitively, differing entirely by parameter mapping identically. Resolved completely during standard compile-time (early binding).</p>
+                <p><strong>Overriding:</strong> Occurs explicitly safely across different parent-child hierarchy structures exclusively. Identical name AND identical parameters securely. Resolved uniquely natively during exactly runtime dynamically (late binding).</p>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Compare: Encapsulation vs Abstraction?</summary>
+            <div class="answer-box">
+                <p><strong>Abstraction:</strong> Specifically hiding the internal complex Implementation creatively. Displaying purely precisely "What it logically does natively" dynamically while securely completely masking specifically "How it explicitly functionally comprehensively actually acts."</p>
+                <p><strong>Encapsulation:</strong> Specifically hiding the internal Data securely natively. Using Private variables universally safely actively preventing unauthorized logical access cleanly.</p>
+            </div>
+        </details>
+        
+        <details class="interactive-q">
+            <summary>Design Problem: Design a fully Immutable Class structurally.</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li>Declare the entire class technically mathematically as exactly <code>final</code> to natively cleanly completely block subclass corruption intuitively entirely.</li>
+                    <li>Declare all structural variables mathematically completely purely accurately exclusively as exclusively <code>private final</code> precisely dynamically actively securely universally strictly cleanly.</li>
+                    <li>Remove completely realistically all explicit `Setter` methods functionally comprehensively securely automatically smoothly rationally cleanly completely seamlessly. Provide exclusively explicitly safe exactly read-only `Getter` methods properly properly logically precisely comprehensively logically!</li>
+                </ul>
+            </div>
+        </details>
+
+        <hr style="border:0; border-top:1px dashed #f9826c; margin: 80px 0;">
+
+        <!-- THE USER'S QUICK REVISION LIST -->
+        <!-- PART 6: QUICK REVISION NOTES -->
+        <h2 class="section-header" style="color: #f9826c; text-align: center;">Part 6: Quick Revision Notes</h2>
+        <p style="text-align: center; color: #a5d6ff; margin-bottom: 40px; font-style: italic;">A clean, rapid-fire breakdown mapping perfectly for instant pre-interview revision.</p>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">1. OOP Foundation</h3>
+        <p><strong>What is OOP?</strong><br>Object-Oriented Programming is a way of writing code using objects that represent real-world entities.</p>
+        <p><strong>Why use it?</strong></p>
+        <ul class="bullet-list">
+            <li>Makes code easy to understand</li>
+            <li>Improves reusability</li>
+            <li>Helps in large applications</li>
+        </ul>
+        <p><strong>Procedural vs OOP</strong></p>
+        <ul class="bullet-list">
+            <li>Procedural &rarr; step-by-step functions</li>
+            <li>OOP &rarr; data + behavior together</li>
+        </ul>
+        <p><strong>4 Pillars</strong></p>
+        <ul class="bullet-list">
+            <li>Encapsulation</li>
+            <li>Inheritance</li>
+            <li>Polymorphism</li>
+            <li>Abstraction</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">2. Classes & Objects</h3>
+        <ul class="bullet-list">
+            <li><strong>Class:</strong> Blueprint</li>
+            <li><strong>Object:</strong> Instance of class</li>
+        </ul>
+        <div class="code-box">Car bmw = new Car();</div>
+        <ul class="bullet-list">
+            <li><strong>Instance variables:</strong> belong to object</li>
+            <li><strong>Local variables:</strong> inside method</li>
+        </ul>
+        <p><strong>this keyword</strong></p>
+        <ul class="bullet-list">
+            <li>Refers to current object</li>
+            <li>Used to avoid confusion</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">3. Memory Concept</h3>
+        <div class="code-box">Student s = new Student();</div>
+        <ul class="bullet-list">
+            <li><strong>Object:</strong> stored in Heap</li>
+            <li><strong>Reference s:</strong> stored in Stack</li>
+            <li class="color-safe">👉 Stack &rarr; references</li>
+            <li class="color-safe">👉 Heap &rarr; actual objects</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">4. Methods</h3>
+        <p>Define behavior</p>
+        <p><strong>Types</strong></p>
+        <ul class="bullet-list">
+            <li><strong>Static:</strong> class level</li>
+            <li><strong>Non-static:</strong> object level</li>
+        </ul>
+        <p><strong>Overloading</strong></p>
+        <ul class="bullet-list">
+            <li>Same method name</li>
+            <li>Different parameters</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">5. Constructors</h3>
+        <p>Special method used to initialize object</p>
+        <p><strong>Types</strong></p>
+        <ul class="bullet-list">
+            <li>Default constructor</li>
+            <li>Parameterized constructor</li>
+        </ul>
+        <p><strong>Rules</strong></p>
+        <ul class="bullet-list">
+            <li>Same name as class</li>
+            <li>No return type</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">6. Access Modifiers</h3>
+        <table class="styled-table">
+            <thead><tr><th>Modifier</th><th>Access</th></tr></thead>
+            <tbody>
+                <tr><td class="color-safe">public</td><td>everywhere</td></tr>
+                <tr><td class="color-caution">protected</td><td>package + subclass</td></tr>
+                <tr><td>default</td><td>package only</td></tr>
+                <tr><td class="color-danger">private</td><td>class only</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Pillars Quick Notes -->
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Pillar 1: Encapsulation</h3>
+        <p><strong>Definition:</strong> Encapsulation means hiding data and allowing controlled access.</p>
+        <p><strong>🔹 How it works</strong></p>
+        <ul class="bullet-list">
+            <li>Make variables private</li>
+            <li>Access using getters & setters</li>
+        </ul>
+        <div class="code-box">class Student {
+    private int age;
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        if(age > 0) {
+            this.age = age;
+        }
+    }
+}</div>
+        <p><strong>🔹 Why use getters & setters?</strong></p>
+        <ul class="bullet-list">
+            <li>Protect data</li>
+            <li>Add validation</li>
+            <li>Control changes</li>
+        </ul>
+        <p><strong>Constructor vs Getter/Setter</strong></p>
+        <table class="styled-table" style="max-width: 600px;">
+            <thead><tr><th>Concept</th><th>Purpose</th></tr></thead>
+            <tbody>
+                <tr><td>Constructor</td><td>Initialize object</td></tr>
+                <tr><td>Getter</td><td>Read data</td></tr>
+                <tr><td>Setter</td><td>Modify data</td></tr>
+            </tbody>
+        </table>
+        <ul class="bullet-list">
+            <li>✔ <strong>Use constructor when:</strong> Initial values needed at creation</li>
+            <li>✔ <strong>Use setter when:</strong> Values change later</li>
+            <li>✔ <strong>Use both when:</strong> Need initialization + updates</li>
+        </ul>
+        <p><strong>🔹 Immutable Class (VERY IMPORTANT)</strong></p>
+        <div class="code-box">class Student {
+    private final int age;
+
+    public Student(int age) {
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+}</div>
+        <p class="color-safe">👉 No setter &rarr; value cannot change</p>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Pillar 2: Inheritance</h3>
+        <ul class="bullet-list">
+            <li>Reuse code from parent class</li>
+            <li>IS-A relationship</li>
+        </ul>
+        <div class="code-box">class Dog extends Animal {}</div>
+        <p><strong>super keyword:</strong> Access parent methods/variables</p>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Pillar 3: Polymorphism</h3>
+        <p><strong>Compile-time</strong></p>
+        <ul class="bullet-list">
+            <li>Method overloading</li>
+        </ul>
+        <p><strong>Runtime</strong></p>
+        <ul class="bullet-list">
+            <li>Method overriding</li>
+        </ul>
+        <div class="code-box">Parent p = new Child();</div>
+        <p class="color-safe">👉 Child method executes</p>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Pillar 4: Abstraction</h3>
+        <p><strong>Abstract class</strong></p>
+        <ul class="bullet-list">
+            <li>Can have both abstract + normal methods</li>
+        </ul>
+        <p><strong>Interface</strong></p>
+        <ul class="bullet-list">
+            <li>Only abstract methods (default)</li>
+            <li>Supports multiple inheritance</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Relationships</h3>
+        <ul class="bullet-list">
+            <li><strong>IS-A</strong> &rarr; inheritance</li>
+            <li><strong>HAS-A</strong> &rarr; composition</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Static & Final</h3>
+        <p><strong>static</strong></p>
+        <ul class="bullet-list">
+            <li>Belongs to class</li>
+        </ul>
+        <p><strong>final</strong></p>
+        <ul class="bullet-list">
+            <li><strong>variable &rarr;</strong> constant</li>
+            <li><strong>method &rarr;</strong> cannot override</li>
+            <li><strong>class &rarr;</strong> cannot extend</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">Object Class</h3>
+        <ul class="bullet-list">
+            <li>toString()</li>
+            <li>equals()</li>
+        </ul>
+
+    </main>
+
+    <footer>
+        <p>Enterprise OOP Preparation • Designed with ❤️ by Antigravity AI</p>
+    </footer>
+</body>
+</html>
