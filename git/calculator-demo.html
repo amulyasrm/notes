@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real-World Git Demo | Calculator Project</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .color-safe, .color-green { color: #4ade80 !important; font-weight: 600; }
+        .color-danger, .color-red { color: #f87171 !important; font-weight: 600; }
+        .color-caution, .color-yellow { color: #fbbf24 !important; font-weight: 600; }
+
+        .scenario-card { background: linear-gradient(to right, rgba(22, 27, 34, 0.8), rgba(11, 15, 25, 0.9)); border-left: 4px solid var(--accent-blue); padding: 20px; border-radius: 6px; margin: 20px 0; }
+        .scenario-card h4 { display: flex; align-items: center; gap: 8px; color: var(--accent-blue); margin-bottom: 10px; }
+        
+        .folder-structure {
+            background: #0d1117;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-family: 'Fira Code', monospace;
+            color: #c9d1d9;
+            line-height: 1.8;
+            margin: 15px 0;
+        }
+        .folder-structure i { color: var(--accent-teal); margin-right: 5px; }
+        .folder-structure .file { color: #8b949e; }
+        
+        .state-table { width: 100%; border-collapse: collapse; margin-top: 15px; border-radius: 8px; overflow: hidden; background: rgba(0,0,0,0.3); border: 1px solid var(--border-color);}
+        .state-table th { background: rgba(255,255,255,0.05); padding: 12px; color: var(--accent-teal); border-bottom: 1px solid var(--border-color); text-align: left;}
+        .state-table td { padding: 12px; border-bottom: 1px solid var(--border-color); vertical-align: top;}
+        .state-table tr:last-child td { border-bottom: none; }
+        .empty-state { color: #8b949e; font-style: italic; }
+
+        .nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-blue); text-decoration: none; font-weight: bold; margin-bottom: 20px; }
+        .nav-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <header class="hero" style="min-height: 50vh; padding: 100px 20px;">
+        <div class="hero-image-overlay"></div>
+        <img src="/Users/amulya/.gemini/antigravity/brain/430cf169-0c96-4fb3-804a-a36c0c52965d/git_hero_banner_1773878174442.png" alt="Git Background" class="hero-bg">
+        <div class="hero-content">
+            <h1>The <span class="highlight">Calculator Demo</span></h1>
+            <p>Watch how every Git command shapes the Staging Area, Working Directory, and Local Repo in a Live Project Simulation.</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="index.html" class="nav-back"><i class='bx bx-arrow-back'></i> Back to Masterclass Notes</a>
+        
+        <!-- INTRO -->
+        <section class="card">
+            <h2><i class='bx bx-play'></i> Phase 1: Obtaining the Project</h2>
+            <p>We are joining a company team that has an existing, half-finished Calculator repository on GitHub. We need to clone it to our local computer.</p>
+            
+            <div class="code-snippet mt-20">
+                <pre><code><span class="comment"># 1. Download the repository from GitHub</span>
+git clone https://github.com/company/calculator.git
+
+<span class="comment"># 2. Enter the directory</span>
+cd calculator</code></pre>
+            </div>
+
+            <div class="grid-2">
+                <div class="folder-structure">
+                    <h4>🗂️ Local Folder Structure</h4>
+                    <div><i class='bx bxs-folder-open'></i> calculator/</div>
+                    <div style="margin-left: 20px;"><i class='bx bxs-folder' style="color: #8b949e;"></i> .git/ <span class="file">(The Local Repo engine)</span></div>
+                    <div style="margin-left: 20px;"><i class='bx bx-file'></i> index.html</div>
+                    <div style="margin-left: 20px;"><i class='bx bx-file'></i> style.css</div>
+                </div>
+                <div>
+                    <h4 class="mt-20">📊 Git State</h4>
+                    <table class="state-table">
+                        <thead><tr><th>Working Directory</th><th>Staging Area</th></tr></thead>
+                        <tbody>
+                            <tr>
+                                <td><span class="color-safe">Clean</span> (Matches `main` branch exactly)</td>
+                                <td><span class="empty-state">Empty</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Phase 2 -->
+        <section class="card">
+            <h2><i class='bx bx-git-branch'></i> Phase 2: Building the Addition Feature</h2>
+            <p>We need to add a Javascript file to handle logic. <strong>We strictly follow the Real-World workflow by branching first!</strong></p>
+            
+            <div class="code-snippet mt-20">
+                <pre><code><span class="comment"># Safely create and switch to a feature branch</span>
+git switch -c feature-addition
+
+<span class="comment"># Create a new logic file and add code (using terminal echo for demo purposes)</span>
+echo "function add(a,b) { return a + b; }" > calc.js</code></pre>
+            </div>
+
+            <h4 class="mt-20">📊 Git State (After creating file)</h4>
+            <table class="state-table">
+                <thead><tr><th>Working Directory</th><th>Staging Area</th><th>Local Repository</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong class="color-red">Untracked File:</strong> <br>
+                            <code>calc.js</code> is completely unknown to Git.
+                        </td>
+                        <td><span class="empty-state">Empty</span></td>
+                        <td>Still only knows about <code>index.html</code> and <code>style.css</code></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="code-snippet mt-20">
+                <pre><code><span class="comment"># Let's track the file!</span>
+git add calc.js
+
+<span class="comment"># Check the status of our project</span>
+git status</code></pre>
+            </div>
+
+            <h4 class="mt-20">📊 Git State (After `git add`)</h4>
+            <table class="state-table">
+                <thead><tr><th>Working Directory</th><th>Staging Area</th><th>Local Repository</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><span class="color-safe">Clean</span></td>
+                        <td>
+                            <strong class="color-green">Added:</strong> <br>
+                            <code>calc.js</code> snapshot created.
+                        </td>
+                        <td>Still only knows about <code>index.html</code> and <code>style.css</code></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="code-snippet mt-20">
+                <pre><code><span class="comment"># Commit the staged snapshot permanently</span>
+git commit -m "Add basic addition logic"</code></pre>
+            </div>
+
+            <h4 class="mt-20">📊 Git State (After `git commit`)</h4>
+            <table class="state-table">
+                <thead><tr><th>Working Directory</th><th>Staging Area</th><th>Local Repository</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td rowspan="2" style="vertical-align: middle; text-align: center;"><span class="color-safe">Clean</span></td>
+                        <td rowspan="2" style="vertical-align: middle; text-align: center;"><span class="empty-state">Matches the repo perfectly.</span></td>
+                        <td>
+                            <strong class="color-blue">New Snapshot (Commit e9f4a1):</strong><br>
+                            - index.html<br>
+                            - style.css<br>
+                            - <strong>calc.js</strong>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Phase 3: The Stash Crisis -->
+        <section class="card section-glow">
+            <h2><i class='bx bxs-hot'></i> Phase 3: The Hotfix Crisis (Stash)</h2>
+            <p>You begin writing the <code>subtract</code> function in <code>calc.js</code>.</p>
+            
+            <div class="code-snippet">
+                <pre><code>echo "function subtract(a,b) { return a - " >> calc.js</code></pre>
+            </div>
+
+            <p class="mt-10"><strong>🚨 EMERGENCY!</strong> The <code>main</code> branch production CSS is broken. You need to switch to <code>main</code> immediately and pull the boss's updates to fix it, but your <code>calc.js</code> is half-written and broken!</p>
+            <p>If you run <code>git switch main</code> now, Git will <strong>block you</strong> because your broken code would bleed into the <code>main</code> branch.</p>
+
+            <div class="code-snippet mt-20">
+                <pre><code><span class="comment"># 1. Hide our half-written work quickly!</span>
+git stash
+
+<span class="comment"># 2. Safely switch to main and pull updates</span>
+git switch main
+git pull origin main
+
+<span class="comment"># ... (You quickly fix the CSS bug on main, add, commit, and push) ...</span>
+
+<span class="comment"># 3. Switch back to your feature and restore the hidden work</span>
+git switch feature-addition
+git stash pop</code></pre>
+            </div>
+
+            <h4 class="mt-20">📊 Git State Tracking Details</h4>
+            <table class="state-table">
+                <thead><tr><th>Action</th><th>Working Directory</th><th>Stash "Backpack"</th></tr></thead>
+                <tbody>
+                    <tr>
+                        <td><strong>After half-writing code</strong></td>
+                        <td><code>calc.js</code> is <span class="color-red">Modified (Unstaged)</span></td>
+                        <td><span class="empty-state">Empty</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>After `git stash`</strong></td>
+                        <td><span class="color-safe">Clean (Reverted to last commit)</span></td>
+                        <td>Holds a snapshot of the broken <code>calc.js</code></td>
+                    </tr>
+                    <tr>
+                        <td><strong>After `git stash pop`</strong></td>
+                        <td><code>calc.js</code> is <span class="color-red">Modified</span> again!</td>
+                        <td><span class="empty-state">Empty</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- Phase 4: Fixing Mistakes (Undo/Restore) -->
+        <section class="card">
+            <h2><i class='bx bx-undo'></i> Phase 4: Fixing Mistakes</h2>
+            <p>You accidentally generate a massive compiler log file, and you also accidentally delete <code>index.html</code>!</p>
+            
+            <div class="code-snippet">
+                <pre><code>touch debugger.log       <span class="comment"># Accidentally created a log file</span>
+rm index.html            <span class="comment"># Accidentally deleted the HTML</span>
+git status</code></pre>
+            </div>
+
+            <p class="mt-10">Git Status says: <code class="color-red">deleted: index.html</code> and <code class="color-red">Untracked: debugger.log</code>.</p>
+
+            <div class="code-snippet mt-10">
+                <pre><code><span class="comment"># 1. Restore the deleted HTML file from the Staging Area cache</span>
+git restore index.html
+
+<span class="comment"># 2. Forcibly clean the un-tracked log file we don't want</span>
+git clean -fd</code></pre>
+            </div>
+            
+            <p class="mt-10">To prevent <code>.log</code> files forever, we create a `.gitignore`.</p>
+            <div class="code-snippet mt-10">
+                <pre><code>echo "*.log" > .gitignore
+git add .
+git commit -m "Add subtract logic and gitignore"</code></pre>
+            </div>
+        </section>
+
+        <!-- Phase 5: Pushing and PR -->
+        <section class="card section-glow">
+            <h2><i class='bx bx-merge'></i> Phase 5: The Pull Request & Merge</h2>
+            <p>Our feature branch is complete locally. Now we must put it in the cloud and ask for a team review.</p>
+
+            <div class="code-snippet mt-20">
+                <pre><code><span class="comment"># 1. Inspect our final changes</span>
+git log --oneline
+
+<span class="comment"># 2. Push our new branch to GitHub</span>
+git push origin feature-addition</code></pre>
+            </div>
+
+            <div class="scenario-card">
+                <h4><i class='bx bxl-github' ></i> Action Moves to GitHub (The PR)</h4>
+                <p>We log into GitHub.com and open a <strong>Pull Request</strong> targeting the <code>main</code> branch. We cannot merge it ourselves. A senior developer reviews <code>calc.js</code>, leaves a comment ("Great logic!"), and clicks <strong>Approve</strong>.</p>
+                <p>Then, they click the green <strong>Merge Pull Request</strong> button. GitHub merges the branch into <code>main</code>.</p>
+            </div>
+
+            <h4 class="mt-20">The Cleanup</h4>
+            <p>Now that the code is merged on GitHub, our local computer is out of date.</p>
+            <div class="code-snippet mt-10">
+                <pre><code><span class="comment"># 1. Switch back to the main branch locally</span>
+git switch main
+
+<span class="comment"># 2. Download the new merged changes from the cloud</span>
+git pull origin main
+
+<span class="comment"># 3. Clean up our old, now-useless local feature branch</span>
+git branch -d feature-addition</code></pre>
+            </div>
+        </section>
+
+        <section class="interactive-practice" style="text-align: center;">
+            <h3><i class='bx bx-check-circle'></i> Workflow Complete!</h3>
+            <p>You have just successfully simulated the exact workflow used by millions of software engineers daily. Notice how carefully Git structures environments (Working Directory vs. Staging vs. Repo) to protect you from losing data.</p>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Real-World Simulation • Designed with ❤️ by Antigravity AI</p>
+    </footer>
+</body>
+</html>

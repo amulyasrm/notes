@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 Real-World Git Scenarios</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        .color-safe, .color-green { color: #4ade80 !important; font-weight: 600; }
+        .color-danger, .color-red { color: #f87171 !important; font-weight: 600; }
+        .color-caution, .color-yellow { color: #fbbf24 !important; font-weight: 600; }
+
+        .question-card { background: rgba(0,0,0,0.3); border: 1px solid var(--border-color); border-left: 4px solid var(--accent-blue); padding: 25px; border-radius: 8px; margin-bottom: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .q-title { color: #fff; font-weight: 700; margin-bottom: 12px; font-size: 1.25rem; font-family: 'Outfit', sans-serif;}
+        .q-scenario { color: #c9d1d9; font-style: italic; margin-bottom: 20px; border-left: 2px solid var(--accent-teal); padding-left: 15px; font-size: 1.05rem; }
+        .q-answer-title { color: var(--accent-teal); font-weight: 600; margin-bottom: 8px; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 0.5px;}
+        .q-answer { color: #4ade80; font-family: 'Fira Code', monospace; background: rgba(0,0,0,0.5); padding: 15px; border-radius: 6px; font-size: 0.95rem; line-height: 1.6;}
+        .q-explain { color: #8b949e; font-size: 0.95rem; margin-top: 15px; line-height: 1.6;}
+        
+        .nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-blue); text-decoration: none; font-weight: bold; margin-bottom: 30px; }
+        .nav-back:hover { text-decoration: underline; }
+        
+        .section-header { margin: 50px 0 25px 0; color: var(--accent-teal); font-size: 1.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 15px;}
+    </style>
+</head>
+<body>
+    <header class="hero" style="min-height: 40vh; padding: 100px 20px;">
+        <div class="hero-image-overlay"></div>
+        <img src="/Users/amulya/.gemini/antigravity/brain/430cf169-0c96-4fb3-804a-a36c0c52965d/git_hero_banner_1773878174442.png" alt="Git Background" class="hero-bg">
+        <div class="hero-content">
+            <h1>50 <span class="highlight">Real-World Scenarios</span></h1>
+            <p>Advanced Interview Preparations to Secure Senior Engineering Roles</p>
+        </div>
+    </header>
+
+    <main class="container">
+        <a href="index.html" class="nav-back"><i class='bx bx-arrow-back'></i> Back to Masterclass Notes</a>
+
+        <!-- Section 1: Essentials -->
+        <h2 class="section-header"><i class='bx bx-check-shield'></i> 1. Daily Essentials & Cleanup</h2>
+        
+        <div class="question-card">
+            <div class="q-title">Q1: The "Oops, I missed a file" Committing Scenario</div>
+            <div class="q-scenario">Scenario: You just committed your feature snapshot locally, but suddenly realize you forgot to stage a crucial CSS file. You don't want to create a messy "Forgot CSS" subsequent commit. How do you integrate it?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git add style.css<br>git commit --amend --no-edit</div>
+            <div class="q-explain">Explanation: Using <code>--amend</code> modifies the very last commit. By running <code>--no-edit</code>, you instruct Git to keep the exact same original commit message and just bake the new file into it covertly.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q2: Un-staging Accidental Files</div>
+            <div class="q-scenario">Scenario: You ran <code>git add .</code> but realized an enormous compiled binary got swept into the Staging Area. How do you remove it safely from Staging without deleting the actual file?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git restore --staged huge_binary.exe</div>
+            <div class="q-explain">Explanation: This safely kicks the specified file out of the Index (Staging area), moving it back into the unstaged Working Directory. The physical file remains perfectly unharmed.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q3: Wiping Untracked Files</div>
+            <div class="q-scenario">Scenario: A build script error generated 50 useless <code>.log</code> files across your directories. Git shows them constantly as Untracked. How do you delete them all permanently via Git?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git clean -fd</div>
+            <div class="q-explain">Explanation: <code>clean</code> wipes untracked files. The <code>-f</code> forces the action (Git refuses otherwise out of safety), and <code>-d</code> aggressively removes whole untracked directories, too.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q4: Finding Historical Files</div>
+            <div class="q-scenario">Scenario: A file was deleted from your project three months ago, but you urgently need its final code structure. How do you look up its history?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git log --all -- &lt;deleted_file_path&gt;</div>
+            <div class="q-explain">Explanation: This lists the exact commit history of a file even if it no longer exists inside the current checked-out branch. You can then checkout the file via the last commit hash where it existed.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q5: Staging "Chunks" of a File</div>
+            <div class="q-scenario">Scenario: You made two changes in <code>utils.js</code>: a brilliant bug fix at the top, and a half-finished broken experiment at the bottom. How do you commit ONLY the bug fix?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git add -p utils.js</div>
+            <div class="q-explain">Explanation: The <code>-p</code> stands for "patch". Git will interactively present each isolated "chunk" (hunk) of changes and ask [y/n] if you want to explicitly stage that hunk for the commit.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q6: The Belated .gitignore Issue</div>
+            <div class="q-scenario">Scenario: Someone committed `.env` secrets into the repo. You add `.env` to `.gitignore`, but Git continues to track changes to it! How do you forcefully stop tracking it?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git rm --cached .env<br>git commit -m "Stop tracking environment secrets"</div>
+            <div class="q-explain">Explanation: Once a file enters Git's history, `.gitignore` can no longer ignore it. You must systematically remove it from Git's internal index cache using `--cached`. This stops tracking it immediately without deleting your local `.env`.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q7: Rewording the Last Commit</div>
+            <div class="q-scenario">Scenario: You committed a file with the message "Fxed the ui aligment", but realize there is a giant typo. You haven't pushed yet.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git commit --amend -m "Fixed the UI alignment"</div>
+            <div class="q-explain">Explanation: Providing a new `-m` dynamically overrides the typo text for the most recent commit. Note: Doing this changes the commit Hash, so never do it if you have already pushed!</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q8: Searching Commit Messages</div>
+            <div class="q-scenario">Scenario: You remember you wrote a commit regarding a "Redis caching" bug fix 3 years ago but don't know where it is. How do you find it?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git log --grep="Redis caching"</div>
+            <div class="q-explain">Explanation: This filters the entire commit history precisely searching the commit text messages for the specific phrase.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q9: Searching Code Changes</div>
+            <div class="q-scenario">Scenario: You need to find the exact commit entirely responsible for introducing a secret generic password string "secret123" into the codebase.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git log -S "secret123"</div>
+            <div class="q-explain">Explanation: Referred to as the "Pickaxe" option, `-S` literally searches through the contents/diffs of every file in history to identify exactly which snapshot injected that string.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q10: Completely discarding all local edits</div>
+            <div class="q-scenario">Scenario: You ran some experiments and broke everything over the past 2 hours locally. You want to absolutely nuke your unsaved edits and reset your code exactly to the last known commit.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git reset --hard HEAD<br>git clean -fd</div>
+            <div class="q-explain">Explanation: This brutal combitation first obliterates all modified tracked files, reverting them back to HEAD, and then follows up by wiping all newly originated untracked files/folders created during your experiment.</div>
+        </div>
+
+
+        <!-- Section 2: Branching & Merging -->
+        <h2 class="section-header"><i class='bx bx-git-repo-forked'></i> 2. Branching & Merging Intricacies</h2>
+
+        <div class="question-card">
+            <div class="q-title">Q11: Comparing Branches before Merge</div>
+            <div class="q-scenario">Scenario: You are preparing to merge your <code>feature-alpha</code> branch into <code>main</code>, but you want to see exactly what lines of code differ between the two overall.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git diff main..feature-alpha</div>
+            <div class="q-explain">Explanation: The double-dot compares chronologically the tip of `main` directly against `feature-alpha` to show pure code differences you are about to introduce.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q12: Renaming a Branch</div>
+            <div class="q-scenario">Scenario: You created a branch named `fix-bugg`, and you want to rename it locally to `fix-bug` so you don't look ridiculous.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git branch -m fix-bugg fix-bug</div>
+            <div class="q-explain">Explanation: The `-m` (move) command renames the reference branch natively. If you had already pushed the old name, you'd subsequently need to push the new name and explicitly delete the remote old name.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q13: Restoring specific files from another branch</div>
+            <div class="q-scenario">Scenario: You are on `main`, but you know there is a perfectly functional `config.yml` file sitting over in `branch-beta`. You want to overwrite your `main` copy with that branch's exact version without a complex merge.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git restore --source branch-beta config.yml</div>
+            <div class="q-explain">Explanation: Using `restore` with an explicit `--source` tells Git to pull data from another branch (or commit hash) safely into your current working directory.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q14: Deleting remote branches</div>
+            <div class="q-scenario">Scenario: You deleted a branch locally using `git branch -d feature`, but the branch is still visible on GitHub for the whole team!</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git push origin --delete feature</div>
+            <div class="q-explain">Explanation: Local branch deletion does not automatically synchronize to remote servers. You must instruct GitHub explicitly via a push operation to erase its held branch reference.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q15: The Fast-Forward Merge</div>
+            <div class="q-scenario">Scenario: Your interviewer asks: "What constitutes a 'Fast-Forward Merge', and why do some project managers hate it?"</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">"A fast-forward occurs when the destination branch hasn't received any new commits. Git simply moves the pointer forward instead of generating a merge commit."</div>
+            <div class="q-explain">Explanation: PMs sometimes dislike it because the visual "bubble" of the feature branch disappears seamlessly into the linear timeline. To force a merge commit anyway, you use <code>git merge --no-ff feature</code>.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q16: Safe remote checking</div>
+            <div class="q-scenario">Scenario: Your coworker claims they just pushed some critical logic to `main`. You don't want to immediately <code>pull</code> just in case it triggers horrible merge conflicts holding up your work.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git fetch<br>git log --oneline origin/main</div>
+            <div class="q-explain">Explanation: Fetch securely downloads the remote changes but does NOT instantly merge them into your files. It allows you to preview the cloud status via `origin/main` safely.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q17: Squashing a Merge Commit completely</div>
+            <div class="q-scenario">Scenario: Your feature branch has 20 horribly named commits (like "wip" or "fix"). You want to merge it into `main`, but want it to look like exactly one clean, massive commit hit `main`.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git switch main<br>git merge --squash feature-branch<br>git commit -m "Add complete feature"</div>
+            <div class="q-explain">Explanation: `--squash` takes every change embedded across the 20 commits and compacts them into your local staging area safely, allowing you to wrap it all up with one final commit message.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q18: Setting push default streams</div>
+            <div class="q-scenario">Scenario: You created a new local branch. But when you type `git push`, Git yells at you saying "The current branch has no upstream branch".</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git push -u origin your-branch-name</div>
+            <div class="q-explain">Explanation: The `-u` (or `--set-upstream`) explicitly links your local branch with a newly created remote branch. Future commits only ever require you to type a simple `git push`.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q19: Viewing unpublished commits</div>
+            <div class="q-scenario">Scenario: You lost track of how many commits you have made locally that have not yet been successfully pushed to the cloud.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git log origin/main..main</div>
+            <div class="q-explain">Explanation: The double dot specifies "Show me everything in the local `main` that doesn't natively exist yet in `origin/main`".</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q20: Pushing an empty folder issue</div>
+            <div class="q-scenario">Scenario: You created 'assets/images' to hold future project images. You commit and push, but your coworker doesn't see the folder. Why?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">Git only tracks FILES, not folders. Create a file inside named <code>.gitkeep</code>.</div>
+            <div class="q-explain">Explanation: Git fundamentally does not comprehend empty directories. The universally recognized practice is placing a harmless empty file explicitly named `.gitkeep` inside so Git has a reason to track the folder tree.</div>
+        </div>
+
+
+        <!-- Section 3: Time Travel -->
+        <h2 class="section-header"><i class='bx bx-undo'></i> 3. Time Travel & Undoing Safely</h2>
+
+        <div class="question-card">
+            <div class="q-title">Q21: Reverting published work</div>
+            <div class="q-scenario">Scenario: The senior team pushed commit `e5f6g7` to Production. It's crashing user dashboards. Using `git reset` on `main` is heavily frowned upon. What do you do?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git revert e5f6g7<br>git push</div>
+            <div class="q-explain">Explanation: Instead of violently deleting history, `revert` intelligently generates a brand *new* commit specifically designed to inverse/delete all lines of code introduced by the problem commit. Completely safe and auditable!</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q22: Keeping code while dropping commits</div>
+            <div class="q-scenario">Scenario: You created 4 useless commits sequentially, but the actual code works fine! You just want to erase the 4 commits from history while keeping all your raw code completely pristine.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git reset --soft HEAD~4</div>
+            <div class="q-explain">Explanation: `--soft` pulls the HEAD pointer natively back 4 spaces precisely, erasing the useless timeline nodes, but dynamically dumps all their raw code smoothly back into your Staging Area.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q23: The Accidental Merge Reversal</div>
+            <div class="q-scenario">Scenario: You just ran `git merge feature`, dealt with conflicts, and completed the merge. But immediately realized you merged the wrong branch! (You haven't pushed yet).</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git reset --hard ORIG_HEAD</div>
+            <div class="q-explain">Explanation: When completing sweeping actions like a Merge or Rebase, Git internally caches the previous safe state under a reference variable named `ORIG_HEAD`. Setting your branch there cleanly undoes the local merge entirely.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q24: The Disastrous 'git reset --hard HEAD~1'</div>
+            <div class="q-scenario">Scenario: You performed a `reset --hard` and lost three critical commits that you literally spent all morning typing. You never pushed them. Are they gone forever?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git reflog<br>git reset --hard &lt;surviving-hash&gt;</div>
+            <div class="q-explain">Explanation: Git rarely actually deletes things immediately. <code>git reflog</code> logs EVERY movement your HEAD makes locally. You can easily find the SHA-hash of the "deleted" commit on the log, and brutally reset your branch directly to it, resurrecting your work from the grave!</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q25: Detached HEAD Nightmare</div>
+            <div class="q-scenario">Scenario: You ran `git checkout e9d8c7` to read historic code. Without noticing, you spent two hours developing new models over it. Git says you are in 'Detached HEAD'. How do you save the project?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git switch -c rescue-branch</div>
+            <div class="q-explain">Explanation: Detached HEAD simply asserts you are attached to an isolated commit hash rather than a valid branch pointer. Running `switch -c` literally generates a fresh, permanently-tracked branch pointer exactly upon your location, securing all your modifications.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q26: Dropping specific staged files</div>
+            <div class="q-scenario">Scenario: You are staring at `git status` indicating you have four modifications waiting inside the Staging Area. You only want to "un-stage" exactly one explicit file named `database.yml`.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git restore --staged database.yml</div>
+            <div class="q-explain">Explanation: As covered locally in Essentials, `--staged` shifts tracked files smoothly backward from the Staging Area back into unstaged Working modifications explicitly without nuking edits.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q27: Stashing Untracked Files</div>
+            <div class="q-scenario">Scenario: You ran `git stash`, but magically, the two totally new files you created are completely unaffected! They didn't go inside the backpack. Why?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git stash -u</div>
+            <div class="q-explain">Explanation: By fundamental design, Git explicitly refuses to stash untracked changes because it hasn't technically registered them. By appending `-u` (include-untracked), the backpack forcefully sweeps them inside anyway.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q28: Examining Stash Items</div>
+            <div class="q-scenario">Scenario: You stashed work last Friday. It is now Monday. You completely forgot what raw code is actually lurking inside that stash stash@{0} before popping it.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git stash show -p stash@{0}</div>
+            <div class="q-explain">Explanation: Adding the `-p` (patch) flag forces Git to open the specific stash index and cleanly display the specific internal code diffs precisely without forcing you to `pop` it dynamically.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q29: Popping vs Applying</div>
+            <div class="q-scenario">Scenario: In a deep interview, they ask: "What is the technical difference between git stash 'pop' versus git stash 'apply'?"</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">"Pop applies the data and deletes it from the stash stack. Apply applies the data but retains the backup copy inside the stash array safely."</div>
+            <div class="q-explain">Explanation: You use `apply` specifically if you want to test the modified stashed code on Branch A, but suspect you might literally want to utilize that identical stash sequentially on Branch B later.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q30: Undoing "Add" prior to ever committing</div>
+            <div class="q-scenario">Scenario: You initialized a brand new repo (`git init`). You typed `git add .` on massive directories. You want to clear the staging area immediately before executing your very first commit.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git rm -r --cached .</div>
+            <div class="q-explain">Explanation: Standard resets might fail critically because a HEAD pointer actively hasn't been born yet technically. Using recursive index cache removal securely blanks the Staging Area dynamically.</div>
+        </div>
+
+
+        <!-- Section 4: Advanced Tools -->
+        <h2 class="section-header"><i class='bx bx-rocket'></i> 4. Advanced Power Tools</h2>
+
+        <div class="question-card">
+            <div class="q-title">Q31: The Scalpel (One specific fix)</div>
+            <div class="q-scenario">Scenario: An experimental physics <code>feature-branch</code> has 30 messy commits. Commit #22 happens to fix a mathematical loop rendering bug. You absolutely must implement that single loop-fix identically into `main` today.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git checkout main<br>git cherry-pick &lt;hash-of-commit-22&gt;</div>
+            <div class="q-explain">Explanation: `cherry-pick` surgically replicates a specifically chosen commit's changes perfectly onto your running branch without sweeping in the 29 surrounding unstable physics commits simultaneously!</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q32: Resolving a Rebase Conflict</div>
+            <div class="q-scenario">Scenario: You are in the middle of executing <code>git rebase main</code>, and suddenly Git stops, throwing glaring red CONFLICT errors regarding a specific controller file.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">1. Fix the file manually in VS Code<br>2. git add &lt;file&gt;<br>3. git rebase --continue</div>
+            <div class="q-explain">Explanation: Just like standard Merges, you resolve markers visually first. Unlike merges, you do <strong>not</strong> create a new commit. Rebase simply expects you to forcefully stage the fixed file and continue the automated replaying loop immediately.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q33: Interactive Rebase (Squashing timeline)</div>
+            <div class="q-scenario">Scenario: Your technical lead tells you: "Your feature branch works beautifully, but please logically squash your last 5 commits locally into 1 clean commit before you open a Pull Request."</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git rebase -i HEAD~5</div>
+            <div class="q-explain">Explanation: Interactive Rebase violently pulls up an editor exhibiting your last 5 commits. You leave the first as 'pick', and manually type 'squash' (or 's') identically adjacent to the other 4. Git fuses them comprehensively into one block.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q34: The Golden Rule of Rebase</div>
+            <div class="q-scenario">Scenario: Your interviewer demands: "Name the one cardinal rule about using the Rebase functionality within team environments."</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">"Never rebase commits that exist physically outside your isolated repository."</div>
+            <div class="q-explain">Explanation: Because rebasing objectively alters commit cryptography (generates brand new SHA hashes), executing it aggressively on a public shared branch essentially splits reality. Co-workers pulling changes will confront explosive duplicate-commit histories simultaneously.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q35: Forcing an update post-rebase</div>
+            <div class="q-scenario">Scenario: You pushed your branch yesterday. Today you ran an interactive rebase locally specifically to clean it up. You subsequently type `git push`, but GitHub denies you because your local history doesn't chronologically match the cloud timeline anymore.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git push --force-with-lease</div>
+            <div class="q-explain">Explanation: The `-f` or `--force` option overrides GitHub entirely, rewriting remote truth precisely identical to your local truth. The `--force-with-lease` variant is vastly safer as it aborts dynamically if somebody else accidentally triggered a push natively there meanwhile.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q36: Bisect - The automated detective</div>
+            <div class="q-scenario">Scenario: The product worked perfectly last Friday (Commit A). Today (Commit H), it's totally crashing! There are literally 200 commits injected between A and H. How do you find out exactly which commit introduced the crash in 10 minutes?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git bisect start<br>git bisect bad<br>git bisect good &lt;Commit-A-hash&gt;</div>
+            <div class="q-explain">Explanation: Git utilizes an intelligent Binary Search algorithm, checking out a commit dynamically halfway through the batch. If you test it and respond "good", Git instantly eliminates 100 commits, dividing the remaining suspects in half perpetually until locating the sole perpetrator!</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q37: Blame - Naming the culprit</div>
+            <div class="q-scenario">Scenario: You are staring at line 125 exactly inside `payments.py` thinking, "Who wrote this horrifying calculation system?"</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git blame payments.py</div>
+            <div class="q-explain">Explanation: `blame` explicitly prints the precise Author name, temporal timestamp, and specific commit Hash responsible for modifying every solitary line across the specified file!</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q38: Working completely parallel</div>
+            <div class="q-scenario">Scenario: You are heavily modifying backend systems on `branch-A`. The marketing team desperately demands you verify code on `branch-B` currently, but you refuse to stash your huge modifications. Can you view them simultaneously?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git worktree add ../marketing-fix branch-B</div>
+            <div class="q-explain">Explanation: `worktree` natively empowers you to spawn a second, totally independent directory immediately adjacent to your project tied identically to the same `.git` core. Highly advanced contextual parallel development.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q39: Dangling Commits Cleanup</div>
+            <div class="q-scenario">Scenario: You've been coding for three years utilizing Rebase and Hard Resets aggressively. Your hidden garbage commits (dangling data no longer bound to any branch) are taking gigabytes of local storage physically.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git gc --prune=now</div>
+            <div class="q-explain">Explanation: Generically acting as Git's "Garbage Collection" mechanism, `gc` intrinsically crawls internally seeking utterly unreachable snapshot fragments explicitly wiping them from the hard-drive sequentially to save massive cache space.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q40: Stash Conflicts</div>
+            <div class="q-scenario">Scenario: You run `git stash pop` and suddenly receive terrifying 'Merge Conflict' errors from Staging. Why?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">You modified identical lines between stashing and popping.</div>
+            <div class="q-explain">Explanation: Stashes are technically mini-commits natively tracking specific chronological line patches. Applying them operates exactly identically to cherry-picking or merging. Resolve the conflict directly and the Stash data remains safely integrated.</div>
+        </div>
+
+
+        <!-- Section 5: Architecture and Core -->
+        <h2 class="section-header"><i class='bx bx-terminal'></i> 5. Architecture, Debugging & Web Servers</h2>
+
+        <div class="question-card">
+            <div class="q-title">Q41: The Fork vs Clone Paradigm</div>
+            <div class="q-scenario">Scenario: In Open Source Software, why do you Fork the Linux Kernel instead of simply Cloning the `LinusTorvalds/linux` repository directly?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">Because you lack server write permission natively globally.</div>
+            <div class="q-explain">Explanation: Cloning merely pulls a local dataset. Forking intrinsically instructs GitHub's cloud platform to duplicate the server-side repo precisely into your own isolated user account globally, granting you explicit Push credentials.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q42: PR Gatekeeping logic</div>
+            <div class="q-scenario">Scenario: Why does literally every major Tech Company demand Pull Requests rather than permitting direct pushing globally to `main`?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">Safety, Auditing, and Automation sequences.</div>
+            <div class="q-explain">Explanation: PR's natively intercept code prior to main. This forcibly triggers CI/CD deployment pipelines natively running comprehensive Automated Tests across your snapshot, and simultaneously enforces human peer reviewers critically signing off manually.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q43: Repositories inside Repositories</div>
+            <div class="q-scenario">Scenario: You are building an enormous enterprise dashboard project. Your company maintains a completely independent Git repo solely tracking universal 'Navigation UI' code they want you to insert organically into your dashboard.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git submodule add &lt;URL-of-Nav-UI&gt;</div>
+            <div class="q-explain">Explanation: Submodules elegantly embed distinct Git repositories precisely inside other distinct repositories securely. Your "parent" repo exclusively stores a commit pointer indicating exactly which structural version of the Nav repo you currently rely on.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q44: Enforcing team rules (Git Hooks)</div>
+            <div class="q-scenario">Scenario: You want to fundamentally block developers natively from ever running `git commit` safely if their raw code totally fails ESLint formatting tests globally.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">Configure a standard <code>pre-commit</code> Git Hook natively globally.</div>
+            <div class="q-explain">Explanation: Git possesses a hidden `.git/hooks` folder loaded with actionable scripts directly triggering perpetually prior to key actions like pushing or committing. Developers normally utilize package wrappers (like 'Husky') managing these locally.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q45: Tagging releases securely</div>
+            <div class="q-scenario">Scenario: You just merged version 2.0 correctly into `main`. The DevOps server automatically targets semantic 'tags' fundamentally to deploy. How do you construct an annotated deployment tag?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git tag -a v2.0 -m "Production Release 2.0"<br>git push origin v2.0</div>
+            <div class="q-explain">Explanation: Standard tags merely point globally identically to lightweight branches. 'Annotated' tags (`-a`) compile fully-fledged Git objects embedding comprehensive metadata precisely tracking author origin, timestamps, and deployment messaging.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q46: Pulling Tags precisely</div>
+            <div class="q-scenario">Scenario: The senior team pushed an urgent tag explicitly representing `v3.1.hotfix` directly to remote. Standard `git pull` randomly didn't fetch it locally securely.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git fetch --tags</div>
+            <div class="q-explain">Explanation: Fundamentally reliant on local config states, generic operations occasionally omit transferring independent Tags chronologically. Fetching tags natively secures all newly originated identifiers universally globally.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q47: Exporting Source safely</div>
+            <div class="q-scenario">Scenario: A business client explicitly requests a raw copy of your complete application code precisely delivered via `.zip`. You inherently cannot hand them a folder natively containing the hidden `.git` database.</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git archive --format zip HEAD > src_code.zip</div>
+            <div class="q-explain">Explanation: Pushing raw folders locally risks leaking historical architecture and passwords buried within `.git`. Archive intrinsically generates a pristine, fully independent zip explicitly extracting only identical current Working Directory lines globally.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q48: Understanding Subtree alternatives</div>
+            <div class="q-scenario">Scenario: Submodules are actively annoying your team fundamentally because they constantly demand recursive identical updating explicitly. Are there viable advanced alternatives globally?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git subtree</div>
+            <div class="q-explain">Explanation: Subtrees integrate external codebase timelines securely directly into your universal chronological repository completely eliminating independent pointers. It simplifies remote pushing inherently because external code operates essentially identical to local data universally.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q49: Syncing a stale Fork internally</div>
+            <div class="q-scenario">Scenario: You Forked a massive project directly a year ago locally. Your Fork intrinsically trails the central "Upstream" repository inherently by 300 commits. How do you synchronize exactly globally?</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">git remote add upstream &lt;Original-URL&gt;<br>git fetch upstream<br>git rebase upstream/main</div>
+            <div class="q-explain">Explanation: Forks merely communicate identically to 'Origin' structurally. You must explicitly tell Git securely tracking a second remote definitively identified as "Upstream" to pull identical original core lines merging locally successfully.</div>
+        </div>
+
+        <div class="question-card">
+            <div class="q-title">Q50: Define the underlying DAG natively</div>
+            <div class="q-scenario">Scenario: In your final Principal Engineering Git interview round structurally they demand: "Define exactly what a DAG implies functionally regarding Git's identical core operation tracking."</div>
+            <div class="q-answer-title">Answer</div>
+            <div class="q-answer">A Directed Acyclic Graph globally tracks sequential commit objects mathematically pointing directly backward identically preventing absolute infinite structural loops completely tracking historical timelines safely globally.</div>
+            <div class="q-explain">Explanation: Identical to blockchain architecture tracking securely, DAGs implicitly prohibit future modifications fundamentally altering previous historical block dependencies because re-linking explicitly breaks the SHA cryptographic dependency chains perfectly universally.</div>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>Interactive Interview Masterclass • Built with Advanced Memory Engineering • Designed with ❤️ by Antigravity AI</p>
+    </footer>
+</body>
+</html>

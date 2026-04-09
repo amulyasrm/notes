@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Git Masterclass | The Complete Guide</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Boxicons for standard icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- Mermaid.js for Flowcharts -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <style>
+        /* Memory Retention Added styles */
+        .color-safe, .color-green { color: #4ade80 !important; font-weight: 600; }
+        .color-danger, .color-red { color: #f87171 !important; font-weight: 600; }
+        .color-caution, .color-yellow { color: #fbbf24 !important; font-weight: 600; }
+
+        .scenario-card { background: linear-gradient(to right, rgba(22, 27, 34, 0.8), rgba(11, 15, 25, 0.9)); border-left: 4px solid var(--accent-blue); padding: 20px; border-radius: 6px; margin: 20px 0; }
+        .scenario-card h4 { display: flex; align-items: center; gap: 8px; color: var(--accent-blue); margin-bottom: 10px; }
+        .scenario-answer { background: rgba(0,0,0,0.5); padding: 10px; border-radius: 4px; border-left: 3px solid #4ade80; margin-top: 10px; font-family: 'Fira Code', monospace; color: #4ade80; }
+        
+        .mistake-alert { background: rgba(248, 113, 113, 0.05); border: 1px solid rgba(248, 113, 113, 0.3); border-left: 5px solid var(--danger-color); padding: 15px 20px; border-radius: 6px; margin: 20px 0; }
+        .mistake-alert strong { color: var(--danger-color); font-size: 1.1em;}
+
+        .interview-block { background: rgba(88, 166, 255, 0.05); border: 1px dashed var(--accent-blue); padding: 20px; border-radius: 6px; margin: 25px 0; position: relative; }
+        .interview-block p { font-style: italic; opacity: 0.9; margin-top: 10px; line-height: 1.8;}
+        .interview-tag { font-size: 0.75rem; background: var(--accent-blue); color: #fff; padding: 4px 10px; border-radius: 20px; font-weight: bold; text-transform: uppercase; letter-spacing: 0.5px; display: inline-block; margin-bottom: 5px;}
+
+        .interactive-practice { background: rgba(59, 199, 183, 0.1); border: 2px dashed var(--accent-teal); padding: 30px; border-radius: 12px; margin: 40px 0; }
+        .interactive-practice h3 { color: var(--accent-teal); margin-bottom: 15px; }
+        
+        .cheat-sheet-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; }
+        .cheat-sheet-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 8px; border-left: 3px solid var(--accent-teal); transition: transform 0.2s; }
+        .cheat-sheet-item:hover { transform: translateX(5px); }
+        .cheat-sheet-item code { display: block; margin-bottom: 8px; font-size: 1.1em; color: var(--accent-blue); background: transparent; padding:0; }
+
+        .table-when-to-use td { vertical-align: middle; }
+        .btn-demo { display: inline-flex; align-items: center; gap: 8px; background: var(--accent-teal); color: #000; padding: 12px 24px; border-radius: 30px; font-weight: bold; font-size: 1.1rem; margin-top: 25px; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; }
+        .btn-demo:hover { transform: translateY(-3px); box-shadow: 0 0 20px rgba(59, 199, 183, 0.5); color: #000; }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <div class="hero-image-overlay"></div>
+        <img src="/Users/amulya/.gemini/antigravity/brain/430cf169-0c96-4fb3-804a-a36c0c52965d/git_hero_banner_1773878174442.png" alt="Git branches and nodes glowing in space" class="hero-bg">
+        <div class="hero-content">
+            <h1>The Complete <span class="highlight">Git Masterclass</span></h1>
+            <p>From Working Directory to Staging Area—Your Ultimate Interactive Guide based on the Transcript</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="calculator-demo.html" class="btn-demo"><i class='bx bx-play-circle'></i> View Real-World Project Demo</a>
+                <a href="interview-scenarios.html" class="btn-demo" style="background: var(--accent-blue);"><i class='bx bxs-chat'></i> 50 Interview Scenarios</a>
+            </div>
+            <div class="hero-scroll"><i class='bx bx-chevron-down blinking'></i></div>
+        </div>
+    </header>
+
+    <main class="container">
+        
+        <!-- SECTION 1: Introduction -->
+        <section class="card section-intro">
+            <h2><i class='bx bx-git-branch' ></i> What is Version Control?</h2>
+            <p>Without a version control system, you have to constantly store copies of your entire project in various folders. This is <strong>slow, doesn't scale</strong>, and makes collaboration difficult.</p>
+            
+            <div class="split-layout">
+                <div class="text-content">
+                    <h3>Centralized vs Distributed</h3>
+                    <ul>
+                        <li><strong class="highlight">Centralized:</strong> (e.g., Subversion, Microsoft TFS) All team members connect to a central server. If the server goes offline, you cannot save snapshots or collaborate. It has a single point of failure.</li>
+                        <li><strong class="highlight">Distributed:</strong> (e.g., Git, Mercurial) Every team member has a full local copy of the project history. You can save snapshots locally even when offline.</li>
+                    </ul>
+                </div>
+                <div class="diagram-content">
+                    <div class="mermaid">
+                        pie title Industry Standard Usage
+                            "Git" : 90
+                            "Other VCS (Subversion, TFS, Mercurial)" : 10
+                    </div>
+                </div>
+            </div>
+            <div class="info-alert">
+                <i class='bx bx-info-circle'></i> <strong>Why Git?</strong> It is the most popular VCS in the world—free, open source, super fast, and scalable (especially for branching & merging). Over 90% of software projects use Git!
+            </div>
+        </section>
+
+        <!-- SECTION: Git Internals -->
+        <section class="card section-glow">
+            <h2><i class='bx bx-brain'></i> Git Internals: Under the Hood</h2>
+            <p>Before typing commands, you must understand how Git works under the surface. <strong>Git doesn't store simple diffs; it stores total snapshots.</strong></p>
+            
+            <div class="grid-3 mt-20">
+                <div class="feature-box">
+                    <h3 style="color: var(--accent-blue);">Blobs & Trees</h3>
+                    <p>A file is represented as a <strong>Blob</strong>. A folder is a <strong>Tree</strong>. Git compresses and stores these using cryptographic SHA-1 hashes.</p>
+                </div>
+                <div class="feature-box">
+                    <h3 style="color: var(--accent-blue);">The Commit Object</h3>
+                    <p>A commit is purely a snapshot pointer. It holds author metadata, the message, and a reference pointer to its <strong>Parent Commit</strong>.</p>
+                </div>
+                <div class="feature-box">
+                    <h3 style="color: var(--accent-blue);">HEAD Pointer</h3>
+                    <p><strong>HEAD</strong> is a literal reference variable that points to the currently checked-out branch. It is your "You Are Here" marker on the map.</p>
+                </div>
+            </div>
+
+            <div class="interview-block">
+                <span class="interview-tag"><i class='bx bxs-chat'></i> Interview prep</span>
+                <p><strong>Interviewer:</strong> How would you explain Git's underlying data model?<br><br>
+                <strong>You:</strong> "Git models data as a Directed Acyclic Graph (DAG) of commits. Unlike SVN which stores file differences over time (deltas), Git stores complete snapshots. Each commit acts as a node pointing to a tree of files, and maintains a pointer back to its parent commit, identified by a cryptographic SHA-1 hash."</p>
+            </div>
+        </section>
+
+        <!-- SECTION 2: Tools (CLI vs GUI) -->
+        <section class="card">
+            <h2><i class='bx bx-terminal'></i> Ways to use Git</h2>
+            <div class="grid-3">
+                <div class="feature-box">
+                    <i class='bx bxs-terminal feature-icon'></i>
+                    <h3>Command Line / Terminal</h3>
+                    <p>The fastest and sometimes easiest way. Knowing CLI is a must because you might work on remote servers without permission to install GUIs.</p>
+                </div>
+                <div class="feature-box">
+                    <i class='bx bxl-visual-studio feature-icon'></i>
+                    <h3>IDEs (VS Code)</h3>
+                    <p>Modern editors have built-in support alongside extensions like <strong>GitLens</strong> for advanced features.</p>
+                </div>
+                <div class="feature-box">
+                    <i class='bx bxs-window-alt feature-icon'></i>
+                    <h3>Dedicated GUIs</h3>
+                    <p>Tools like <strong>GitKraken</strong> (cross-platform, visually beautiful) or <strong>SourceTree</strong> (Windows/Mac).</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 3: Installation & Configuration -->
+        <section class="card">
+            <h2><i class='bx bx-cog'></i> Configuring Git</h2>
+            <div class="code-snippet mt-20">
+                <h4>Essential Initial Commands</h4>
+                <pre><code>git config --global user.name "Your Name"
+git config --global user.email your@email.com
+git config --global core.editor "code --wait"  <span class="comment"># Sets VS Code as default</span>
+git config --global core.autocrlf true       <span class="comment"># For Windows (macOS/Linux: input)</span>
+git config --global -e                       <span class="comment"># Edit configuration files directly</span></code></pre>
+            </div>
+        </section>
+
+        <!-- SECTION 4: The Core Git Workflow (The Flowchart!) -->
+        <section class="card section-glow">
+            <h2><i class='bx bx-git-commit'></i> The Basic Git Workflow</h2>
+            <p>Every day, you modify files in your project directory. To record a "checkpoint", you create a <strong>Commit</strong> (a snapshot of the project). Between your working directory and the repository sits the <strong>Staging Area</strong>, allowing you to review your proposed commit first.</p>
+            
+            <div class="flowchart-container">
+                <div class="mermaid">
+                    graph LR
+                        A["Working Directory"] -- "git add [file]" --> B(("Staging Area"))
+                        B -- "git commit -m 'Msg'" --> C{"Local Repository"}
+                        
+                        A -. "git rm [file]" .-> B
+                        B -. "git restore --staged" .-> A
+                        
+                        style A fill:#1e293b,stroke:#3b82f6,stroke-width:2px,color:#fff
+                        style B fill:#115e59,stroke:#14b8a6,stroke-width:3px,color:#fff
+                        style C fill:#4c1d95,stroke:#8b5cf6,stroke-width:2px,color:#fff
+                </div>
+            </div>
+
+            <p class="mt-20"><em>A common misconception:</em> The staging area does NOT become empty after a commit. It contains the exact snapshot you just stored!</p>
+
+            <div class="scenario-card">
+                <h4><i class='bx bx-message-alt-dots'></i> Mini Scenario</h4>
+                <p><strong>Scenario:</strong> You modified 5 files today. Two are for a UI alignment bug, and three are for a complex database feature. Should you just run `git add .`?</p>
+                <div class="scenario-answer">
+                    No! Group them logically:<br><br>
+                    git add ui_file1.js ui_file2.js<br>
+                    git commit -m "Fix UI alignment"<br><br>
+                    git add db_file1.js db_file2.js db_file3.js<br>
+                    git commit -m "Add DB integration"
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 5: Tracking, Staging & Committing -->
+        <section class="card">
+            <h2><i class='bx bx-check-square'></i> Tracking, Staging & Committing</h2>
+            <div class="code-snippet">
+                <pre><code>git init                 <span class="comment"># Initializes empty repository (.git folder)</span></code></pre>
+                <div class="info-alert mt-10" style="margin-bottom: 20px;">
+                    <i class='bx bx-error-circle'></i> <strong>Warning!</strong> Never delete or corrupt the hidden <code>.git</code> repository, or all tracking history will be permanently lost!
+                </div>
+
+                <pre><code>git add file1.txt        <span class="comment"># Adds single file</span>
+git add *.txt            <span class="comment"># Adds all text files</span>
+git add .                <span class="comment"># Adds the entire working directory recursively</span>
+git commit -m "Message"  <span class="comment"># Permanently stores snapshot in repository</span></code></pre>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Removing, Moving & Ignoring Files -->
+        <section class="card">
+            <h2><i class='bx bx-trash'></i> Removing, Moving & Ignoring Files</h2>
+            <div class="grid-2 mt-20">
+                <div class="code-snippet">
+                    <h4>Removing & Moving</h4>
+                    <pre><code>git rm file2.txt      <span class="comment"># Removes locally AND stages it</span>
+git mv old.js new.js  <span class="comment"># Renames file AND stages it</span></code></pre>
+                </div>
+                <div class="code-snippet">
+                    <h4>Ignoring Files</h4>
+                    <p>Create a <code>.gitignore</code> file to exclude logs or binaries.</p>
+                    <pre><code>*.log              <span class="comment"># Ignore all .log files</span>
+build/             <span class="comment"># Ignore the build directory</span></code></pre>
+                </div>
+            </div>
+
+            <div class="mistake-alert" style="margin-top: 20px;">
+                <i class='bx bx-error-alt'></i> <strong>⚠️ Common Mistake:</strong> Adding a file to .gitignore *after* it was already committed. Git will STILL actively track changes on it because it's already in the cache!<br><br>
+                <strong>The Fix:</strong> You must remove it from Git's index cache first using: <code>git rm --cached file.ext</code>
+            </div>
+        </section>
+
+        <!-- SECTION 7: Status & Differences -->
+        <section class="card">
+            <h2><i class='bx bx-glasses' ></i> Status & Inspecting Differences</h2>
+            
+            <div class="code-snippet mt-20">
+                <h4>Checking Diffs</h4>
+                <pre><code>git diff                 <span class="comment"># Analyzes changes NOT YET staged (Working vs Staging)</span>
+git diff --staged        <span class="comment"># Analyzes staged changes ready for commit (Staging vs Last Commit)</span></code></pre>
+            </div>
+
+            <div class="diff-explanation mt-30" style="background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px;">
+                <h3 style="color: #e2b340; display: flex; align-items: center; gap: 8px;"><i class='bx bx-search-alt'></i> Decoding the `git diff` Output</h3>
+                <div class="code-snippet mt-10">
+                    <pre><code style="color: #a5d6ff; font-size: 1rem;"><span style="color: #8b949e;">--- a/file1.js  </span><span style="color: #79c0ff;" class="comment">(-- Old file copy)</span>
+<span style="color: #8b949e;">+++ b/file1.js  </span><span style="color: #79c0ff;" class="comment">(++ New file copy)</span>
+<span style="color: #d2a8ff;">@@ -1,3 +1,5 @@</span> <span style="color: #79c0ff;" class="comment">(The Chunk Header: starting at line 1 in both files)</span>
+ hello
+ world
+<span style="color: #ff7b72;">-test           </span><span style="color: #79c0ff;" class="comment">(- Red minus means line REMOVED)</span>
+<span style="color: #7ee787;">+sky            </span><span style="color: #79c0ff;" class="comment">(+ Green plus means line ADDED)</span>
+<span style="color: #7ee787;">+ocean          </span></code></pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 8: Browsing History & Power Tools -->
+        <section class="card">
+            <h2><i class='bx bx-history'></i> History & Advanced Power Tools</h2>
+            <p>Tracking what happened, who did it, and fixing advanced mistakes.</p>
+
+            <div class="split-layout align-start mt-20">
+                <div>
+                    <h4 style="color: var(--accent-teal);"><i class='bx bx-search'></i> The Basics</h4>
+                    <ul class="styled-list mt-10">
+                        <li><code>git log</code> - View full history (hash, author, date, message).</li>
+                        <li><code>git log --oneline</code> - View a perfectly compact version.</li>
+                        <li><code>git log --oneline --graph --all</code> - <strong>Visualize</strong> history branches dynamically in your terminal!</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color: var(--accent-teal);"><i class='bx bx-health'></i> The Lifesavers</h4>
+                    <ul class="styled-list mt-10">
+                        <li><code>git reflog</code> - <strong>Tracks EVERYTHING you did.</strong> Recover deleted commits or undo a disastrous <code>reset --hard</code>. It is your ultimate backup.</li>
+                        <li><code>git blame file.js</code> - See exactly who wrote each line. Used for debugging and accountability.</li>
+                        <li><code>git bisect start</code> - Enter binary search mode. Git automatically searches history to find the exact commit that introduced a bug.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 9: Branching & Merging -->
+        <section class="card">
+            <h2><i class='bx bx-git-repo-forked'></i> Branching & Workflows</h2>
+            <p>Branching allows you to diverge from the main line of development, work independently, and later integrate.</p>
+
+            <div class="grid-3 mt-20">
+                <div class="feature-box">
+                    <h3>git branch -d feature</h3>
+                    <p class="mt-10">Safely deletes a branch only if its changes have been merged.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>git checkout &lt;branch&gt;</h3>
+                    <p class="mt-10">Switches to an existing branch (or commits). Updates your working directory.</p>
+                </div>
+                <div class="feature-box">
+                    <h3>git switch &lt;branch&gt;</h3>
+                    <p class="mt-10"><strong class="color-safe">Modern Alternative!</strong> Replaces <code>checkout</code> specifically for switching branches safely.</p>
+                </div>
+            </div>
+
+            <h3 class="mt-30 theme-heading" style="color: var(--accent-teal);">Real-World Workflows</h3>
+            <div class="grid-2">
+                <div class="feature-box">
+                    <h4 style="color: var(--accent-blue)">Git Flow</h4>
+                    <p>A structured, older dynamic. Main branches (<code>main</code>, <code>develop</code>) are permanent. Temporary branches (<code>feature/*</code>, <code>hotfix/*</code>) are merged when complete.</p>
+                </div>
+                <div class="feature-box">
+                    <h4 style="color: var(--accent-blue)">Trunk-Based Development</h4>
+                    <p>Modern, rapid workflow. Engineers work on very short-lived branches, merging directly into <code>main</code> (the trunk) almost every day to prevent merge nightmares.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 10: Cherry Pick -->
+        <section class="card section-glow" style="border-color: rgba(226, 179, 64, 0.5); box-shadow: 0 0 30px rgba(226, 179, 64, 0.1);">
+            <h2><i class='bx bxs-cherry' style="color: #e2b340;"></i> The Surgeon's Scalpel: Git Cherry-Pick</h2>
+            <p><strong>What is it?</strong> Taking a <em>single specific commit</em> from one branch and applying it to another.</p>
+
+            <div class="split-layout align-start mt-20">
+                <div style="border-right: 1px solid var(--border-color); padding-right: 20px;">
+                    <h3 class="color-safe"><i class='bx bx-brain'></i> Simple Understanding</h3>
+                    <ul class="styled-list">
+                        <li><code>git merge</code> → brings ALL commits</li>
+                        <li><code>git rebase</code> → reorders ALL commits</li>
+                        <li><code><strong style="color: #e2b340;">git cherry-pick</strong></code> → picks ONLY ONE (or a few) commits</li>
+                    </ul>
+                    <code class="color-safe">git cherry-pick &lt;commit-hash&gt;</code>
+                </div>
+                <div style="padding-left: 10px;">
+                    <h3 class="color-caution"><i class='bx bx-sitemap'></i> Visual Idea</h3>
+                    <pre style="background: rgba(0,0,0,0.5); padding: 15px; border-radius: 6px; color: #a5d6ff; line-height: 2;">
+feature branch:  A --- B --- <span style="background: var(--accent-blue); color: #fff; padding: 2px 6px;">C (bug fix)</span> --- D
+main branch:     A --- B
+
+<strong>After cherry-pick (on main):</strong>
+main branch:     A --- B --- <span style="background: var(--accent-blue); color: #fff; padding: 2px 6px;">C (new hash)</span></pre>
+                </div>
+            </div>
+
+            <div class="scenario-card">
+                <h4><i class='bx bx-wrench'></i> Real Scenario</h4>
+                <p><strong>Situation:</strong> You fixed a massive bug inside a <code>feature</code> branch containing dozens of experimental additions. Your boss desperately needs that <em>single fix</em> in <code>main</code> right now. Don't merge the half-finished feature yet!</p>
+                <div class="scenario-answer">
+                    git switch main <br>
+                    git cherry-pick abc1234
+                </div>
+                <p class="mt-10">Only the isolated bug fix safely copies over!</p>
+            </div>
+
+            <div class="mistake-alert mt-20">
+                <i class='bx bx-error-alt'></i> <strong>⚠️ Important Truths (Don't Ignore):</strong>
+                <ul class="mt-10" style="color: #c9d1d9;">
+                    <li><strong>Creates a NEW exact-copy commit:</strong> The snapshot is the same, but the SHA hash generated is entirely new.</li>
+                    <li><strong>Conflicts happen:</strong> If it hits a conflict, resolve it, array the changes, then explicitly run <code>git cherry-pick --continue</code>.</li>
+                    <li><strong>Don't Overuse it!</strong> If you continually duplicate commits across branches randomly, your graph history will become unreadable.</li>
+                </ul>
+            </div>
+
+            <table class="styled-table table-when-to-use mt-20">
+                <thead>
+                    <tr>
+                        <th>✅ When to use</th>
+                        <th>❌ When NOT to use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="color-safe">Hotfixes:</span> A sudden fix needed across multiple release branches.</td>
+                        <td><span class="color-danger">Large features transfers:</span> Moving massive, interconnected workflows (Use Merge).</td>
+                    </tr>
+                    <tr>
+                        <td><span class="color-safe">Selective sharing:</span> Taking one isolated feature without pulling the dirty branch.</td>
+                        <td><span class="color-danger">Complex shared history:</span> Trying to cherry-pick highly dependent commits causes severe conflict hell.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="interview-block">
+                <span class="interview-tag"><i class='bx bxs-chat'></i> Interview prep</span>
+                <p><strong>Interviewer:</strong> What is Git cherry-pick and when do you use it?<br><br>
+                <strong>You:</strong> "<code>git cherry-pick</code> allows you to precisely apply a single specific commit from one branch to another without merging the entire target branch's history. It creates a brand new execution commit hash retaining identical changes. I use it strategically to extract highly critical hotfixes and pull them into the release track without merging incomplete functionality."</p>
+            </div>
+            
+        </section>
+
+        <!-- SECTION 11: Merge vs Rebase -->
+        <section class="card">
+            <h2><i class='bx bx-merge'></i> Merge vs. Rebase</h2>
+            <p>When bringing code from one branch to another, you have two radically different choices.</p>
+
+            <div class="split-layout align-start mt-20">
+                <div style="border-right: 1px solid var(--border-color); padding-right: 20px;">
+                    <h3 class="color-safe"><i class='bx bx-git-merge'></i> Merge</h3>
+                    <p>Integrates code non-destructively by creating a new <strong>Merge Commit</strong>.</p>
+                    <ul class="styled-list">
+                        <li><strong>Pro:</strong> Keeps true, chronological history.</li>
+                        <li><strong>Con:</strong> History can look chaotic if there are many branches.</li>
+                    </ul>
+                    <code class="color-safe">git merge feature-branch</code>
+                </div>
+                <div style="padding-left: 10px;">
+                    <h3 class="color-caution"><i class='bx bx-git-repo-forked'></i> Rebase</h3>
+                    <p>Plucks your commits, temporarily removes them, fast-forwards the base, and reapplies them. <span class="color-caution">Rewrites history.</span></p>
+                    <ul class="styled-list">
+                        <li><strong>Pro:</strong> Clean, perfectly linear history.</li>
+                        <li><strong>Con:</strong> Dangerous. Overwrites commit SHAs.</li>
+                    </ul>
+                    <code class="color-caution">git rebase main</code>
+                </div>
+            </div>
+
+            <div class="mistake-alert">
+                <i class='bx bx-error-alt'></i> <strong>⚠️ THE GOLDEN RULE OF REBASING:</strong> Never rebase commits that exist on a public, shared branch.<br><br>
+                Rebase locally on your private branches to keep them clean. But if you rebase `main`, you rewrite public history meant for everyone else, causing horrific duplicate commits when they pull.
+            </div>
+        </section>
+
+        <!-- SECTION 12: Merge Conflicts -->
+        <section class="card">
+            <h2><i class='bx bx-error' ></i> Handling Merge Conflicts</h2>
+            <p>A conflict happens when Git cannot automatically merge because the same line of code was edited in two different commits.</p>
+
+            <div class="code-snippet mt-20">
+                <h4>What literal Git conflict markers look like in code:</h4>
+                <pre><code>function calculateNetTotal() {
+<span class="color-caution">&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD (Current Branch)</span>
+    return basePrice + tax + shipping;
+<span class="color-caution">======= (Divider)</span>
+    return basePrice + stateTax + fee;
+<span class="color-caution">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature-branch (Incoming Branch)</span>
+}</code></pre>
+            </div>
+
+            <div class="scenario-card">
+                <h4><i class='bx bx-wrench'></i> How to fix it</h4>
+                <ol style="margin-left: 20px; color: #e5e7eb;">
+                    <li>Open the file in an editor like VS Code (it will highlight these blocks).</li>
+                    <li>Choose which block of code to keep (Current, Incoming, or manually mesh them together).</li>
+                    <li>Delete the markers (<code>&lt;&lt;&lt;&lt;</code>, <code>====</code>, <code>&gt;&gt;&gt;&gt;</code>).</li>
+                    <li>Run <code style="color: #fff">git add &lt;file&gt;</code> and <code style="color: #fff">git commit --continue</code> to complete.</li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- SECTION 13: Stash -->
+        <section class="card">
+            <h2><i class='bx bx-package'></i> Git Stash (The Quick Backpack)</h2>
+            <p>Useful when deeply modifying files, but you must switch contexts immediately without committing half-finished code.</p>
+
+            <ul class="styled-list mt-10">
+                <li><code>git stash</code> - Hides your temporary changes into a stack. Work directory becomes clean.</li>
+                <li><code>git stash pop</code> - Restores the topmost stashed files back into your working directory.</li>
+                <li><code>git stash list</code> - Reviews the currently stashed list array.</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 14: Remote Collaboration -->
+        <section class="card">
+            <h2><i class='bx bx-cloud-upload'></i> Remote Repositories & Collaboration</h2>
+            
+            <h3 class="mt-30 theme-heading" style="color: var(--accent-blue);">🔥 The Complete Real-World Workflow</h3>
+            <ol class="styled-list" style="margin-top: 15px;">
+                <li><strong>1. Clone repo:</strong> Copy the team repo (<code>git clone</code>).</li>
+                <li><strong>2. Create branch:</strong> Isolate work (<code>git switch -c feature-name</code>).</li>
+                <li><strong>3. Make changes:</strong> Code your new feature.</li>
+                <li><strong>4. Commit:</strong> Save logical snapshots (<code>git add</code> & <code>git commit</code>).</li>
+                <li><strong>5. Push:</strong> Upload branch (<code>git push origin feature-name</code>).</li>
+                <li><strong>6. Open Pull Request (PR):</strong> Request to merge your branch into <code>main</code>.</li>
+                <li><strong>7. Code review:</strong> Senior engineers approve your code.</li>
+                <li><strong>8. Merge:</strong> Safely click "Merge" on GitHub.</li>
+            </ol>
+
+            <h3 class="mt-30" style="color: var(--accent-teal);">Deep Dive: Fetch vs Pull</h3>
+            <table class="styled-table table-when-to-use mt-10">
+                <thead>
+                    <tr>
+                        <th>Command</th>
+                        <th>Under the hood</th>
+                        <th>When to use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>git fetch</code></td>
+                        <td>Downloads data from origin, but does NOT merge it into your working files.</td>
+                        <td><span class="color-safe">Safe preview.</span> Checking for team updates safely.</td>
+                    </tr>
+                    <tr>
+                        <td><code>git pull</code></td>
+                        <td>Automatically runs <code>git fetch</code> + <code>git merge</code> sequentially.</td>
+                        <td><span class="color-caution">Rapid sync.</span> You want cloud updates applied directly to your files now.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h3 class="mt-30" style="color: var(--accent-teal);">Tags and Releases</h3>
+            <ul class="styled-list mt-10">
+                <li><code>git tag -a v1.0 -m "Release"</code> - Creates an explicit, permanent tag marking a specific version. Used in production systems.</li>
+            </ul>
+        </section>
+
+        <!-- SECTION 15: Restoring & Undoing -->
+        <section class="card section-danger">
+            <h2><i class='bx bx-reset'></i> Restoring & Undoing Operations</h2>
+            <p>Git allows you to safely (and unsafely) step backward when things break!</p>
+            
+            <div class="grid-3 mt-20">
+                <div class="feature-box box-danger">
+                    <h3>git restore</h3>
+                    <p class="mt-10"><code>git restore file.js</code> overrides local un-staged edits with staging copy. Safer alternative to checkout file.</p>
+                </div>
+                <div class="feature-box box-danger">
+                    <h3>git clean -fd</h3>
+                    <p class="mt-10">Permanently force-deletes newly generated untracked files and directories.</p>
+                </div>
+                <div class="feature-box" style="border-color: #fbbf24;">
+                    <h3 style="color: #fbbf24;">git commit --amend</h3>
+                    <p class="mt-10">Missed a file? Typo in message? Modify the <em>last</em> commit without adding a new messy history log.</p>
+                </div>
+            </div>
+
+            <h3 class="mt-30 theme-heading" style="color: var(--danger-color);">Deep Undo: Reset vs Revert</h3>
+            <div class="grid-2 mt-10">
+                <div>
+                    <h4 class="color-danger"><i class='bx bx-reset'></i> git reset</h4>
+                    <p>Moves the HEAD pointer backwards. Actually <strong>erases</strong> commits from the history timeline altogether. (Dangerous)</p>
+                </div>
+                <div>
+                    <h4 class="color-safe"><i class='bx bx-history'></i> git revert</h4>
+                    <p>Creates a brand <strong>new</strong> commit that inverses the changes of a previous commit. (Safe for teams!)</p>
+                </div>
+            </div>
+
+            <table class="styled-table mt-20">
+                <thead>
+                    <tr>
+                        <th>Reset Mode</th>
+                        <th>Where do my uncommitted edits go?</th>
+                        <th>Safety Level</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>git reset --soft HEAD~1</code></td>
+                        <td>Files shift seamlessly into the Staging Area.</td>
+                        <td><span class="color-safe">Green (Safe)</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>git reset --mixed HEAD~1</code></td>
+                        <td>Files fall back into the Working Directory (Unstaged). Default.</td>
+                        <td><span class="color-caution">Yellow (Caution)</span></td>
+                    </tr>
+                    <tr>
+                        <td><code>git reset --hard HEAD~1</code></td>
+                        <td>Files and edits are DELETED instantly forever.</td>
+                        <td><span class="color-danger">Red (Danger!)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <!-- SECTION 16: Cheat Sheet Categorized -->
+        <section class="card pb-10">
+            <h2><i class='bx bx-list-check'></i> How to Actually Remember This (The 4 Groups)</h2>
+            <p>Don’t memorize randomly. Group them by their exact utility level.<br><strong class="highlight">If you deeply know cherry-pick, rebase, reflog, and stash 👉 You are already above 80% of developers.</strong></p>
+            
+            <div class="grid-2 mt-20">
+                <div class="feature-box" style="border-top: 4px solid #4ade80; background: rgba(74, 222, 128, 0.02)">
+                    <h3 style="color: #4ade80;">🟢 Daily Operations</h3>
+                    <ul class="styled-list mt-10">
+                        <li><code>git add .</code> (Stage entire directory)</li>
+                        <li><code>git commit -m ""</code> (Save snapshot permanently)</li>
+                        <li><code>git push origin</code> (Upload to Cloud)</li>
+                        <li><code>git pull</code> (Sync and merge accurately)</li>
+                        <li><code>git status</code> (Checkpoint analysis)</li>
+                    </ul>
+                </div>
+                <div class="feature-box" style="border-top: 4px solid #fbbf24; background: rgba(251, 191, 36, 0.02)">
+                    <h3 style="color: #fbbf24;">🟡 Control & Fix (Mistakes)</h3>
+                    <ul class="styled-list mt-10">
+                        <li><code>git reset --mixed</code> (Undo commits keeping edits)</li>
+                        <li><code>git revert</code> (Undo safely for team shared code)</li>
+                        <li><code>git restore </code> (Undo file modification safely)</li>
+                        <li><code>git commit --amend</code> (Fix previous commit cleanly)</li>
+                    </ul>
+                </div>
+                <div class="feature-box" style="border-top: 4px solid var(--accent-blue); background: rgba(88, 166, 255, 0.02)">
+                    <h3 style="color: var(--accent-blue);">🔵 Advanced Power Tools</h3>
+                    <ul class="styled-list mt-10">
+                        <li><code>git cherry-pick</code> (Steal 1 isolated commit only)</li>
+                        <li><code>git rebase</code> (Rewrite history linear and clean)</li>
+                        <li><code>git stash</code> (Save untracked changes for later)</li>
+                        <li><code>git reflog</code> (Track everything, recover deletions)</li>
+                        <li><code>git bisect</code> (Auto binary search for bug lines)</li>
+                    </ul>
+                </div>
+                <div class="feature-box" style="border-top: 4px solid #f87171; background: rgba(248, 113, 113, 0.02)">
+                    <h3 style="color: #f87171;">🔴 Brutal & Dangerous</h3>
+                    <ul class="styled-list mt-10">
+                        <li><code>git reset --hard</code> (Deletes forever unrecoverably)</li>
+                        <li><code>git clean -fd</code> (Wipes all untracked files)</li>
+                        <li><code>git rebase</code> (When executed on a public / shared branch)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer>
+        <p>Interactive Lesson • Built with Advanced Memory Engineering • Designed with ❤️ by Antigravity AI</p>
+    </footer>
+</body>
+</html>
