@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Core Java Essentials Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --accent-main: #10b981;
+            --accent-sec: #059669;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .hero { background: radial-gradient(circle at top, rgba(16, 185, 129, 0.15), transparent 60%); padding: 80px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hero h1 { font-family: 'Outfit', sans-serif; font-size: 3rem; color: #fff; margin-bottom: 10px; }
+        .hero h1 span { background: linear-gradient(90deg, #10b981, #34d399); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { color: #8b949e; font-size: 1.2rem; }
+        
+        .nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-main); text-decoration: none; font-weight: bold; margin-bottom: 30px; transition: 0.3s; }
+        .nav-back:hover { color: #fff; }
+        .color-safe { color: #4ade80 !important; font-weight: 600; }
+        .color-danger { color: #f87171 !important; font-weight: 600; }
+        .color-caution { color: #fbbf24 !important; font-weight: 600; }
+
+        .section-header { font-size: 2rem; border-bottom: 2px solid rgba(16, 185, 129, 0.3); padding-bottom: 10px; margin-top: 50px; margin-bottom: 20px; color: var(--accent-main); font-family: 'Outfit', sans-serif;}
+        .sub-header { color: #fff; font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--accent-main); padding-left: 10px;}
+        
+        .interactive-q { background: rgba(0,0,0,0.3); border-left: 4px solid var(--accent-main); margin-bottom: 15px; border-radius: 6px; overflow: hidden; }
+        .interactive-q summary { padding: 15px 20px; cursor: pointer; font-weight: bold; font-size: 1.1rem; color: #fff; background: rgba(255,255,255,0.05); list-style: none; display: flex; justify-content: space-between; align-items: center;}
+        .answer-box { padding: 20px; color: #e5e7eb; border-top: 1px solid rgba(255,255,255,0.1); background: rgba(0,0,0,0.6); line-height: 1.6;}
+        
+        ul.bullet-list { margin-left: 25px; margin-bottom: 15px; color: #c9d1d9; line-height: 1.7;}
+        ul.bullet-list li strong { color: var(--accent-main); }
+        .code-box { background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #a5d6ff; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1); white-space: pre-wrap; font-size: 0.95rem; }
+        table.styled-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 0.9em; font-family: 'Inter', sans-serif; min-width: 400px; border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
+        table.styled-table thead tr { background-color: rgba(22, 27, 34, 0.8); color: #ffffff; text-align: left; }
+        table.styled-table th, table.styled-table td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>The <span class="highlight">Core Java</span> Essentials</h1>
+        <p>Mastering the fundamental building blocks of standard Java development.</p>
+    </header>
+
+    <main class="container">
+        <a href="../index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Developer Hub</a>
+
+        <h2 class="section-header">Part 1: The Basics</h2>
+        
+        <h3 class="sub-header">1. Platform Independence</h3>
+        <p>Java is "Write Once, Run Anywhere" (WORA).</p>
+        <ul class="bullet-list">
+            <li><strong>JDK (Java Development Kit):</strong> Compiles <code>.java</code> into <code>.class</code> (Bytecode).</li>
+            <li><strong>JRE (Java Runtime Environment):</strong> Contains standard libraries to run Java apps.</li>
+            <li><strong>JVM (Java Virtual Machine):</strong> Reads bytecode and converts it to machine-specific instructions. JVM is platform-dependent!</li>
+        </ul>
+
+        <h3 class="sub-header">2. Data Types & Variables</h3>
+        <p>Java is strictly <strong>statically-typed</strong>, which means that all variables must first be declared before they can be used. This involves stating the variable's type and name:</p>
+        <div class="code-box">int gear = 1;</div>
+        <p>Doing so tells your program that a field named "gear" exists, holds numerical data, and has an initial value of "1". A variable's data type determines the values it may contain, plus the operations that may be performed on it.</p>
+        
+        <table class="styled-table">
+            <thead><tr><th>Category</th><th>Types</th><th>Size</th></tr></thead>
+            <tbody>
+            <tr><td>Integer</td><td>byte, short, int, long</td><td>1, 2, 4, 8 bytes</td></tr>
+            <tr><td>Floating-point</td><td>float, double</td><td>4, 8 bytes</td></tr>
+            <tr><td>Character</td><td>char</td><td>2 bytes (Unicode)</td></tr>
+            <tr><td>Boolean</td><td>boolean</td><td>1 bit (usually)</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Primitives Deep Dive -->
+        <details class="interactive-q">
+            <summary>Deep Dive: The 8 Primitive Data Types</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li><strong>byte (8-bit signed)</strong>: Min -128, max 127. Useful for saving memory in large arrays. The limit can also serve as a form of documentation.</li>
+                    <li><strong>short (16-bit signed)</strong>: Min -32,768, max 32,767. Useful for memory savings in large arrays.</li>
+                    <li><strong>int (32-bit signed)</strong>: Min -2<sup>31</sup>, max 2<sup>31</sup>-1. In Java SE 8+, represent unsigned 32-bit int (0 to 2<sup>32</sup>-1) using the <strong>Integer class</strong> (methods like <code>compareUnsigned</code>, <code>divideUnsigned</code>).</li>
+                    <li><strong>long (64-bit signed)</strong>: Min -2<sup>63</sup>, max 2<sup>63</sup>-1. Use when wider range is needed. SE 8+ supports unsigned 64-bit via <strong>Long class</strong>.</li>
+                    <li><strong>float (32-bit IEEE 754)</strong>: Single-precision. Save memory in large arrays. <span class="color-danger">Never use for precise values like currency!</span> (Use <code>java.math.BigDecimal</code> instead).</li>
+                    <li><strong>double (64-bit IEEE 754)</strong>: Double-precision. Default choice for decimal values. <span class="color-danger">Never use for precise values like currency!</span></li>
+                    <li><strong>boolean</strong>: true or false. One bit of information, but "size" isn't precisely defined.</li>
+                    <li><strong>char (16-bit Unicode)</strong>: Single character from '\u0000' (0) to '\uffff' (65,535).</li>
+                </ul>
+                <p><strong>Note on Strings:</strong> The <code>java.lang.String</code> class provides special support. String objects are <strong>immutable</strong> (values cannot be changed once created). While not a primitive, you'll often think of it as one due to special language support.</p>
+            </div>
+        </details>
+
+        <!-- Default Values -->
+        <details class="interactive-q">
+            <summary>Default Variable Values</summary>
+            <div class="answer-box">
+                <p>Fields declared but not initialized are set to defaults. <span class="color-caution">Style Note:</span> Relying on defaults is generally considered bad programming style.</p>
+                <table class="styled-table" style="margin-top: 15px;">
+                    <thead><tr><th>Data Type</th><th>Default Value</th></tr></thead>
+                    <tbody>
+                    <tr><td>byte, short, int</td><td>0</td></tr>
+                    <tr><td>long</td><td>0L</td></tr>
+                    <tr><td>float</td><td>0.0f</td></tr>
+                    <tr><td>double</td><td>0.0d</td></tr>
+                    <tr><td>char</td><td>'\u0000'</td></tr>
+                    <tr><td>String (or any object)</td><td>null</td></tr>
+                    <tr><td>boolean</td><td>false</td></tr>
+                    </tbody>
+                </table>
+                <p style="margin-top: 10px;"><span class="color-danger">Local Variables:</span> The compiler <strong>never</strong> assigns a default value to an uninitialized local variable. Accessing one results in a <strong>compile-time error</strong>.</p>
+            </div>
+        </details>
+
+        <h3 class="sub-header">3. Literals Deep Dive</h3>
+        <p>A literal is the source code representation of a fixed value; literals are represented directly in your code without requiring computation. Primitive types avoid the <code>new</code> keyword entirely.</p>
+
+        <details class="interactive-q">
+            <summary>Integer Literals</summary>
+            <div class="answer-box">
+                <p>An integer literal is of type <code>long</code> if it ends with the letter <code>L</code> or <code>l</code>; otherwise it is of type <code>int</code>. <span class="color-caution">Recommendation:</span> Use the upper case letter <code>L</code> because the lower case letter <code>l</code> is hard to distinguish from the digit <code>1</code>.</p>
+                <p>Values of the integral types byte, short, int, and long can be created from int literals. Values of type long that exceed the range of int can be created from long literals. Integer literals can be expressed by these number systems:</p>
+                <ul class="bullet-list" style="margin-top: 10px;">
+                    <li><strong>Decimal (Base 10):</strong> Standard digits 0-9.</li>
+                    <li><strong>Hexadecimal (Base 16):</strong> Digits 0-9 and A-F. Prefix <code>0x</code>.</li>
+                    <li><strong>Binary (Base 2):</strong> Digits 0 and 1. Prefix <code>0b</code>.</li>
+                </ul>
+                <div class="code-box">// The number 26
+int decVal = 26;   // Decimal
+int hexVal = 0x1a; // Hexadecimal
+int binVal = 0b11010; // Binary</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Floating-Point Literals</summary>
+            <div class="answer-box">
+                <p>A floating-point literal is of type <code>float</code> if it ends with the letter <code>F</code> or <code>f</code>; otherwise its type is <code>double</code> (optionally ends with <code>D</code> or <code>d</code>).</p>
+                <p>Floating point types can also be expressed using <code>E</code> or <code>e</code> for scientific notation.</p>
+                <div class="code-box">double d1 = 123.4;
+double d2 = 1.234e2; // Same as d1, but in scientific notation
+float f1  = 123.4f;</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Character and String Literals</summary>
+            <div class="answer-box">
+                <p>Literals of types <code>char</code> and <code>String</code> may contain any Unicode (UTF-16) characters. Use 'single quotes' for char and "double quotes" for String.</p>
+                <p><strong>Unicode Escapes:</strong> <code>'\u0108'</code> (capital C with circumflex) or <code>"S\u00ED Se\u00F1or"</code> (Sí Señor). <span class="color-safe">Note:</span> Unicode escape sequences may be used elsewhere in a program (such as in field names), not just in literals.</p>
+                <p><strong>Special Escape Sequences:</strong></p>
+                <ul class="bullet-list">
+                    <li><code>\b</code> (backspace), <code>\t</code> (tab), <code>\n</code> (line feed)</li>
+                    <li><code>\f</code> (form feed), <code>\r</code> (carriage return)</li>
+                    <li><code>\"</code> (double quote), <code>\'</code> (single quote), <code>\\</code> (backslash)</li>
+                </ul>
+                <p><strong>Special Literals:</strong></p>
+                <ul class="bullet-list">
+                    <li><code>null</code>: A special literal used as a value for any reference type. It indicates that some object is unavailable.</li>
+                    <li><code>class literal</code>: Formed by taking a type name and appending <code>.class</code> (e.g., <code>String.class</code>). This refers to the Object (of type Class) that represents the type itself.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Using Underscore Characters</summary>
+            <div class="answer-box">
+                <p>In Java 7+, underscores (<code>_</code>) can appear between digits to separate groups (like commas) and improve readability. This is purely visual and ignored by the compiler.</p>
+                <div class="code-box">long creditCardNumber = 1234_5678_9012_3456L;
+long socialSecurityNumber = 999_99_9999L;
+float pi = 3.14_15F;
+long hexBytes = 0xFF_EC_DE_5E;
+long hexWords = 0xCAFE_BABE;
+long maxLong = 0x7fff_ffff_ffff_ffffL;
+byte nybbles = 0b0010_0101;
+long bytes = 0b11010010_01101001_10010100_10010010;</div>
+                <p style="margin-top: 10px; color: #f87171;"><strong>Invalid Placement Examples:</strong></p>
+                <ul class="bullet-list" style="font-family: monospace; font-size: 0.9rem;">
+                    <li>float pi1 = 3_.1415F; <span style="color: #8b949e;">// Adjacent to decimal point</span></li>
+                    <li>float pi2 = 3._1415F; <span style="color: #8b949e;">// Adjacent to decimal point</span></li>
+                    <li>long ssn = 999_99_9999_L; <span style="color: #8b949e;">// Prior to L suffix</span></li>
+                    <li>int x = 52_; <span style="color: #8b949e;">// At the end of a literal</span></li>
+                    <li>int x = 0_x52; <span style="color: #8b949e;">// In the 0x radix prefix</span></li>
+                </ul>
+                <p style="margin-top: 10px; color: #4ade80;"><strong>Valid Placement Examples:</strong></p>
+                <div class="code-box">int x1 = 5_2;       // OK
+int x3 = 5_______2; // OK (any number of underscores)
+int x6 = 0x5_2;     // OK (hexadecimal literal)</div>
+            </div>
+        </details>
+
+        <h3 class="sub-header">4. Type Casting (Conversion)</h3>
+        <p>Type casting is used to convert one data type to another. There are two main types:</p>
+
+        <ul class="bullet-list">
+            <li><strong class="color-safe">Widening Type Casting (Implicit):</strong> Automatically done by the compiler when converting a smaller type to a larger type.</li>
+        </ul>
+        <p><strong>Hierarchy:</strong> <code>byte &rarr; short &rarr; char &rarr; int &rarr; long &rarr; float &rarr; double</code></p>
+        <div class="code-box">int num1 = 5004;
+double num2 = 2.5;
+// Implicitly casts int to double
+double sum = num1 + num2; 
+System.out.println(sum); // 5006.5</div>
+
+        <ul class="bullet-list" style="margin-top: 15px;">
+            <li><strong class="color-danger">Narrowing Type Casting (Explicit):</strong> Done manually by the programmer when converting a larger type to a smaller type.</li>
+        </ul>
+        <div class="code-box">double doubleNum = 5004.0;
+// Explicit cast using (targetType)
+int convertedInt = (int) doubleNum;</div>
+
+        <details class="interactive-q">
+            <summary>Common Error: Type Mismatch</summary>
+            <div class="answer-box">
+                <p>A compilation error occurs if you try to assign a larger data type to a smaller one without explicit casting.</p>
+                <div class="code-box">int num1 = 5004;
+double num2 = 2.5;
+int sum = num1 + num2; // Error: cannot convert from double to int</div>
+            </div>
+        </details>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <h2 class="section-header">Part 2: Control Flow</h2>
+
+        <h3 class="sub-header">1. Switch Statement Mastery</h3>
+        <p>The <code>switch</code> statement is a multi-way decision statement that provides a cleaner alternative to long if-else-if ladders. It executes different blocks based on the value of an expression.</p>
+        <ul class="bullet-list">
+            <li><strong>Supported Types:</strong> byte, short, char, int, enum, String (Java 7+), and Wrapper classes (Integer, Short, Byte, Character). <em>Note: long is not supported.</em></li>
+            <li><strong>Benefits:</strong> Improves code readability and structure when handling multiple discrete conditions.</li>
+        </ul>
+
+        <div class="code-box">switch(expression) {
+    case value1:
+        // Statements
+        break; // Optional but recommended
+    case value2:
+        // Statements
+        break;
+    default:
+        // Executes if no match found
+}</div>
+
+        <details class="interactive-q">
+            <summary>Core Rules for Switch Statements</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li><strong>Constants Only:</strong> Case labels must be constant expressions or literals. Use of variables is <span class="color-danger">Illegal</span>.</li>
+                    <li><strong>No Duplicates:</strong> Duplicate case values are strictly prohibited.</li>
+                    <li><strong>Fall-through:</strong> Java switch is a "fall-through" statement. If <code>break</code> is omitted, execution continues into the next case automatically.</li>
+                    <li><strong>Default Case:</strong> Optional, but executes if no other case matches. It can appear anywhere but is best kept at the end.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Advanced Feature: Enums in Switch</summary>
+            <div class="answer-box">
+                <p><strong>Enums</strong> represent a fixed set of constants (e.g., Days of the week, HTTP status codes). Using them in switch statements provides <strong>superior type safety</strong> and readability compared to integers or strings.</p>
+                <div class="code-box">public enum Day { Sun, Mon, Tue, Wed, Thu, Fri, Sat }
+
+// Switch handles enum constants directly
+switch (day) {
+    case Sun: System.out.println("Rest day!"); break;
+    case Mon: System.out.println("Back to work."); break;
+}</div>
+                <ul class="bullet-list">
+                    <li><strong>Type Safety:</strong> You cannot pass an invalid value into the switch; only values defined in the Enum are allowed.</li>
+                    <li><strong>Iteration:</strong> You can combine enums with loops (e.g., <code>Day.values()</code>) to iterate through all constants and process them via switch.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Advanced Feature: Wrapper Classes in Switch</summary>
+            <div class="answer-box">
+                <p>Java allows the use of **Wrapper classes** (<code>Integer</code>, <code>Short</code>, <code>Byte</code>, <code>Long</code>, and <code>Character</code>) in switch statements. This is possible due to <strong>Autounboxing</strong>, where the JVM extracts the primitive value automatically.</p>
+                <div class="code-box">Integer age = 25; // Wrapper class object
+
+switch (age) { 
+    case 25:
+        System.out.println("Matching primitive 25.");
+        break;
+    default:
+        System.out.println("No match.");
+}</div>
+                <p><strong>Character Wrapper Example:</strong></p>
+                <div class="code-box">Character ch = 'c';
+switch (ch) {
+    case 'a': System.out.println("Match 'a'"); break;
+    case 'c': System.out.println("Match 'c'"); break;
+}</div>
+                <p><span class="color-caution">Internal Logic:</span> Regardless of placement, the <code>default</code> case only executes if no other conditions match. The wrapper object is unboxed to its primitive counterpart before comparison.</p>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Advanced Scenario: Nested Switch Statements</summary>
+            <div class="answer-box">
+                <p>You can use a switch as part of the statement sequence of an outer switch. Since a switch statement defines its own block, no conflicts arise between the case constants in the inner and outer switches.</p>
+                <div class="code-box">switch (year) {
+    case 1: System.out.println("Freshman Basics"); break;
+    case 2:
+        switch (Branch) { // Nested Switch
+            case "CSE": System.out.println("Machine Learning"); break;
+            case "ECE": System.out.println("Antenna Eng."); break;
+        }
+        break;
+}</div>
+            </div>
+        </details>
+
+        <h3 class="sub-header">2. Loops & Iteration Architecture</h3>
+        <p>Loops are used to execute a block of code multiple times. In Java, execution is sequential by default, and loops provide branching for repeated complexity.</p>
+        
+        <table class="styled-table">
+            <thead><tr><th>Sr.No</th><th>Loop Type</th><th>Description</th></tr></thead>
+            <tbody>
+            <tr><td>1</td><td>while loop</td><td>Repeats while condition is true. Tests condition <strong>before</strong> body execution.</td></tr>
+            <tr><td>2</td><td>for loop</td><td>Best for fixed iterations. Compactly manages initialization, condition, and increment.</td></tr>
+            <tr><td>3</td><td>do...while</td><td>Guarantees at least <strong>one</strong> execution. Tests condition at the end.</td></tr>
+            <tr><td>4</td><td>Enhanced for</td><td>Traverses arrays/collections directly without index variables.</td></tr>
+            </tbody>
+        </table>
+
+        <!-- Loop Examples Deep Dive -->
+        <details class="interactive-q" open>
+            <summary>Loop Code Examples</summary>
+            <div class="answer-box">
+                <p><strong>Standard While Loop:</strong></p>
+                <div class="code-box">int i = 1;
+while (i <= 5) {
+    System.out.println("Count: " + i);
+    i++;
+}</div>
+                <p><strong>Standard For Loop:</strong></p>
+                <div class="code-box">for (int j = 1; j <= 5; j++) {
+    System.out.println("Iteration: " + j);
+}</div>
+                <p><strong>Do-While Loop (Executes at least once):</strong></p>
+                <div class="code-box">int k = 1;
+do {
+    System.out.println("Do-While: " + k);
+    k++;
+} while (k <= 5);</div>
+                <p><strong>Enhanced For-Loop (for-each):</strong></p>
+                <div class="code-box">int[] numbers = {10, 20, 30, 40};
+for (int num : numbers) {
+    System.out.println("Value: " + num);
+}</div>
+                <p><strong>Break & Continue Logic:</strong></p>
+                <div class="code-box">for (int n = 1; n <= 10; n++) {
+    if (n == 3) continue; // Skip 3
+    if (n == 7) break;    // Stop at 7
+    System.out.print(n + " ");
+}
+// Output: 1 2 4 5 6 </div>
+            </div>
+        </details>
+            </div>
+        </details>
+
+        <h3 class="sub-header">3. Loop Control Statements</h3>
+        <ul class="bullet-list">
+            <li><strong class="color-danger">break:</strong> Terminates the nearest loop or switch immediately and transfers control to the next statement.</li>
+            <li><strong class="color-safe">continue:</strong> Skips the remaining lines in the current loop body and immediately re-tests the loop condition.</li>
+        </ul>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <h2 class="section-header">Part 3: Packages & Access Control</h2>
+
+        <h3 class="sub-header">1. Java Packages Deep Dive</h3>
+        <p>Packages are used in Java to group related classes, interfaces, and sub-packages. They help organize large projects and preclude naming conflicts.</p>
+        
+        <details class="interactive-q" open>
+            <summary>Creating a Package</summary>
+            <div class="answer-box">
+                <p>To create a package, use the <code>package</code> statement. <span class="color-danger">Important:</span> It <strong>must</strong> be the very first line of code in your file.</p>
+                <div class="code-box">package com.baeldung.packages;
+
+public class Application { ... }</div>
+                <p style="margin-top: 10px;"><strong>Disadvantages of Default (Unnamed) Packages:</strong></p>
+                <ul class="bullet-list">
+                    <li>Loss of package structure benefits and inability to have sub-packages.</li>
+                    <li>Types in default packages cannot be imported by other packages.</li>
+                    <li>The <code>protected</code> and <code>package-private</code> access scopes become meaningless.</li>
+                </ul>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>Using Package Members (Imports & FQN)</summary>
+            <div class="answer-box">
+                <p>To use a class like <code>TodoItem</code> from another package, you must import it. If names conflict, use a <strong>Fully Qualified Name (FQN)</strong>.</p>
+                <p><strong>Sub-package Import:</strong></p>
+                <div class="code-box">package com.baeldung.packages;
+import com.baeldung.packages.domain.TodoItem; // Single import
+import com.baeldung.packages.domain.*;        // Wildcard import</div>
+                <p><strong>FQN Usage (Conflict Resolution):</strong></p>
+                <div class="code-box">public class TodoList {
+    // FQN required if another TodoItem exists elsewhere or during direct access
+    private List&lt;com.baeldung.packages.domain.TodoItem&gt; todoItems;
+}</div>
+            </div>
+        </details>
+
+        <h3 class="sub-header">2. Access Modifiers Mastery</h3>
+        <p>Access level modifiers determine the visibility and reach of your fields and methods. Java uses four distinct levels.</p>
+
+        <!-- General Access Levels Matrix (Screenshot Request) -->
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Modifier</th>
+                    <th>Class</th>
+                    <th>Package</th>
+                    <th>Subclass</th>
+                    <th>World</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>public</code></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                </tr>
+                <tr>
+                    <td><code>protected</code></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #f87171;">N</td>
+                </tr>
+                <tr>
+                    <td><code>no modifier</code></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #f87171;">N</td>
+                    <td style="color: #f87171;">N</td>
+                </tr>
+                <tr>
+                    <td><code>private</code></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #f87171;">N</td>
+                    <td style="color: #f87171;">N</td>
+                    <td style="color: #f87171;">N</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p style="margin-top: 30px;">Let's look at a concrete case study to see how these rules apply in a real project structure.</p>
+
+        <!-- Visibility Diagram Replacement -->
+        <div style="background: rgba(16, 185, 129, 0.05); padding: 20px; border-radius: 12px; border: 1px solid rgba(16, 185, 129, 0.2); margin-bottom: 20px;">
+            <p style="text-align: center; font-weight: bold; margin-bottom: 15px;">Case Study: Visibility Relationships</p>
+            <div style="display: flex; justify-content: space-around; gap: 20px; flex-wrap: wrap;">
+                <div style="border: 1px solid #30363d; padding: 10px; border-radius: 8px; min-width: 150px;">
+                    <p style="color: var(--accent-main); font-size: 0.8rem; margin-bottom: 5px;">Package One</p>
+                    <div class="code-box" style="margin: 0; padding: 5px 10px;">Alpha (Base)</div>
+                    <div class="code-box" style="margin-top: 5px; padding: 5px 10px;">Beta (Neighbor)</div>
+                </div>
+                <div style="display: flex; align-items: center; color: #8b949e;">&larr; Subclass &rarr;</div>
+                <div style="border: 1px solid #30363d; padding: 10px; border-radius: 8px; min-width: 150px;">
+                    <p style="color: #60a5fa; font-size: 0.8rem; margin-bottom: 5px;">Package Two</p>
+                    <div class="code-box" style="margin: 0; padding: 5px 10px;">AlphaSub (Sub)</div>
+                    <div class="code-box" style="margin-top: 5px; padding: 5px 10px;">Gamma (World)</div>
+                </div>
+            </div>
+        </div>
+
+        <table class="styled-table access-matrix">
+            <thead>
+                <tr>
+                    <th>Modifier</th>
+                    <th>Alpha</th>
+                    <th>Beta</th>
+                    <th>AlphaSub</th>
+                    <th>Gamma</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>public</strong></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                </tr>
+                <tr>
+                    <td><strong>protected</strong></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #f87171;">N</td>
+                </tr>
+                <tr>
+                    <td><strong>default</strong> (no mod)</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #f87171;">N</td>
+                    <td style="color: #f87171;">N</td>
+                </tr>
+                <tr>
+                    <td><strong>private</strong></td>
+                    <td style="color: #10b981;">Y</td>
+                    <td style="color: #f87171;">N</td>
+                    <td style="color: #f87171;">N</td>
+                    <td style="color: #f87171;">N</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <details class="interactive-q">
+            <summary>Choosing the Right Level (Tips from Experts)</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li><strong>Restriction First:</strong> Use the most restrictive access level that makes sense. Start with <code>private</code> and expand only with good reason.</li>
+                    <li><strong>Avoid Public Fields:</strong> Except for constants, public fields (like <code>public String name</code>) are strongly discouraged. They link you to a particular implementation and limit your flexibility.</li>
+                    <li><strong>Error Prevention:</strong> Choosing correct access levels ensures that errors from misuse by other programmers cannot happen.</li>
+                </ul>
+            </div>
+        </details>
+
+        <h3 class="sub-header">3. CLI Compilation Basics</h3>
+        <div class="code-box">> javac com/baeldung/packages/TodoItem.java
+> java com.baeldung.packages.TodoApp</div>
+        <p>Remember to navigate to your source directory and provide the correct relative path or FQN when compiling and running.</p>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <h2 class="section-header">Part 4: Exception Handling</h2>
+
+        <h3 class="sub-header">1. The Hierarchy</h3>
+        <p>Everything inherits from <code>Throwable</code>.</p>
+        <ul class="bullet-list">
+            <li><strong>Error:</strong> Critical JVM issues (e.g., <code>OutOfMemoryError</code>). Do not try to catch these.</li>
+            <li><strong>Checked Exceptions:</strong> Must be handled explicitly via <code>try/catch</code> or <code>throws</code>. Checked at compile time (e.g., <code>IOException</code>).</li>
+            <li><strong>Unchecked Exceptions (Runtime):</strong> Programming logic flaws (e.g., <code>NullPointerException</code>, <code>ArithmeticException</code>).</li>
+        </ul>
+
+        <details class="interactive-q">
+            <summary>try-catch-finally Block Mechanics</summary>
+            <div class="answer-box">
+                <ul class="bullet-list">
+                    <li><strong>try:</strong> Code that might throw an exception.</li>
+                    <li><strong>catch:</strong> Handles the specific exception. You can chain multiple catches.</li>
+                    <li><strong>finally:</strong> Code that <strong>always</strong> executes whether an exception occurs or not. Primarily used to close resources.</li>
+                </ul>
+            </div>
+        </details>
+
+        <hr style="border:0; border-top:1px solid rgba(255,255,255,0.1); margin: 40px 0;">
+
+        <h2 class="section-header">Part 5: Collections Framework</h2>
+        
+        <h3 class="sub-header">1. List Interface</h3>
+        <p>Ordered collections that allow duplicate elements.</p>
+        <ul class="bullet-list">
+            <li><strong>ArrayList:</strong> Dynamic array. Fast read access, slow insertions/deletions in the middle.</li>
+            <li><strong>LinkedList:</strong> Doubly-linked list. Fast insertions/deletions, slow random access.</li>
+        </ul>
+
+        <h3 class="sub-header">2. Set Interface</h3>
+        <p>Collections that <strong>forbid duplicate elements</strong>.</p>
+        <ul class="bullet-list">
+            <li><strong>HashSet:</strong> Unordered. Extremely fast O(1) operations based on hashing.</li>
+            <li><strong>TreeSet:</strong> Sorted order inherently using a Red-Black tree structure. O(log N).</li>
+        </ul>
+
+        <h3 class="sub-header">3. Map Interface</h3>
+        <p>Key-Value pairs. Maps are NOT Collections technically, but are part of the framework.</p>
+        <table class="styled-table">
+            <thead><tr><th>Implementation</th><th>Ordering</th><th>Nulls allowed?</th></tr></thead>
+            <tbody>
+            <tr><td>HashMap</td><td>Unordered</td><td>Yes (1 null key)</td></tr>
+            <tr><td>LinkedHashMap</td><td>Insertion Order</td><td>Yes</td></tr>
+            <tr><td>TreeMap</td><td>Sorted by Key</td><td>No null keys</td></tr>
+            </tbody>
+        </table>
+
+        <hr style="border:0; border-top:1px dashed #10b981; margin: 80px 0;">
+
+        <h2 class="section-header" style="text-align: center;">Part 6: Interview Cheatsheet</h2>
+
+        <h3 class="sub-header">String vs StringBuilder vs StringBuffer</h3>
+        <ul class="bullet-list">
+            <li><strong>String:</strong> Immutable perfectly. Stored in String Constant Pool. Threads-safe intuitively.</li>
+            <li><strong>StringBuilder:</strong> Mutable. Extremely fast. Not thread-safe.</li>
+            <li><strong>StringBuffer:</strong> Mutable. Thread-safe (Synchronized). Slower operations.</li>
+        </ul>
+
+        <h3 class="sub-header">== vs .equals()</h3>
+        <ul class="bullet-list">
+            <li><strong>== Operator:</strong> Compares memory addresses (Reference equality). Do both variables point to the same physical object?</li>
+            <li><strong>.equals():</strong> Compares object content logic (Value equality). Are the names/IDs identical inside?</li>
+        </ul>
+
+    </main>
+
+    <footer style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5); font-size: 0.9em;">
+        <p>Enterprise Java Toolkit • Built autonomously for masterclass learning</p>
+    </footer>
+</body>
+</html>
