@@ -610,6 +610,91 @@ import com.baeldung.packages.domain.*;        // Wildcard import</div>
             <li><strong>.equals():</strong> Compares object content logic (Value equality). Are the names/IDs identical inside?</li>
         </ul>
 
+        <hr style="border:0; border-top:1px dashed var(--accent-main); margin: 80px 0;">
+
+        <h2 class="section-header">Part 7: Practical Coding Tasks</h2>
+        
+        <div style="background: rgba(16, 185, 129, 0.05); padding: 25px; border-radius: 12px; border: 1px dashed var(--accent-main); margin-bottom: 30px;">
+            <p style="font-weight: bold; color: #fff; margin-bottom: 10px;"><i class='bx bx-task'></i> Task 1: Name Processor & Immutability Proof</p>
+            <p><strong>Description:</strong> Create a program that accepts a user's full name as input, splits it into first and last name, and displays both names in uppercase using the String class methods. Demonstrate the immutability of the String class by performing concatenation and verifying that a new String object is created.</p>
+            
+            <p style="margin-top: 15px;"><strong>Topics Covered:</strong> <code>String Class and Methods</code>, <code>String Immutability</code></p>
+            <p><strong>Objective:</strong> Understand basic string manipulation (split, toUpperCase, trim) and the concept of immutability (how new objects are created after modifications).</p>
+        </div>
+
+        <details class="interactive-q" open>
+            <summary>View Solution Code Implementation</summary>
+            <div class="answer-box">
+                <p>Below is the robust implementation using a <code>NameProcessor</code> logic class and an <code>App</code> driver class.</p>
+                <div class="code-box">package com.epam.campus;
+
+import java.util.Scanner;
+
+// Separate class for processing logic
+class NameProcessor {
+
+    public static String validateInput(String fullName) {
+        if (fullName == null || fullName.trim().isEmpty()) {
+            throw new IllegalArgumentException("Name cannot be empty");
+        }
+        return fullName.trim().replaceAll("\\s+", " ");
+    }
+
+    public static String[] parseName(String fullName) {
+        String[] parts = fullName.split("\\s+");
+
+        if (parts.length < 2) {
+            throw new IllegalArgumentException("Please enter at least first and last name");
+        }
+        return parts;
+    }
+
+    public static String toUpper(String name) {
+        return name.toUpperCase();
+    }
+
+    public static String combineNames(String first, String last) {
+        return first.concat(" ").concat(last);
+    }
+}
+
+public class App {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        try {
+            System.out.println("Enter your full name:");
+            String input = sc.nextLine();
+
+            String cleanedName = NameProcessor.validateInput(input);
+            String[] parts = NameProcessor.parseName(cleanedName);
+
+            String firstName = parts[0];
+            String lastName = parts[parts.length - 1];
+
+            String upperFirst = NameProcessor.toUpper(firstName);
+            String upperLast = NameProcessor.toUpper(lastName);
+
+            System.out.println("First Name: " + upperFirst);
+            System.out.println("Last Name: " + upperLast);
+
+            // 🔥 Immutability proof
+            String originalRef = upperFirst;
+            String combined = NameProcessor.combineNames(upperFirst, upperLast);
+
+            System.out.println("Combined Name: " + combined);
+            System.out.println("Original First Name after concat: " + originalRef);
+            System.out.println("Are both same object? " + (originalRef == combined));
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error: " + e.getMessage());
+        } finally {
+            sc.close();
+        }
+    }
+}</div>
+            </div>
+        </details>
+
     </main>
 
     <footer style="text-align: center; padding: 40px; color: rgba(255,255,255,0.5); font-size: 0.9em;">
