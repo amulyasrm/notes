@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Module 4: LangChain & RAG | Master Developer Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --accent-main: #9b59b6;
+            --accent-sec: #8e44ad;
+            --bg-dark: #0d1117;
+            --card-bg: rgba(22, 27, 34, 0.8);
+            --text-main: #c9d1d9;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .hero { 
+            background: radial-gradient(circle at top, rgba(155, 89, 182, 0.2), transparent 70%); 
+            padding: 100px 20px; 
+            text-align: center; 
+            border-bottom: 1px solid rgba(255,255,255,0.05); 
+        }
+        .hero h1 { font-family: 'Outfit', sans-serif; font-size: 3.5rem; color: #fff; margin-bottom: 15px; }
+        .hero h1 span { 
+            background: linear-gradient(90deg, #9b59b6, #d397eb); 
+            -webkit-background-clip: text; 
+            background-clip: text; 
+            -webkit-text-fill-color: transparent; 
+        }
+        .hero p { color: #8b949e; font-size: 1.3rem; max-width: 750px; margin: 0 auto; }
+        
+        .nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-main); text-decoration: none; font-weight: bold; margin-bottom: 40px; transition: var(--transition); }
+        .nav-back:hover { color: #fff; transform: translateX(-5px); }
+        
+        .section-header { font-size: 2.2rem; border-bottom: 2px solid rgba(155, 89, 182, 0.3); padding-bottom: 12px; margin-top: 80px; margin-bottom: 35px; color: #fff; font-family: 'Outfit', sans-serif; display: flex; align-items: center; gap: 15px;}
+        
+        .sub-header { color: var(--accent-main); font-size: 1.6rem; margin-top: 50px; margin-bottom: 20px; border-left: 5px solid var(--accent-main); padding-left: 20px; font-weight: 800;}
+        
+        .content-card { background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius: 15px; padding: 35px; margin-bottom: 40px; }
+
+        .param-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin: 30px 0; }
+        .param-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 25px; border-radius: 12px; }
+        .param-card strong { color: var(--accent-main); font-size: 1.15rem; display: block; margin-bottom: 10px; }
+        .param-card p { font-size: 0.95rem; color: #8b949e; margin: 0; line-height: 1.6; }
+
+        .code-box { background: #010409; padding: 25px; border-radius: 12px; font-family: 'Courier New', monospace; color: #a5d6ff; margin: 25px 0; border: 1px solid rgba(255,255,255,0.1); white-space: pre-wrap; font-size: 0.95rem; box-shadow: inset 0 0 15px rgba(0,0,0,0.5); position: relative; overflow-x: auto;}
+        .code-box::after { content: 'PYTHON'; position: absolute; top: 12px; right: 25px; font-size: 0.75rem; color: #30363d; font-weight: 900; letter-spacing: 1px;}
+        
+        .highlight-box { background: rgba(155, 89, 182, 0.1); border: 1px solid rgba(155, 89, 182, 0.2); padding: 30px; border-radius: 15px; margin: 35px 0; }
+        
+        ul.bullet-list { margin-left: 0; margin-bottom: 30px; color: #c9d1d9; list-style-type: none; }
+        ul.bullet-list li { position: relative; padding-left: 30px; margin-bottom: 18px; font-size: 1.05rem; }
+        ul.bullet-list li::before { content: '\e9ae'; font-family: 'boxicons' !important; position: absolute; left: 0; color: var(--accent-main); font-size: 1.25rem; top: 4px; }
+        ul.bullet-list li strong { color: #fff; }
+
+        .interactive-q { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05); margin-bottom: 20px; border-radius: 10px; overflow: hidden; }
+        .interactive-q summary { padding: 20px 25px; cursor: pointer; font-weight: 700; font-size: 1.2rem; color: #fff; background: rgba(155, 89, 182, 0.05); list-style: none; display: flex; justify-content: space-between; align-items: center;}
+        .interactive-q summary::after { content: '\e97c'; font-family: 'boxicons' !important; font-size: 1.5rem; transition: transform 0.3s; }
+        .interactive-q[open] summary::after { transform: rotate(180deg); }
+        .answer-box { padding: 30px; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        .footer { text-align: center; padding: 80px 20px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 100px; color: #8b949e; font-size: 0.95rem; }
+    </style>
+</head>
+<body>
+
+    <header class="hero">
+        <h1>LangChain & <span>RAG Masterclass</span></h1>
+        <p>Architecting production-ready AI applications using Retrieval-Augmented Generation, Autonomous Agents, and Custom Tool Ecosystems.</p>
+    </header>
+
+    <main class="container">
+        <a href="index.html" class="nav-back"><i class='bx bx-left-arrow-alt'></i> Back to Module Hub</a>
+
+        <!-- KNOWLEDGE NAV HUB -->
+        <div class="content-card" style="background: rgba(155, 89, 182, 0.05); border-color: rgba(155, 89, 182, 0.2);">
+            <h3 style="margin-top:0; color:#fff; font-size:1.2rem; display:flex; align-items:center; gap:10px;"><i class='bx bx-map-alt'></i> Knowledge Navigation Hub</h3>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap:15px; font-size:0.9rem;">
+                <a href="#chat-models" style="color:var(--accent-main); text-decoration:none;">1. Chat Model Fundamentals</a>
+                <a href="#prompt-templates" style="color:var(--accent-main); text-decoration:none;">2. Prompt Templates</a>
+                <a href="#messaging-logic" style="color:var(--accent-main); text-decoration:none;">3. Messaging Schema & Logic</a>
+                <a href="#lcel-chains" style="color:var(--accent-main); text-decoration:none;">4. Chains & LCEL</a>
+                <a href="#multi-model" style="color:var(--accent-main); text-decoration:none;">5. Multi-Model Ecosystem</a>
+                <a href="#persistence" style="color:var(--accent-main); text-decoration:none;">6. Enterprise Persistence (Firebase)</a>
+                <a href="#rag-intro" style="color:var(--accent-main); text-decoration:none;">7. RAG Fundamentals</a>
+                <a href="#conv-rag" style="color:var(--accent-main); text-decoration:none;">8. Conversational RAG</a>
+                <a href="#web-scraping" style="color:var(--accent-main); text-decoration:none;">9. Enterprise Web Scraping</a>
+                <a href="#agents-intro" style="color:var(--accent-main); text-decoration:none;">10. Autonomous Agents</a>
+                <a href="#tools-dev" style="color:var(--accent-main); text-decoration:none;">11. Supercharging with Tools</a>
+                <a href="#multi-agent" style="color:var(--accent-main); text-decoration:none;">12. Multi-Agent Architectures</a>
+            </div>
+        </div>
+
+        <!-- 1. CHAT MODEL FUNDAMENTALS -->
+        <h2 class="section-header" id="chat-models"><i class='bx bx-message-square-detail'></i> 1. Chat Model Fundamentals</h2>
+        <div class="content-card">
+            <p>Chat Models are the bedrock of LangChain. They represent an abstraction layer that allows developers to interact with various LLMs (GPT, Claude, Gemini) using a unified interface. LangChain <strong>v0.2</strong> is the current standard, streamlining these interactions.</p>
+            
+            <h3 class="sub-header">Basic Interaction: The `invoke()` Method</h3>
+            <p>The <code>invoke()</code> method is the universal trigger in LangChain. It sends a request to the model and returns a structured response object.</p>
+
+            <div class="code-box">from langchain_openai import ChatOpenAI
+from dotenv import load_dotenv
+
+load_dotenv() # Loads OPENAI_API_KEY from .env
+
+model = ChatOpenAI(model="gpt-4o")
+result = model.invoke("What is 81 divided by 9?")
+
+print(result.content) # "9"</div>
+
+            <div class="highlight-box">
+                <p><strong>Metadata vs. Content:</strong> A full result includes metadata (token usage, finish reason, etc.), but <code>result.content</code> extracts only the string response for your application.</p>
+            </div>
+        </div>
+
+        <!-- 2. PROMPT TEMPLATES -->
+        <h2 class="section-header" id="prompt-templates"><i class='bx bx-terminal'></i> 2. Prompt Templates</h2>
+        <div class="content-card">
+            <p>Prompt Templates are the blueprints for LLM inputs. They allow you to decouple the prompt's structure from the specific data being processed, making your code modular and reusable.</p>
+            
+            <h3 class="sub-header">The ChatPromptTemplate Powerhouse</h3>
+            <p>In LangChain v0.2/v0.3, <code>ChatPromptTemplate</code> is the standard for building complex message sequences with dynamic placeholders.</p>
+
+            <div class="code-box">from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.messages import SystemMessage, HumanMessage
+
+# Defining a reusable template
+template = ChatPromptTemplate.from_messages([
+    ("system", "You are a specialized agent in {topic}."),
+    ("human", "Explain {concept} in {word_count} words."),
+])
+
+# Injecting variables
+prompt_value = template.invoke({
+    "topic": "Quantum Computing",
+    "concept": "Superposition",
+    "word_count": "50"
+})
+
+# To see the formatted messages:
+print(prompt_value.to_messages())</div>
+
+            <div class="highlight-box">
+                <p><strong>Partial Formatting:</strong> You can bind some variables early (e.g., the system persona) and leave others for runtime. This is critical for building template libraries for different specialized agents.</p>
+            </div>
+
+            <h3 class="sub-header">MessagesPlaceholder</h3>
+            <p>For conversational apps, the <code>MessagesPlaceholder</code> is used to dynamically insert the chat history into a template.</p>
+            <div class="code-box">from langchain_core.prompts import MessagesPlaceholder
+
+template = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant."),
+    MessagesPlaceholder(variable_name="history"),
+    ("human", "{input}"),
+])</div>
+        </div>
+
+        <!-- 3. MESSAGING SCHEMA & LOGIC -->
+        <h2 class="section-header" id="messaging-logic"><i class='bx bx-transfer'></i> 3. Messaging Schema & Logic</h2>
+        <div class="content-card">
+            <p>Conversations are structured as a <strong>List of Messages</strong>. To build a dialogue, you must manage different message types:</p>
+            
+            <ul class="bullet-list">
+                <li><strong>SystemMessage:</strong> Sets the behavior/persona and context. Always stays at the top.</li>
+                <li><strong>HumanMessage:</strong> Represents the user's input.</li>
+                <li><strong>AIMessage:</strong> Represents the model's response.</li>
+            </ul>
+
+            <div class="code-box">from langchain_core.messages import SystemMessage, HumanMessage, AIMessage
+
+messages = [
+    SystemMessage(content="You are a professional math tutor."),
+    HumanMessage(content="What is 10 times 5?"),
+]
+
+result = model.invoke(messages)
+# To continue the conversation:
+messages.append(result) # Add the AI response
+messages.append(HumanMessage(content="Explain how you got that."))</div>
+        </div>
+
+        <!-- 4. CHAINS & LCEL -->
+        <h2 class="section-header" id="lcel-chains"><i class='bx bx-link-alt'></i> 4. Chains & LCEL (LangChain Expression Language)</h2>
+        <div class="content-card">
+            <p>LCEL is a declarative way to compose chains. It provides a unified interface for streaming, batching, and async support, while allowing you to pipe the output of one component directly into another using the <code>|</code> operator.</p>
+            
+            <h3 class="sub-header">The Basic Pipe: Prompt | Model | Parser</h3>
+            <p>The most common chain structure transforms a prompt into a model request, then parses the raw AI output into a clean format.</p>
+
+            <div class="code-box">from langchain_core.output_parsers import StrOutputParser
+from langchain_core.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_template("Tell me a fact about {topic}")
+model = ChatOpenAI(model="gpt-4o")
+parser = StrOutputParser()
+
+# Creating the chain
+chain = prompt | model | parser
+
+# Execution
+result = chain.invoke({"topic": "Black Holes"})
+print(result) # Directly returns the string content</div>
+
+            <div class="highlight-box">
+                <p><strong>Standard Interface:</strong> Every LCEL chain supports <code>invoke()</code> (sync), <code>ainvoke()</code> (async), <code>stream()</code> (real-time chunks), and <code>batch()</code> (multiple inputs in parallel).</p>
+            </div>
+
+            <h3 class="sub-header">Advanced Composition: Parallel & Passthrough</h3>
+            <ul class="bullet-list">
+                <li><strong>RunnablePassthrough:</strong> Used to pass inputs unchanged or combine them with additional context.</li>
+                <li><strong>RunnableParallel:</strong> Executes multiple branches simultaneously—perfect for retrieval or multi-model comparisons.</li>
+            </ul>
+
+            <div class="code-box">from langchain_core.runnables import RunnableParallel, RunnablePassthrough
+
+# Passing input to multiple branches
+setup_and_retrieval = RunnableParallel(
+    {"context": retriever, "question": RunnablePassthrough()}
+)
+final_chain = setup_and_retrieval | prompt | model | parser</div>
+
+            <h3 class="sub-header">Custom Logic: RunnableLambda</h3>
+            <p>When you need to execute custom Python code that isn't a pre-built LangChain component, use <code>RunnableLambda</code>. It wraps any function into a "Runnable" that can be piped.</p>
+            
+            <div class="code-box">from langchain_core.runnables import RunnableLambda
+
+# A custom function to clean output
+def simple_cleaner(text: str):
+    return text.upper().strip()
+
+# Wrap and pipe
+custom_chain = chain | RunnableLambda(simple_cleaner)
+result = custom_chain.invoke({"topic": "AI"})</div>
+        </div>
+
+        <!-- 5. MULTI-MODEL ECOSYSTEM -->
+        <h2 class="section-header" id="multi-model"><i class='bx bx-atom'></i> 5. Multi-Model Ecosystem</h2>
+        <div class="content-card">
+            <p>LangChain makes it trivially easy to swap models without changing your core integration logic. This is critical for optimizing price, speed, and capability.</p>
+            
+            <div class="param-grid">
+                <div class="param-card">
+                    <strong>Anthropic (Claude)</strong>
+                    <div class="code-box" style="margin:10px 0; padding:15px; font-size:0.85rem;">from langchain_anthropic import ChatAnthropic
+model = ChatAnthropic(model="claude-3-opus-20240229")</div>
+                </div>
+                <div class="param-card">
+                    <strong>Google (Gemini)</strong>
+                    <div class="code-box" style="margin:10px 0; padding:15px; font-size:0.85rem;">from langchain_google_genai import ChatGoogleGenerativeAI
+model = ChatGoogleGenerativeAI(model="gemini-1.5-pro")</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. ENTERPRISE PERSISTENCE (FIREBASE) -->
+        <h2 class="section-header" id="persistence"><i class='bx bx-cloud-upload'></i> 6. Enterprise Persistence (Firebase)</h2>
+        <div class="content-card">
+            <p>In production, you cannot store chat history in local lists—it must be persistent. Using <strong>Firebase Firestore</strong> allows you to store and retrieve conversation history across sessions.</p>
+            
+            <h3 class="sub-header">Persistence Architecture</h3>
+            <ul class="bullet-list">
+                <li><strong>FirestoreChatMessageHistory:</strong> Automates the loading and saving of messages to the cloud.</li>
+                <li><strong>Session IDs:</strong> Unique identifiers to group messages belonging to a specific user or conversation.</li>
+            </ul>
+
+            <div class="code-box">from langchain_google_firestore import FirestoreChatMessageHistory
+from google.cloud import firestore
+
+client = firestore.Client(project="your-project-id")
+chat_history = FirestoreChatMessageHistory(
+    session_id="user_unique_session_123",
+    collection="chat_history",
+    client=client,
+)
+
+# Now, any message added is automatically saved to the cloud
+chat_history.add_user_message("Hello!")
+chat_history.add_ai_message("How can I help you today?")</div>
+
+            <details class="interactive-q">
+                <summary>Step-by-Step Firebase Setup</summary>
+                <div class="answer-box">
+                    <p>1. Create a project at <strong>console.firebase.com</strong>.</p>
+                    <p>2. Enable <strong>Firestore Database</strong> in the build tab.</p>
+                    <p>3. Install the GCloud CLI and authenticate using <code>gcloud auth application-default login</code>.</p>
+                    <p>4. Use the project ID and session ID in your LangChain code to start syncing.</p>
+                </div>
+            </details>
+        </div>
+
+        <!-- 1. RAG FUNDAMENTALS -->
+        <h2 class="section-header" id="rag-intro"><i class='bx bx-layer'></i> 1. RAG Foundations</h2>
+        <div class="content-card">
+            <p>Retrieval-Augmented Generation (RAG) is the paradigm of grounding LLM outputs in verified external data. It solves the "Hallucination" problem by providing the model with a "search engine" for your private documents.</p>
+            <ul class="bullet-list">
+                <li><strong>Vector Stores:</strong> Efficiently storing and retrieving high-dimensional document embeddings (e.g., ChromaDB, Pinecone).</li>
+                <li><strong>Embeddings:</strong> Converting text into mathematical vectors that capture semantic meaning.</li>
+                <li><strong>Retrievers:</strong> The interface between the model and the vector database, selecting the "Top-K" most relevant chunks.</li>
+            </ul>
+        </div>
+
+        <!-- 2. CONVERSATIONAL RAG -->
+        <h2 class="section-header" id="conv-rag"><i class='bx bx-chat'></i> 2. Conversational RAG</h2>
+        <div class="content-card">
+            <h3 class="sub-header">Managing History-Aware Retrieval</h3>
+            <p>Standard RAG takes a single query and returns results. Conversational RAG requires the model to understand the *entire* dialogue history to reformulate queries for the vector store.</p>
+            
+            <div class="highlight-box">
+                <p><strong>The Core Loop:</strong> Chat History + New Question &rarr; Reformulated Query &rarr; Vector Search &rarr; Grounded Answer.</p>
+            </div>
+
+            <div class="code-box"># History-Aware Retriever Prompt
+contextualize_q_system_prompt = (
+    "Given a chat history and the latest user question "
+    "which might reference context in the chat history, "
+    "reformulate a standalone question which can be understood "
+    "without the chat history."
+)</div>
+
+            <ul class="bullet-list">
+                <li><strong>Create Stuff Documents Chain:</strong> A LangChain utility that "stuffs" all retrieved documents into a single prompt for the LLM.</li>
+                <li><strong>History-Aware Retriever:</strong> Re-phrases the user question based on previous turns to ensure the vector lookup is accurate even with pronouns like "it" or "him".</li>
+            </ul>
+        </div>
+
+        <!-- 3. ENTERPRISE WEB SCRAPING -->
+        <h2 class="section-header" id="web-scraping"><i class='bx bx-globe'></i> 3. Advanced Web Scraping</h2>
+        <div class="content-card">
+            <p>Building a RAG system often starts with data collection. LangChain provides multiple loaders, but not all are created equal.</p>
+            
+            <div class="param-grid">
+                <div class="param-card">
+                    <strong>Standard WebLoader</strong>
+                    <p>Basic HTML extraction. Often misses dynamic content rendered via JavaScript and includes messy boilerplate (headers, footers).</p>
+                </div>
+                <div class="param-card">
+                    <strong>Firecrawl Loader</strong>
+                    <p>Converts websites into clean, <strong>LLM-ready Markdown</strong>. Handles dynamic JS rendering and provides superior chunking metadata.</p>
+                </div>
+            </div>
+
+            <h3 class="sub-header">Why Firecrawl?</h3>
+            <p>Firecrawl turns the "gross" HTML into a markdown version that is easy for LLMs to navigate. It uses a "crawl" vs "scrape" mode—crawl follows links to map a site, while scrape targets a specific page depth.</p>
+            
+            <div class="code-box"># Initializing Firecrawl
+from langchain_community.document_loaders import FireCrawlLoader
+
+loader = FireCrawlLoader(
+    api_key="your_key",
+    url="https://apple.com",
+    mode="scrape"
+)</div>
+        </div>
+
+        <!-- 4. AUTONOMOUS AGENTS -->
+        <h2 class="section-header" id="agents-intro"><i class='bx bx-bot'></i> 4. Autonomous Agents</h2>
+        <div class="content-card">
+            <p>An Agent is an LLM acting as a <strong>State Machine</strong>. It doesn't just predict text; it plans, iterates, and executes actions.</p>
+            
+            <h3 class="sub-header">The ReAct Loop (Reason + Act)</h3>
+            <ul class="bullet-list">
+                <li><strong>Thought:</strong> The agent plans its next move based on the goal and current observation.</li>
+                <li><strong>Action:</strong> The agent selects a tool to execute (e.g., "Search Wikipedia").</li>
+                <li><strong>Observation:</strong> The agent reads the result of the tool execution and updates its understanding.</li>
+            </ul>
+
+            <div class="highlight-box">
+                <p><strong>Agent Executor:</strong> The runtime that manages the loop, handling tool calls and feeding results back into the agent's memory.</p>
+            </div>
+        </div>
+
+        <!-- 5. SUPERCHARGING WITH TOOLS -->
+        <h2 class="section-header" id="tools-dev"><i class='bx bx-wrench'></i> 5. Tool Development Ecosystem</h2>
+        <div class="content-card">
+            <p>Tools provide agents with "superpowers"—the ability to interact with the outside world, run code, or access databases.</p>
+            
+            <h3 class="sub-header">Types of Tools</h3>
+            <ul class="bullet-list">
+                <li><strong>Tool Constructor:</strong> Creating simple tools from Python functions using `@tool` decorators.</li>
+                <li><strong>Structured Tools:</strong> Defining complex input schemas using <strong>Pydantic</strong> models to ensure the agent passes the correct arguments.</li>
+                <li><strong>BaseTool Inheritance:</strong> Creating custom classes for maximum control, defining both synchronous and asynchronous behavior.</li>
+            </ul>
+
+            <div class="code-box"># Custom Tool with Pydantic Schema
+class MultiplyNumbersInput(BaseModel):
+    a: float = Field(description="First number")
+    b: float = Field(description="Second number")
+
+class MultiplyTool(BaseTool):
+    name = "multiply_numbers"
+    description = "Useful for multiplying two numbers."
+    args_schema = MultiplyNumbersInput
+
+    def _run(self, a: float, b: float):
+        return a * b</div>
+        </div>
+
+        <!-- 6. MULTI-AGENT ARCHITECTURES -->
+        <h2 class="section-header" id="multi-agent"><i class='bx bx-group'></i> 6. Multi-Agent Systems (CrewAI)</h2>
+        <div class="content-card">
+            <p>The future of AI is collaborative. Instead of one monolithic agent, we use specialized agents working together.</p>
+            <ul class="bullet-list">
+                <li><strong>Specialization:</strong> A "Researcher" agent finds data, while a "Writer" agent synthesizes it.</li>
+                <li><strong>Collaboration:</strong> Agents can delegate tasks to each other, reviewing and refining outputs in a structured workflow.</li>
+                <li><strong>CrewAI:</strong> A framework that simplifies multi-agent orchestration, allowing you to define "Crews" with processes and roles.</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Master Developer Hub | Module 4: LangChain & RAG | Engineering Excellence</p>
+        </div>
+    </main>
+</body>
+</html>
