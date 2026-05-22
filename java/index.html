@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Masterclass</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <style>
+        :root {
+            --bg-dark: #0d1117;
+            --card-bg: rgba(22, 27, 34, 0.8);
+            --accent-main: #58a6ff;
+            --accent-core: #10b981;
+            --accent-oops: #9d4edd;
+            --accent-collections: #f9826c;
+            --text-main: #c9d1d9;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg-dark); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+
+        .hero { position: relative; text-align: center; padding: 80px 20px 60px 20px; background: radial-gradient(circle at top, rgba(88, 166, 255, 0.15), transparent 60%); border-bottom: 1px solid rgba(255, 255, 255, 0.05); }
+        .hero h1 { font-family: 'Outfit', sans-serif; font-size: 3rem; color: #fff; margin-bottom: 15px; }
+        .hero h1 span { background: linear-gradient(90deg, var(--accent-main), #3bc7b7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 1.1rem; color: #8b949e; max-width: 600px; margin: 0 auto; line-height: 1.6; }
+        
+        .nav-back { display: inline-flex; align-items: center; justify-content: center; gap: 8px; color: var(--accent-main); text-decoration: none; font-weight: bold; margin-bottom: 20px; padding: 10px 20px; border-radius: 8px; background: rgba(88, 166, 255, 0.1); transition: 0.3s; margin-top: 20px; margin-left: 20px; }
+        .nav-back:hover { background: rgba(88, 166, 255, 0.2); color: #fff; }
+
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+
+        .course-card { background: var(--card-bg); border-radius: 16px; padding: 30px; border: 1px solid rgba(255, 255, 255, 0.1); transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s; position: relative; overflow: hidden; text-decoration: none; display: flex; flex-direction: column; height: 100%; }
+        .course-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 4px; background: var(--accent); transition: height 0.3s; }
+        .course-card:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
+        .course-card:hover::before { height: 6px; }
+
+        .card-core { --accent: var(--accent-core); }
+        .card-oops { --accent: var(--accent-oops); }
+        .card-collections { --accent: var(--accent-collections); }
+
+        .card-icon { font-size: 3rem; color: var(--accent); margin-bottom: 15px; }
+        .course-card h2 { font-size: 1.6rem; color: #fff; margin-bottom: 15px; font-family: 'Outfit', sans-serif; }
+        .course-card p { color: #8b949e; line-height: 1.6; flex-grow: 1; margin-bottom: 25px; }
+
+        .course-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px; border-radius: 8px; background: rgba(255, 255, 255, 0.05); color: #fff; font-weight: 600; transition: background 0.2s, color 0.2s; font-size: 1.05rem; }
+        .course-card:hover .course-btn { background: var(--accent); color: #000; }
+    </style>
+</head>
+<body>
+    <a href="../index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Developer Hub</a>
+    <header class="hero">
+        <h1>Complete <span class="highlight">Java Masterclass</span></h1>
+        <p>Your comprehensive guide to mastering Java programming, from core fundamentals to advanced object-oriented design and collections.</p>
+    </header>
+
+    <main class="container">
+        <div class="grid">
+            <!-- Core Java Essentials Module -->
+            <a href="../core-java-essentials/index.html" class="course-card card-core">
+                <i class='bx bx-coffee card-icon'></i>
+                <h2>Core Java Essentials</h2>
+                <p>Dive deep into the basics of Java programming, exploring data types, loops, exception handling, string methods, and foundation architecture.</p>
+                <div class="course-btn">Enter Module <i class='bx bx-right-arrow-alt'></i></div>
+            </a>
+
+            <!-- Java OOPs Module -->
+            <a href="../java-oops/index.html" class="course-card card-oops">
+                <i class='bx bxl-java card-icon'></i>
+                <h2>OOPs in Java</h2>
+                <p>Establish a rigorous foundational understanding of critical Java Architecture: Inheritance, Polymorphism, Abstraction, and Encapsulation.</p>
+                <div class="course-btn">Enter Module <i class='bx bx-right-arrow-alt'></i></div>
+            </a>
+
+            <!-- Java Collections Module -->
+            <a href="../java-collections/index.html" class="course-card card-collections">
+                <i class='bx bx-layer card-icon'></i>
+                <h2>Collection Frameworks</h2>
+                <p>Master data structures in Java. Learn Lists, Sets, Maps, Queues, and how to effectively manage groups of objects dynamically.</p>
+                <div class="course-btn">Enter Module <i class='bx bx-right-arrow-alt'></i></div>
+            </a>
+        </div>
+    </main>
+</body>
+</html>

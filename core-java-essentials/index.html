@@ -58,7 +58,7 @@
     </header>
 
     <main class="container">
-        <a href="../index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Developer Hub</a>
+        <a href="../java/index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Java Hub</a>
 
         <h2 class="section-header">Part 1: The Basics</h2>
         
@@ -545,13 +545,33 @@ import com.baeldung.packages.domain.*;        // Wildcard import</div>
 
         <h2 class="section-header">Part 4: Exception Handling</h2>
 
-        <h3 class="sub-header">1. The Hierarchy</h3>
-        <p>Everything inherits from <code>Throwable</code>.</p>
+        <h3 class="sub-header">1. Types of Exceptions</h3>
+        <p>Everything inherits from <code>Throwable</code>. The exception hierarchy is broadly classified into <strong>User-Defined Exceptions</strong> (custom exceptions built by the developer) and <strong>Built-in Exceptions</strong>.</p>
+
+        <p><strong>Built-in Exceptions</strong> are divided into two primary categories:</p>
         <ul class="bullet-list">
-            <li><strong>Error:</strong> Critical JVM issues (e.g., <code>OutOfMemoryError</code>). Do not try to catch these.</li>
-            <li><strong>Checked Exceptions:</strong> Must be handled explicitly via <code>try/catch</code> or <code>throws</code>. Checked at compile time (e.g., <code>IOException</code>).</li>
-            <li><strong>Unchecked Exceptions (Runtime):</strong> Programming logic flaws (e.g., <code>NullPointerException</code>, <code>ArithmeticException</code>).</li>
+            <li><strong>Checked Exceptions:</strong> Must be handled explicitly via <code>try/catch</code> or <code>throws</code>. Checked at compile time.
+                <ul>
+                    <li><code>ClassNotFoundException</code>: Fails when loading a missing class via Reflection.</li>
+                    <li><code>InterruptedException</code>: Fails if a sleeping thread is interrupted.</li>
+                    <li><code>IOException</code>: Fails during file I/O operations.</li>
+                    <li><code>InstantiationException</code>: Fails when attempting to instantiate an abstract class or interface.</li>
+                    <li><code>SQLException</code>: Fails during database connectivity.</li>
+                    <li><code>FileNotFoundException</code>: Fails when a specified file cannot be found.</li>
+                </ul>
+            </li>
+            <li><strong>Unchecked Exceptions:</strong> Programming logic flaws. Compiler does not force you to handle them.
+                <ul>
+                    <li><code>ArithmeticException</code>: E.g., divide by zero.</li>
+                    <li><code>ClassCastException</code>: Occurs during invalid object type casting.</li>
+                    <li><code>NullPointerException</code>: Calling a method on a <code>null</code> object.</li>
+                    <li><code>ArrayIndexOutOfBoundsException</code>: Accessing an invalid index in an array.</li>
+                    <li><code>ArrayStoreException</code>: Attempting to store the wrong type of object into an array of objects.</li>
+                    <li><code>IllegalThreadStateException</code>: Thread is not in an appropriate state for the requested operation.</li>
+                </ul>
+            </li>
         </ul>
+        <p><em>Note: <strong>Error</strong> (e.g., <code>OutOfMemoryError</code>, <code>StackOverflowError</code>) represents critical JVM issues. Do not try to catch these.</em></p>
 
         <details class="interactive-q">
             <summary>try-catch-finally Block Mechanics</summary>
@@ -561,6 +581,54 @@ import com.baeldung.packages.domain.*;        // Wildcard import</div>
                     <li><strong>catch:</strong> Handles the specific exception. You can chain multiple catches.</li>
                     <li><strong>finally:</strong> Code that <strong>always</strong> executes whether an exception occurs or not. Primarily used to close resources.</li>
                 </ul>
+            </div>
+        </details>
+
+        <details class="interactive-q" open>
+            <summary>Code Example: Handling Multiple Exceptions</summary>
+            <div class="answer-box">
+                <p>This example demonstrates a combination of Checked and Unchecked exceptions, along with their respective outputs.</p>
+                <div class="code-box">import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.Scanner;
+
+public class ExceptionDemo {
+    public static void main(String[] args) {
+        
+        System.out.println("--- 1. Unchecked Exception Demo ---");
+        try {
+            int result = 10 / 0; // ArithmeticException
+        } catch (ArithmeticException e) {
+            System.out.println("Caught Unchecked: " + e.getMessage());
+        }
+
+        try {
+            String text = null;
+            System.out.println(text.length()); // NullPointerException
+        } catch (NullPointerException e) {
+            System.out.println("Caught Unchecked: Null Object Access");
+        }
+
+        System.out.println("\n--- 2. Checked Exception Demo ---");
+        try {
+            // FileNotFoundException is a Checked Exception (subclass of IOException)
+            File file = new File("missing_file.txt");
+            Scanner scanner = new Scanner(file); 
+        } catch (FileNotFoundException e) {
+            System.out.println("Caught Checked: " + e.getMessage());
+        } finally {
+            System.out.println("Finally Block Executed: Cleaning up resources...");
+        }
+    }
+}</div>
+                <p style="margin-top:10px;"><strong>Output:</strong></p>
+                <div class="code-box" style="color: #4ade80;">--- 1. Unchecked Exception Demo ---
+Caught Unchecked: / by zero
+Caught Unchecked: Null Object Access
+
+--- 2. Checked Exception Demo ---
+Caught Checked: missing_file.txt (No such file or directory)
+Finally Block Executed: Cleaning up resources...</div>
             </div>
         </details>
 
@@ -595,14 +663,290 @@ import com.baeldung.packages.domain.*;        // Wildcard import</div>
 
         <hr style="border:0; border-top:1px dashed #10b981; margin: 80px 0;">
 
-        <h2 class="section-header" style="text-align: center;">Part 6: Interview Cheatsheet</h2>
+        <h2 class="section-header">Part 6: String Methods Masterclass</h2>
+        <p>The <code>String</code> class in Java comes packed with numerous built-in methods to manipulate text. Below is an exhaustive list of the most critical 60 methods, logically grouped, with examples and outputs.</p>
+
+        <details class="interactive-q">
+            <summary>1. Basic Information & Extraction</summary>
+            <div class="answer-box">
+                <div class="code-box">String s = "Hello Java";
+
+// 1. length(): Returns number of characters
+System.out.println(s.length()); // 10
+
+// 2. charAt(int index): Returns char at index
+System.out.println(s.charAt(1)); // 'e'
+
+// 17. isEmpty(): True if length is 0
+System.out.println(s.isEmpty()); // false
+
+// 18. isBlank(): True if empty or contains only whitespace (Java 11)
+System.out.println("   ".isBlank()); // true
+
+// 36. toCharArray(): Converts string to char array
+char[] arr = s.toCharArray(); 
+System.out.println(arr[0]); // 'H'
+
+// 37. getBytes(): Encodes string into a sequence of bytes
+byte[] bytes = s.getBytes();
+System.out.println(bytes[0]); // 72 (ASCII for H)
+
+// 60. hashCode(): Returns a hash code for this string
+System.out.println(s.hashCode()); // e.g. -862545276</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>2. Substrings & Splitting</summary>
+            <div class="answer-box">
+                <div class="code-box">String s = "apple,banana,cherry";
+
+// 3. substring(int beginIndex): Returns substring from index to end
+System.out.println(s.substring(6)); // "banana,cherry"
+
+// 4. substring(int beginIndex, int endIndex): Returns substring from begin to end-1
+System.out.println(s.substring(0, 5)); // "apple"
+
+// 50. subSequence(int beginIndex, int endIndex): Returns CharSequence
+System.out.println(s.subSequence(0, 5)); // "apple"
+
+// 31. split(String regex): Splits string around matches of given regex
+String[] parts = s.split(",");
+System.out.println(parts[1]); // "banana"
+
+// 32. split(String regex, int limit): Splits with maximum array size
+String[] partsLimit = s.split(",", 2);
+System.out.println(partsLimit[1]); // "banana,cherry"
+
+// 43. lines(): Returns stream of lines extracted from string (Java 11)
+"Line1\nLine2".lines().forEach(System.out::println); 
+// Output: Line1 (newline) Line2</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>3. Searching & Pattern Matching</summary>
+            <div class="answer-box">
+                <div class="code-box">String txt = "Learning Java is fun";
+
+// 5. contains(CharSequence s): Returns true if sequence exists
+System.out.println(txt.contains("Java")); // true
+
+// 23. startsWith(String prefix): Tests if string starts with prefix
+System.out.println(txt.startsWith("Learn")); // true
+
+// 24. endsWith(String suffix): Tests if string ends with suffix
+System.out.println(txt.endsWith("fun")); // true
+
+// 25. indexOf(int ch): Returns index of first occurrence of char
+System.out.println(txt.indexOf('a')); // 2
+
+// 26. indexOf(String str): Returns index of first occurrence of string
+System.out.println(txt.indexOf("Java")); // 9
+
+// 27. indexOf(String str, int fromIndex): Search starting from index
+System.out.println(txt.indexOf("a", 3)); // 10
+
+// 28. lastIndexOf(String str): Index of last occurrence
+System.out.println(txt.lastIndexOf("a")); // 12
+
+// 29. lastIndexOf(String str, int fromIndex): Search backwards from index
+System.out.println(txt.lastIndexOf("a", 11)); // 10
+
+// 30. matches(String regex): Tests if string matches regex
+System.out.println("12345".matches("\\d+")); // true
+
+// 49. regionMatches(int toffset, String other, int ooffset, int len)
+System.out.println(txt.regionMatches(9, "Java", 0, 4)); // true</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>4. Comparisons & Equality</summary>
+            <div class="answer-box">
+                <div class="code-box">String s1 = "java";
+String s2 = "JAVA";
+
+// 6. equals(Object obj): Exact match comparison
+System.out.println(s1.equals(s2)); // false
+
+// 7. equalsIgnoreCase(String anotherString): Case-insensitive match
+System.out.println(s1.equalsIgnoreCase(s2)); // true
+
+// 8. compareTo(String anotherString): Lexicographical comparison
+System.out.println("apple".compareTo("banana")); // Negative value (a comes before b)
+
+// 9. compareToIgnoreCase(String str): Lexicographical, ignoring case
+System.out.println("apple".compareToIgnoreCase("APPLE")); // 0
+
+// 48. contentEquals(CharSequence cs): Compares string to any CharSequence (like StringBuffer)
+System.out.println(s1.contentEquals(new StringBuffer("java"))); // true</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>5. Modification, Formatting & Replacing</summary>
+            <div class="answer-box">
+                <div class="code-box">String txt = "  Hello World  ";
+
+// 10. concat(String str): Appends string to the end
+System.out.println("Hi".concat(" there")); // "Hi there"
+
+// 11. toUpperCase(): Converts all chars to upper case
+System.out.println("hi".toUpperCase()); // "HI"
+
+// 12. toLowerCase(): Converts all chars to lower case
+System.out.println("HI".toLowerCase()); // "hi"
+
+// 13. trim(): Removes leading and trailing whitespace
+System.out.println(txt.trim()); // "Hello World"
+
+// 14. strip(): Unicode-aware whitespace removal (Java 11)
+System.out.println(txt.strip()); // "Hello World"
+
+// 15. stripLeading(): Removes starting whitespace
+System.out.println(txt.stripLeading()); // "Hello World  "
+
+// 16. stripTrailing(): Removes ending whitespace
+System.out.println(txt.stripTrailing()); // "  Hello World"
+
+// 19. replace(char oldChar, char newChar): Replace character
+System.out.println("aba".replace('a', 'o')); // "obo"
+
+// 20. replace(CharSequence target, CharSequence replacement): Replace string
+System.out.println("cat dog".replace("cat", "bat")); // "bat dog"
+
+// 21. replaceAll(String regex, String replacement): Replace by regex
+System.out.println("1a2b".replaceAll("\\d", "#")); // "#a#b"
+
+// 22. replaceFirst(String regex, String replacement): Replace first regex match
+System.out.println("1a2b".replaceFirst("\\d", "#")); // "#a2b"
+
+// 33. join(CharSequence delimiter, CharSequence... elements)
+System.out.println(String.join("-", "A", "B", "C")); // "A-B-C"
+
+// 34 & 57. repeat(int count): Repeats string
+System.out.println("A".repeat(3)); // "AAA"
+
+// 42. format(String format, Object... args): Formats string natively
+System.out.println(String.format("Value: %d", 100)); // "Value: 100"
+
+// 53. indent(int n): Adjusts indentation (Java 12)
+System.out.println("Hi".indent(2)); // "  Hi\n"
+
+// 54. stripIndent(): Removes incidental whitespace (Java 15)
+System.out.println("  Hi".stripIndent()); // "Hi\n"
+
+// 55. translateEscapes(): Translates escape sequences (Java 15)
+System.out.println("Hi\\nThere".translateEscapes()); // Hi (newline) There
+
+// 56. formatted(Object... args): Instance method equivalent to String.format (Java 15)
+System.out.println("Value: %d".formatted(50)); // "Value: 50"</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>6. Value Conversions & Advanced Memory</summary>
+            <div class="answer-box">
+                <div class="code-box">// 38. valueOf(int i): Converts int to string
+System.out.println(String.valueOf(100)); // "100"
+
+// 39. valueOf(double d): Converts double to string
+System.out.println(String.valueOf(10.5)); // "10.5"
+
+// 40. valueOf(boolean b): Converts boolean to string
+System.out.println(String.valueOf(true)); // "true"
+
+// 41. copyValueOf(char[] data): Equivalent to valueOf(char[])
+char[] data = {'a', 'b', 'c'};
+System.out.println(String.copyValueOf(data)); // "abc"
+
+// 35. intern(): Returns canonical representation for string object (Memory pool)
+String s1 = new String("A");
+String s2 = "A";
+System.out.println(s1 == s2); // false
+System.out.println(s1.intern() == s2); // true
+
+// 58. describeConstable(): Returns Optional containing nominal descriptor (Java 12)
+System.out.println("Hi".describeConstable().isPresent()); // true
+
+// 59. resolveConstantDesc(MethodHandles.Lookup lookup): Resolves nominal descriptor
+// Advanced JVM feature used internally for InvokeDynamic and method handles.</div>
+            </div>
+        </details>
+
+        <details class="interactive-q">
+            <summary>7. Streams & Code Points (Advanced)</summary>
+            <div class="answer-box">
+                <div class="code-box">String s = "Hi\uD83D\uDE00"; // "Hi😀" (Emoji uses surrogate pairs)
+
+// 44. codePointAt(int index): Returns character (Unicode code point) at index
+System.out.println(s.codePointAt(2)); // 128512 (Decimal for 😀)
+
+// 45. codePointBefore(int index): Returns code point preceding index
+System.out.println(s.codePointBefore(4)); // 128512
+
+// 46. codePointCount(int beginIndex, int endIndex): Returns number of Unicode code points
+System.out.println(s.codePointCount(0, s.length())); // 3 (H, i, and 😀)
+
+// 47. offsetByCodePoints(int index, int codePointOffset): Returns index offset by code points
+System.out.println(s.offsetByCodePoints(0, 3)); // 4
+
+// 51. bytes(): Returns IntStream of bytes (Java 9 deprecated, now similar concepts used)
+// Note: Usually people use getBytes() or charset encoders.
+
+// 52. chars(): Returns IntStream of char values
+s.chars().forEach(c -> System.out.print(c + " ")); 
+// Outputs ASCII/Unicode char decimal values</div>
+            </div>
+        </details>
+
+        <hr style="border:0; border-top:1px dashed #10b981; margin: 80px 0;">
+
+        <h2 class="section-header" style="text-align: center;">Part 7: Interview Cheatsheet</h2>
 
         <h3 class="sub-header">String vs StringBuilder vs StringBuffer</h3>
         <ul class="bullet-list">
-            <li><strong>String:</strong> Immutable perfectly. Stored in String Constant Pool. Threads-safe intuitively.</li>
-            <li><strong>StringBuilder:</strong> Mutable. Extremely fast. Not thread-safe.</li>
-            <li><strong>StringBuffer:</strong> Mutable. Thread-safe (Synchronized). Slower operations.</li>
+            <li><strong>String:</strong> Immutable (cannot be changed). Perfect for constants, keys in HashMaps, and data that shouldn't be altered. Because it's immutable, it's inherently thread-safe.</li>
         </ul>
+
+        <details class="interactive-q" open>
+            <summary>When to use StringBuilder? (Scenarios & Examples)</summary>
+            <div class="answer-box">
+                <p><strong>Use Case:</strong> Use <code>StringBuilder</code> when you have a <strong>single-threaded</strong> environment and you need to perform many string concatenations, modifications, or building operations (like inside loops). It is mutable and <strong>extremely fast</strong> because it does not use synchronization.</p>
+                <div class="code-box">// Scenario: Generating a large CSV string or JSON payload in a single thread
+StringBuilder jsonBuilder = new StringBuilder();
+jsonBuilder.append("{\n");
+for(int i = 1; i <= 3; i++) {
+    jsonBuilder.append("  \"id\": ").append(i).append(",\n");
+}
+jsonBuilder.append("}");
+
+System.out.println(jsonBuilder.toString());
+// Fast, efficient, and no memory waste!</div>
+            </div>
+        </details>
+
+        <details class="interactive-q" open>
+            <summary>When to use StringBuffer? (Scenarios & Examples)</summary>
+            <div class="answer-box">
+                <p><strong>Use Case:</strong> Use <code>StringBuffer</code> when you have a <strong>multi-threaded</strong> environment where multiple threads are trying to append or modify the <em>same</em> string object simultaneously. It is mutable but <strong>thread-safe (synchronized)</strong>, meaning only one thread can modify it at a time. This makes it slightly slower than StringBuilder, but completely safe for concurrent operations.</p>
+                <div class="code-box">// Scenario: A central logging system accessed by multiple web-server threads
+StringBuffer sharedLog = new StringBuffer();
+
+Runnable task = () -> {
+    // Multiple threads hitting this simultaneously is safe!
+    sharedLog.append("User Logged In at: ").append(System.currentTimeMillis()).append("\n");
+};
+
+Thread t1 = new Thread(task);
+Thread t2 = new Thread(task);
+t1.start();
+t2.start();
+
+// sharedLog will correctly contain both lines without data corruption.</div>
+            </div>
+        </details>
 
         <h3 class="sub-header">== vs .equals()</h3>
         <ul class="bullet-list">
@@ -612,7 +956,7 @@ import com.baeldung.packages.domain.*;        // Wildcard import</div>
 
         <hr style="border:0; border-top:1px dashed var(--accent-main); margin: 80px 0;">
 
-        <h2 class="section-header">Part 7: Practical Coding Tasks</h2>
+        <h2 class="section-header">Part 8: Practical Coding Tasks</h2>
         
         <div style="background: rgba(16, 185, 129, 0.05); padding: 25px; border-radius: 12px; border: 1px dashed var(--accent-main); margin-bottom: 30px;">
             <p style="font-weight: bold; color: #fff; margin-bottom: 10px;"><i class='bx bx-task'></i> Task 1: Name Processor & Immutability Proof</p>

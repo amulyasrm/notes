@@ -45,7 +45,7 @@
     </header>
 
     <main class="container">
-        <a href="../index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Developer Hub</a>
+        <a href="../java/index.html" class="nav-back"><i class='bx bx-home-alt'></i> Back to Java Hub</a>
 
         <!-- MY DETAILED VERSION -->
         <!-- 1. OOP FOUNDATION -->
@@ -59,8 +59,28 @@
             <li><strong>Features (The 4 Pillars):</strong> Encapsulation, Inheritance, Polymorphism, Abstraction.</li>
         </ul>
 
-        <!-- 2. CLASSES & OBJECTS -->
-        <h3 class="sub-header">2. Classes & Objects</h3>
+        <!-- 2. DATA TYPES & VARIABLES -->
+        <h3 class="sub-header">2. Data Types and Variables</h3>
+        <p>Java is a strongly typed language, meaning every variable must be declared with a data type.</p>
+        <ul class="bullet-list">
+            <li><strong>Primitive Types:</strong> Hold simple values directly in memory. Examples: <code>int</code>, <code>float</code>, <code>double</code>, <code>boolean</code>, <code>char</code>.</li>
+            <li><strong>Reference Types:</strong> Store the memory address of an object. Examples: Object references, <code>String</code>, Arrays. Default value is <code>null</code>.</li>
+            <li><strong>Type Casting:</strong> Converting one data type to another.
+                <ul class="bullet-list" style="margin-top: 5px;">
+                    <li><em>Implicit (Widening):</em> Automatic conversion (smaller to larger). E.g., <code>int</code> &rarr; <code>long</code>.</li>
+                    <li><em>Explicit (Narrowing):</em> Manual conversion (larger to smaller, risk of data loss). E.g., <code>int x = (int) 10.5;</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Constants and Literals:</strong>
+                <ul class="bullet-list" style="margin-top: 5px;">
+                    <li><em>Literals:</em> Fixed values directly in code (e.g., <code>"Hello"</code>, <code>100</code>).</li>
+                    <li><em>Constants:</em> Enforced using the <code>final</code> keyword. <strong>Importance:</strong> Ensures critical data cannot be modified post-initialization (e.g., <code>final double PI = 3.14159;</code>).</li>
+                </ul>
+            </li>
+        </ul>
+
+        <!-- 3. CLASSES & OBJECTS -->
+        <h3 class="sub-header">3. Classes & Objects</h3>
         <ul class="bullet-list">
             <li><strong>Class:</strong> A logical blueprint or template (e.g., the architectural drawing of a house).</li>
             <li><strong>Object:</strong> A physical instance of the class consuming exact memory (e.g., the actual house built from the drawing).</li>
@@ -69,8 +89,8 @@
             <li><strong>`this` keyword:</strong> Represents the current executing object dynamically. Used to distinguish instance variables from identically-named local method parameters.</li>
         </ul>
 
-        <!-- 16. MEMORY CONCEPT -->
-        <h3 class="sub-header">3. The Memory Concept (Stack vs Heap)</h3>
+        <!-- 4. MEMORY CONCEPT -->
+        <h3 class="sub-header">4. The Memory Concept (Stack vs Heap)</h3>
         <ul class="bullet-list">
             <li><strong>Heap Memory:</strong> Every time you use the `new` keyword, the actual physical Object is allocated inside the vast Heap map.</li>
             <li><strong>Stack Memory:</strong> Holds short-lived local variables and the actual Reference pointers tracking the Heap objects.</li>
@@ -264,7 +284,16 @@ p.draw(); // Calls the Child's draw() exclusively at runtime dynamically!</div>
             <li>Abstraction</li>
         </ul>
 
-        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">2. Classes & Objects</h3>
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">2. Data Types & Variables</h3>
+        <ul class="bullet-list">
+            <li><strong>Primitive Types:</strong> <code>int</code>, <code>float</code>, <code>boolean</code>, etc.</li>
+            <li><strong>Reference Types:</strong> Objects, <code>String</code>, Arrays.</li>
+            <li><strong>Implicit Casting:</strong> Automatic (smaller &rarr; larger).</li>
+            <li><strong>Explicit Casting:</strong> Manual (larger &rarr; smaller). Requires <code>(type)</code>.</li>
+            <li><strong>Constants:</strong> Use <code>final</code> to freeze the value.</li>
+        </ul>
+
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">3. Classes & Objects</h3>
         <ul class="bullet-list">
             <li><strong>Class:</strong> Blueprint</li>
             <li><strong>Object:</strong> Instance of class</li>
@@ -280,7 +309,7 @@ p.draw(); // Calls the Child's draw() exclusively at runtime dynamically!</div>
             <li>Used to avoid confusion</li>
         </ul>
 
-        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">3. Memory Concept</h3>
+        <h3 class="sub-header" style="border-color: #f9826c; color: #f9826c;">4. Memory Concept</h3>
         <div class="code-box">Student s = new Student();</div>
         <ul class="bullet-list">
             <li><strong>Object:</strong> stored in Heap</li>

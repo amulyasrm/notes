@@ -97,11 +97,13 @@
                 <a href="#multi-model" style="color:var(--accent-main); text-decoration:none;">5. Multi-Model Ecosystem</a>
                 <a href="#persistence" style="color:var(--accent-main); text-decoration:none;">6. Enterprise Persistence (Firebase)</a>
                 <a href="#rag-intro" style="color:var(--accent-main); text-decoration:none;">7. RAG Fundamentals</a>
-                <a href="#conv-rag" style="color:var(--accent-main); text-decoration:none;">8. Conversational RAG</a>
-                <a href="#web-scraping" style="color:var(--accent-main); text-decoration:none;">9. Enterprise Web Scraping</a>
-                <a href="#agents-intro" style="color:var(--accent-main); text-decoration:none;">10. Autonomous Agents</a>
-                <a href="#tools-dev" style="color:var(--accent-main); text-decoration:none;">11. Supercharging with Tools</a>
-                <a href="#multi-agent" style="color:var(--accent-main); text-decoration:none;">12. Multi-Agent Architectures</a>
+                <a href="#rag-code" style="color:var(--accent-main); text-decoration:none;">8. RAG Code Implementation</a>
+                <a href="#conv-rag" style="color:var(--accent-main); text-decoration:none;">9. Conversational RAG</a>
+                <a href="#web-scraping" style="color:var(--accent-main); text-decoration:none;">10. Enterprise Web Scraping</a>
+                <a href="#agents-intro" style="color:var(--accent-main); text-decoration:none;">11. Autonomous Agents</a>
+                <a href="#tools-dev" style="color:var(--accent-main); text-decoration:none;">12. Supercharging with Tools</a>
+                <a href="#openai-functions" style="color:var(--accent-main); text-decoration:none;">13. OpenAI Function Calling</a>
+                <a href="#multi-agent" style="color:var(--accent-main); text-decoration:none;">14. Multi-Agent Architectures</a>
             </div>
         </div>
 
@@ -312,10 +314,170 @@ chat_history.add_ai_message("How can I help you today?")</div>
                 <li><strong>Embeddings:</strong> Converting text into mathematical vectors that capture semantic meaning.</li>
                 <li><strong>Retrievers:</strong> The interface between the model and the vector database, selecting the "Top-K" most relevant chunks.</li>
             </ul>
+
+            <h3 class="sub-header" style="margin-top: 40px;">RAG Architecture & Workflow (Visualized)</h3>
+            <p>Based on the masterclass diagrams and transcript, the RAG architecture is broken down into three critical phases to overcome the knowledge constraints of standard LLMs:</p>
+            
+            <div class="param-grid">
+                <div class="param-card">
+                    <strong>1. Expanding LLM Knowledge</strong>
+                    <p>LLMs (like ChatGPT or Gemini) have strict knowledge cut-off dates and no access to your private data. RAG acts as a bridge, allowing you to feed external knowledge sources—such as <strong>Websites, PDFs, Code, and Video Transcripts</strong>—directly into the LLM's central knowledge base. This eliminates hallucinations and provides up-to-date, specialized answers.</p>
+                </div>
+                
+                <div class="param-card">
+                    <strong>2. Data Ingestion (Chunking & Embedding)</strong>
+                    <p>A massive document (e.g., a 10M token PDF) is too large for an LLM's context window (e.g., 8K tokens for ChatGPT). RAG breaks the document into smaller <strong>Chunks</strong> (e.g., 1K tokens each). These chunks are passed through an LLM Embedder to convert the text into <strong>Embeddings</strong>—numerical arrays representing semantic meaning (e.g., "dog" and "cat" have similar numerical arrays, whereas "house" is completely different). These embeddings are then stored in a <strong>Vector Store</strong>.</p>
+                </div>
+
+                <div class="param-card">
+                    <strong>3. Q&A Retrieval Flow</strong>
+                    <p>When a user asks a question, the query itself is converted into an embedding. A <strong>Retriever</strong> searches the Vector Store to find the most mathematically similar chunks (e.g., finding exact matches for "professor" and "werewolf"). These highly relevant chunks are retrieved and passed directly to ChatGPT alongside the original question, allowing the AI to generate a highly informed, context-aware response based exclusively on the provided documents.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- 2. CONVERSATIONAL RAG -->
-        <h2 class="section-header" id="conv-rag"><i class='bx bx-chat'></i> 2. Conversational RAG</h2>
+        <!-- 2. RAG CODE IMPLEMENTATION -->
+        <h2 class="section-header" id="rag-code"><i class='bx bx-code-block'></i> 2. Practical Implementation (RAG Basics)</h2>
+        <div class="content-card">
+            <p>Below is the step-by-step Python implementation of the RAG pipeline discussed above, using LangChain, OpenAI, and ChromaDB. It is divided into two scripts: Data Ingestion and Q&A Retrieval.</p>
+            
+            <h3 class="sub-header">Part 1: Data Ingestion (<code>1a_rag_basics.py</code>)</h3>
+            <p>This script loads a text file, splits it into manageable chunks, creates embeddings, and saves them to a persistent Chroma vector database.</p>
+            <div class="code-box">import os
+
+from langchain.text_splitter import CharacterTextSplitter
+from langchain_community.document_loaders import TextLoader
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+
+# Define the directory containing the text file and the persistent directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+file_path = os.path.join(current_dir, "books", "odyssey.txt")
+persistent_directory = os.path.join(current_dir, "db", "chroma_db")
+
+# Check if the Chroma vector store already exists
+if not os.path.exists(persistent_directory):
+    print("Persistent directory does not exist. Initializing vector store...")
+
+    # Ensure the text file exists
+    if not os.path.exists(file_path):
+        raise FileNotFoundError(
+            f"The file {file_path} does not exist. Please check the path."
+        )
+
+    # Read the text content from the file
+    loader = TextLoader(file_path)
+    documents = loader.load()
+
+    # Split the document into chunks
+    text_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=0)
+    docs = text_splitter.split_documents(documents)
+    
+    # Create embeddings and vector store
+    print("\n--- Creating embeddings and vector store ---")
+    embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+    db = Chroma.from_documents(docs, embeddings, persist_directory=persistent_directory)
+    print("\n--- Finished creating vector store ---")
+else:
+    print("Vector store already exists. No need to initialize.")</div>
+
+            <h3 class="sub-header">Part 2: Q&A Retrieval (<code>1b_rag_basics.py</code>)</h3>
+            <p>This script loads the previously created persistent database and performs a similarity search to retrieve the most relevant document chunks based on a user's question.</p>
+            <div class="code-box">import os
+
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
+
+# Define the persistent directory
+current_dir = os.path.dirname(os.path.abspath(__file__))
+persistent_directory = os.path.join(current_dir, "db", "chroma_db")
+
+# Define the embedding model
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+
+# Load the existing vector store with the embedding function
+db = Chroma(persist_directory=persistent_directory, embedding_function=embeddings)
+
+# Define the user's question
+query = "Who is Odysseus' wife?"
+
+# Retrieve relevant documents based on the query
+retriever = db.as_retriever(
+    search_type="similarity_score_threshold",
+    search_kwargs={"k": 3, "score_threshold": 0.4},
+)
+
+relevant_docs = retriever.invoke(query)
+
+# Display the relevant results with metadata
+print("\n--- Relevant Documents ---")
+for i, doc in enumerate(relevant_docs, 1):
+    print(f"Document {i}:\n{doc.page_content}\n")
+    if doc.metadata:
+        print(f"Source: {doc.metadata.get('source', 'Unknown')}\n")</div>
+        </div>
+
+        <h3 class="sub-header">Part 3: Document Metadata (<code>2a_rag_basics_metadata.py</code>)</h3>
+        <p>Adding metadata to document chunks allows the LLM to reference exactly where it got the information from (e.g., citing a specific book or source file).</p>
+        <div class="code-box"># Iterate through multiple text files and append metadata
+for book_file in os.listdir(books_dir):
+    if book_file.endswith(".txt"):
+        file_path = os.path.join(books_dir, book_file)
+        loader = TextLoader(file_path)
+        book_docs = loader.load()
+        
+        # Add metadata source
+        for doc in book_docs:
+            doc.metadata["source"] = book_file
+        
+        documents.extend(book_docs)
+
+# Now when retrieving, doc.metadata.get('source') will return the specific book name.</div>
+
+        <h3 class="sub-header">Part 4: Text Splitting Deep Dive (<code>3_rag_text_splitting.py</code>)</h3>
+        <p>Explore different chunking strategies. <strong>RecursiveCharacterTextSplitter</strong> is highly recommended as it preserves natural boundaries like paragraphs and sentences.</p>
+        <div class="code-box">from langchain.text_splitter import CharacterTextSplitter, RecursiveCharacterTextSplitter, TokenTextSplitter
+
+# 1. Character Splitter (Basic text chunks)
+char_splitter = CharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+
+# 2. Recursive Character Splitter (Highly Recommended - splits around natural boundaries)
+recursive_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+
+# 3. Token Splitter (Splits strictly by AI token count)
+token_splitter = TokenTextSplitter(chunk_size=1000, chunk_overlap=100)</div>
+
+        <h3 class="sub-header">Part 5: Embedding Deep Dive (<code>4_rag_embedding.py</code>)</h3>
+        <p>Switch between powerful API-based models (OpenAI) and free, open-source models that run locally (Hugging Face).</p>
+        <div class="code-box">from langchain_openai import OpenAIEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
+
+# 1. OpenAI Embeddings (Highly accurate, requires API key)
+openai_embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+
+# 2. Hugging Face Embeddings (Free, runs locally, trades off some accuracy for zero API cost)
+huggingface_embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-MiniLM-L6-v2"
+)</div>
+
+        <h3 class="sub-header">Part 6: Retriever Deep Dive (<code>5_rag_retriever.py</code>)</h3>
+        <p>Optimize how you query the vector store by fine-tuning the search parameters.</p>
+        <div class="code-box"># 1. Similarity Score Threshold (Only returns chunks above a 40% match threshold)
+retriever = db.as_retriever(
+    search_type="similarity_score_threshold",
+    search_kwargs={"k": 3, "score_threshold": 0.4}
+)
+
+# 2. Max Marginal Relevance (MMR)
+# Balances returning similar documents with diversifying the results to capture broader context
+mmr_retriever = db.as_retriever(
+    search_type="mmr",
+    search_kwargs={"k": 3, "lambda_mult": 0.5} 
+)</div>
+        </div>
+
+        <!-- 3. CONVERSATIONAL RAG -->
+        <h2 class="section-header" id="conv-rag"><i class='bx bx-chat'></i> 3. Conversational RAG</h2>
         <div class="content-card">
             <h3 class="sub-header">Managing History-Aware Retrieval</h3>
             <p>Standard RAG takes a single query and returns results. Conversational RAG requires the model to understand the *entire* dialogue history to reformulate queries for the vector store.</p>
@@ -338,8 +500,8 @@ contextualize_q_system_prompt = (
             </ul>
         </div>
 
-        <!-- 3. ENTERPRISE WEB SCRAPING -->
-        <h2 class="section-header" id="web-scraping"><i class='bx bx-globe'></i> 3. Advanced Web Scraping</h2>
+        <!-- 4. ENTERPRISE WEB SCRAPING -->
+        <h2 class="section-header" id="web-scraping"><i class='bx bx-globe'></i> 4. Advanced Web Scraping</h2>
         <div class="content-card">
             <p>Building a RAG system often starts with data collection. LangChain provides multiple loaders, but not all are created equal.</p>
             
@@ -357,46 +519,176 @@ contextualize_q_system_prompt = (
             <h3 class="sub-header">Why Firecrawl?</h3>
             <p>Firecrawl turns the "gross" HTML into a markdown version that is easy for LLMs to navigate. It uses a "crawl" vs "scrape" mode—crawl follows links to map a site, while scrape targets a specific page depth.</p>
             
-            <div class="code-box"># Initializing Firecrawl
-from langchain_community.document_loaders import FireCrawlLoader
+            <h3 class="sub-header">Implementation: Web Scraping Pipeline</h3>
+            <p>The pipeline remains identical to loading a local text file, except we swap the <code>TextLoader</code> with a web-based loader.</p>
+            
+            <div class="code-box">import os
+from langchain_community.document_loaders import WebBaseLoader, FireCrawlLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain_community.vectorstores import Chroma
+from langchain_openai import OpenAIEmbeddings
 
+# 1. Initialize the Loader (Choose One)
+# Option A: Standard Web Loader
+# loader = WebBaseLoader("https://apple.com")
+
+# Option B: Firecrawl Loader (Superior for clean Markdown)
 loader = FireCrawlLoader(
-    api_key="your_key",
+    api_key=os.getenv("FIRECRAWL_API_KEY"),
     url="https://apple.com",
     mode="scrape"
-)</div>
+)
+
+# 2. Load and extract the website content
+documents = loader.load()
+
+# 3. Split the extracted content into chunks
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=100)
+docs = text_splitter.split_documents(documents)
+
+# 4. Embed and store in a persistent Vector Database
+embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+persistent_directory = os.path.join(os.path.dirname(__file__), "db", "apple_db")
+
+db = Chroma.from_documents(docs, embeddings, persist_directory=persistent_directory)
+
+# 5. Query the newly created Web-Scraped Database
+retriever = db.as_retriever(
+    search_type="similarity_score_threshold",
+    search_kwargs={"k": 3, "score_threshold": 0.4}
+)
+
+relevant_docs = retriever.invoke("What are the latest features of the iPhone?")
+print(relevant_docs)</div>
         </div>
 
-        <!-- 4. AUTONOMOUS AGENTS -->
-        <h2 class="section-header" id="agents-intro"><i class='bx bx-bot'></i> 4. Autonomous Agents</h2>
+        <!-- 5. AUTONOMOUS AGENTS -->
+        <h2 class="section-header" id="agents-intro"><i class='bx bx-bot'></i> 5. Autonomous Agents</h2>
         <div class="content-card">
-            <p>An Agent is an LLM acting as a <strong>State Machine</strong>. It doesn't just predict text; it plans, iterates, and executes actions.</p>
+            <p>To understand Agents in simple English, think of a standard LLM (like ChatGPT) as a highly intelligent brain trapped in a box. It can write essays and answer questions based on its training data, but it cannot <em>do</em> anything in the real world.</p>
+            <p>An <strong>Autonomous Agent</strong> is when you take that brain, give it a checklist (a goal), and give it a pair of hands (tools) so it can interact with the outside world. Instead of just giving you an answer right away, the Agent is allowed to stop, think, use a tool, read the result, and then think again until it solves your problem.</p>
             
             <h3 class="sub-header">The ReAct Loop (Reason + Act)</h3>
+            <p>The core engine behind how an Agent thinks is called the <strong>ReAct</strong> framework. It works in a continuous loop:</p>
             <ul class="bullet-list">
-                <li><strong>Thought:</strong> The agent plans its next move based on the goal and current observation.</li>
-                <li><strong>Action:</strong> The agent selects a tool to execute (e.g., "Search Wikipedia").</li>
-                <li><strong>Observation:</strong> The agent reads the result of the tool execution and updates its understanding.</li>
+                <li><strong>Thought (Reasoning):</strong> "The user wants to know the current weather in Paris. I don't know the current weather because my training data is old. I need to look it up."</li>
+                <li><strong>Action (Acting):</strong> The agent decides to use the "Weather Search Tool" and types in "Paris".</li>
+                <li><strong>Observation:</strong> The tool returns: <em>"It is currently 22°C and sunny in Paris."</em></li>
+                <li><strong>Next Thought:</strong> "I now have the answer. I will give it to the user."</li>
             </ul>
 
             <div class="highlight-box">
-                <p><strong>Agent Executor:</strong> The runtime that manages the loop, handling tool calls and feeding results back into the agent's memory.</p>
+                <p><strong>Agent Executor:</strong> This is the "manager" program that watches the Agent. It makes sure the Agent doesn't get stuck in an infinite loop and handles the actual passing of data between the Agent's brain and the Tools.</p>
             </div>
         </div>
 
-        <!-- 5. SUPERCHARGING WITH TOOLS -->
-        <h2 class="section-header" id="tools-dev"><i class='bx bx-wrench'></i> 5. Tool Development Ecosystem</h2>
+        <!-- 6. SUPERCHARGING WITH TOOLS -->
+        <h2 class="section-header" id="tools-dev"><i class='bx bx-wrench'></i> 6. Tools: The Agent's Superpowers</h2>
         <div class="content-card">
-            <p>Tools provide agents with "superpowers"—the ability to interact with the outside world, run code, or access databases.</p>
+            <p>If the Agent is the brain, <strong>Tools</strong> are the hands, eyes, and ears. Without tools, an Agent is just a chatbot. Tools allow the Agent to browse the web, read your private database, run Python code, or even send emails on your behalf.</p>
             
-            <h3 class="sub-header">Types of Tools</h3>
+            <h3 class="sub-header">How do Tools work?</h3>
+            <p>You cannot just hand a Python script to an AI and expect it to know how to use it. You have to clearly explain the tool to the AI. You do this by providing a strict set of rules (a schema) that tells the AI: <em>"Here is what this tool does, and here are the exact variables you need to provide to make it work."</em></p>
+
+            <h3 class="sub-header">Types of Tools in LangChain</h3>
             <ul class="bullet-list">
-                <li><strong>Tool Constructor:</strong> Creating simple tools from Python functions using `@tool` decorators.</li>
-                <li><strong>Structured Tools:</strong> Defining complex input schemas using <strong>Pydantic</strong> models to ensure the agent passes the correct arguments.</li>
-                <li><strong>BaseTool Inheritance:</strong> Creating custom classes for maximum control, defining both synchronous and asynchronous behavior.</li>
+                <li><strong>The <code>@tool</code> Decorator (Simple):</strong> The easiest way. You just take a normal Python function, add <code>@tool</code> above it, and write a very clear docstring. The LLM reads that docstring to figure out what the function does.</li>
+                <li><strong>Structured Tools (Advanced):</strong> Used for complex tools that require multiple inputs. We use <strong>Pydantic</strong> (a data validation library) to force the LLM to provide inputs in the exact right format (e.g., forcing it to provide both a 'city' and a 'date' for a weather tool).</li>
+                <li><strong>BaseTool Inheritance (Expert):</strong> Creating a custom tool class from scratch. This gives you maximum control over how the tool handles errors or runs in the background.</li>
             </ul>
 
+            <h3 class="sub-header">Implementation 1: Basic Python Function Tool</h3>
+            <p>Here is a complete example of how to build a simple tool using the <code>@tool</code> decorator, and then pass it to an Agent so the LLM can answer questions about the real world.</p>
+            <div class="code-box">from langchain_openai import ChatOpenAI
+from langchain.agents import tool, create_tool_calling_agent, AgentExecutor
+from langchain_core.prompts import ChatPromptTemplate
+
+# 1. Create a Simple Tool
+@tool
+def get_system_time(format_string: str = "%Y-%m-%d") -> str:
+    """Returns the current system date and time. Use this whenever the user asks for the current time or date."""
+    import datetime
+    return datetime.datetime.now().strftime(format_string)
+
+tools = [get_system_time]
+
+# 2. Initialize the LLM (The Brain)
+llm = ChatOpenAI(model="gpt-4o", temperature=0)
+
+# 3. Create the Prompt and Agent
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant. Use the provided tools when necessary."),
+    ("human", "{input}"),
+    ("placeholder", "{agent_scratchpad}") # This is where the Agent stores its 'Thoughts'
+])
+
+agent = create_tool_calling_agent(llm, tools, prompt)
+
+# 4. Run the Agent using the Executor (The Manager)
+agent_executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
+
+# 5. Ask a question that requires the tool
+response = agent_executor.invoke({"input": "What is the exact date today?"})
+print(response["output"])</div>
+
+            <h3 class="sub-header">Implementation 2: Pre-built External Tools (Wikipedia)</h3>
+            <p>LangChain comes with hundreds of pre-built tools for interacting with external APIs, like Wikipedia, Google Search, or GitHub.</p>
+            <div class="code-box">from langchain_community.tools import WikipediaQueryRun
+from langchain_community.utilities import WikipediaAPIWrapper
+
+# Initialize the Wikipedia tool
+api_wrapper = WikipediaAPIWrapper(top_k_results=1, doc_content_chars_max=100)
+wikipedia_tool = WikipediaQueryRun(api_wrapper=api_wrapper)
+
+# Add it to our tool list
+tools = [get_system_time, wikipedia_tool]
+
+# Now the agent can answer: "Who is George Washington?" by searching Wikipedia!</div>
+
+            <h3 class="sub-header">Implementation 3: RAG Retriever Tool</h3>
+            <p>You can convert any Vector Database retriever into a tool, allowing the Agent to search your private documents whenever it needs to!</p>
+            <div class="code-box">from langchain.tools.retriever import create_retriever_tool
+
+# Assume 'db' is our Chroma vector store from the previous section
+retriever = db.as_retriever()
+
+retriever_tool = create_retriever_tool(
+    retriever,
+    name="product_database_search",
+    description="Search for information about our company's internal products and guidelines."
+)
+
+tools = [get_system_time, wikipedia_tool, retriever_tool]</div>
+
+            <h3 class="sub-header">Concept: What is Pydantic?</h3>
+            <p>Before building advanced tools, you need to understand <strong>Pydantic</strong>—a data validation library for Python. Instead of writing long <code>__init__</code> methods, you simply define the expected data types. Pydantic automatically validates the data under the hood. In LangChain, we use Pydantic to strictly enforce exactly what arguments the LLM is allowed to pass to our tools.</p>
+            
+            <div class="param-grid" style="margin-bottom: 25px;">
+                <div class="param-card">
+                    <strong>Normal Python Class</strong>
+                    <div class="code-box" style="margin-top: 10px; background: rgba(0,0,0,0.2);">class User:
+    def __init__(self, name: str, age: int, email: str):
+        self.name = name
+        self.age = age
+        self.email = email</div>
+                </div>
+                <div class="param-card">
+                    <strong>Using Pydantic (BaseModel)</strong>
+                    <div class="code-box" style="margin-top: 10px; background: rgba(0,0,0,0.2);">from pydantic import BaseModel, EmailStr
+
+class User(BaseModel):
+    name: str
+    age: int
+    email: EmailStr</div>
+                </div>
+            </div>
+
+            <h3 class="sub-header">Advanced: Custom Structured Tools (BaseTool)</h3>
+            <p>For more complex tools, we inherit from <code>BaseTool</code> and use Pydantic to strictly enforce what data types the LLM is allowed to pass.</p>
             <div class="code-box"># Custom Tool with Pydantic Schema
+from langchain_core.tools import BaseTool
+from pydantic import BaseModel, Field
+
 class MultiplyNumbersInput(BaseModel):
     a: float = Field(description="First number")
     b: float = Field(description="Second number")
@@ -410,8 +702,65 @@ class MultiplyTool(BaseTool):
         return a * b</div>
         </div>
 
-        <!-- 6. MULTI-AGENT ARCHITECTURES -->
-        <h2 class="section-header" id="multi-agent"><i class='bx bx-group'></i> 6. Multi-Agent Systems (CrewAI)</h2>
+        <!-- 7. OPENAI FUNCTION CALLING -->
+        <h2 class="section-header" id="openai-functions"><i class='bx bx-code-curly'></i> 7. OpenAI Function Calling</h2>
+        <div class="content-card">
+            <p>Once you understand Pydantic, you can use it to strictly format the outputs of OpenAI models by binding functions directly to the LLM. This is the underlying mechanism that powers most agentic tool usage.</p>
+            
+            <h3 class="sub-header">1. Converting Pydantic to OpenAI Functions</h3>
+            <p>LangChain provides a utility to automatically convert your Pydantic schemas into the exact JSON format that OpenAI's API expects for function calling.</p>
+            <div class="code-box">from langchain.utils.openai_functions import convert_pydantic_to_openai_function
+from pydantic import BaseModel, Field
+
+class WeatherSearch(BaseModel):
+    """Call this with an airport code to get the weather at that airport"""
+    airport_code: str = Field(description="airport code to get weather for")
+
+# Converts the Pydantic class into OpenAI's required JSON schema
+weather_function = convert_pydantic_to_openai_function(WeatherSearch)</div>
+
+            <h3 class="sub-header">2. Binding Functions to the Model</h3>
+            <p>You can bind one or multiple functions to the chat model. The LLM will automatically decide which function to trigger based on the user's prompt.</p>
+            <div class="code-box">from langchain.chat_models import ChatOpenAI
+
+model = ChatOpenAI()
+model_with_functions = model.bind(functions=[weather_function, artist_search_function])
+
+# The LLM dynamically decides to trigger 'WeatherSearch'
+model_with_functions.invoke("what is the weather in sf?")
+
+# The LLM dynamically decides to trigger 'ArtistSearch'
+model_with_functions.invoke("what are three songs by taylor swift?")
+
+# If no function is needed, it just talks normally
+model_with_functions.invoke("hi!")</div>
+
+            <h3 class="sub-header">3. Forcing a Specific Function</h3>
+            <p>Sometimes you don't want to leave it up to the LLM. You can explicitly <strong>force</strong> the model to use a specific function, guaranteeing structured output.</p>
+            <div class="code-box"># Force the model to always use the WeatherSearch function
+model_with_forced_function = model.bind(
+    functions=[weather_function], 
+    function_call={"name":"WeatherSearch"}
+)
+
+# Even if the user says "hi!", the model will try to extract an airport code
+model_with_forced_function.invoke("hi!")</div>
+            
+            <h3 class="sub-header">4. Using Bound Models in LCEL Chains</h3>
+            <p>Models bound with functions can be used seamlessly in standard LCEL chains, ensuring structured data extraction at any step of your pipeline.</p>
+            <div class="code-box">from langchain.prompts import ChatPromptTemplate
+
+prompt = ChatPromptTemplate.from_messages([
+    ("system", "You are a helpful assistant"),
+    ("user", "{input}")
+])
+
+chain = prompt | model_with_functions
+chain.invoke({"input": "what is the weather in sf?"})</div>
+        </div>
+
+        <!-- 8. MULTI-AGENT ARCHITECTURES -->
+        <h2 class="section-header" id="multi-agent"><i class='bx bx-group'></i> 7. Multi-Agent Systems (CrewAI)</h2>
         <div class="content-card">
             <p>The future of AI is collaborative. Instead of one monolithic agent, we use specialized agents working together.</p>
             <ul class="bullet-list">

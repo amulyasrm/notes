@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Collection Frameworks</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'dark' });
+    </script>
+    <style>
+        :root {
+            --accent-main: #f9826c;
+        }
+        body { font-family: 'Inter', sans-serif; background: #0d1117; color: #c9d1d9; margin: 0; padding: 0; line-height: 1.6; }
+        .hero { background: radial-gradient(circle at top, rgba(249, 130, 108, 0.15), transparent 60%); padding: 80px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .hero h1 { font-family: 'Outfit', sans-serif; font-size: 3rem; color: #fff; margin-bottom: 10px; }
+        .hero h1 span { color: var(--accent-main); }
+        .hero p { color: #8b949e; font-size: 1.2rem; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 40px 20px; }
+        .nav-back { display: inline-flex; align-items: center; gap: 8px; color: var(--accent-main); text-decoration: none; font-weight: bold; margin-bottom: 30px; }
+        .nav-back:hover { color: #fff; }
+        .section-header { font-size: 2rem; border-bottom: 2px solid rgba(249, 130, 108, 0.3); padding-bottom: 10px; margin-top: 50px; margin-bottom: 20px; color: var(--accent-main); font-family: 'Outfit', sans-serif;}
+        .sub-header { color: #fff; font-size: 1.4rem; margin-top: 30px; margin-bottom: 15px; border-left: 4px solid var(--accent-main); padding-left: 10px;}
+        ul.bullet-list { margin-left: 25px; margin-bottom: 15px; color: #c9d1d9; line-height: 1.7;}
+        ul.bullet-list li strong { color: var(--accent-main); }
+        
+        table.styled-table { width: 100%; border-collapse: collapse; margin: 25px 0; font-size: 0.95em; font-family: 'Inter', sans-serif; min-width: 400px; border-radius: 8px 8px 0 0; overflow: hidden; box-shadow: 0 0 20px rgba(0, 0, 0, 0.15); }
+        table.styled-table thead tr { background-color: rgba(22, 27, 34, 0.8); color: #ffffff; text-align: left; }
+        table.styled-table th, table.styled-table td { padding: 12px 15px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .color-safe { color: #4ade80 !important; font-weight: 600; }
+        .color-danger { color: #f87171 !important; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <h1>Java <span>Collections</span> Framework</h1>
+        <p>A comprehensive guide to data structures and algorithms in Java.</p>
+    </header>
+
+    <main class="container">
+        <a href="../java/index.html" class="nav-back"><i class='bx bx-left-arrow-alt'></i> Back to Java Hub</a>
+
+        <h2 class="section-header">Part 1: Introduction to Collections</h2>
+        
+        <h3 class="sub-header">What is Collections?</h3>
+        <p>Collections is a framework provided by Java.</p>
+        <p>This framework provides many <strong>interfaces</strong> and their <strong>implemented classes</strong> in order to store a group of objects (elements) in a single entity.</p>
+
+        <h3 class="sub-header">Interfaces Provided by Collections Framework</h3>
+        <ul class="bullet-list">
+            <li><strong>Collection Interface:</strong> The root interface for most collections.
+                <ul class="bullet-list">
+                    <li><code>List</code> &lt;interface&gt;</li>
+                    <li><code>Set</code> &lt;interface&gt;</li>
+                    <li><code>Queue</code> &lt;interface&gt;</li>
+                </ul>
+            </li>
+            <li><strong>Map Interface:</strong> Stands separate from the Collection interface, representing key-value pairs.</li>
+        </ul>
+
+        <h3 class="sub-header">Classes Provided by Collections Framework</h3>
+        <div style="display: flex; flex-wrap: wrap; justify-content: space-between; background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px;">
+            <div style="flex: 1; min-width: 250px;">
+                <p style="font-weight: bold; color: #fff; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">Collection Implementations</p>
+                <ul class="bullet-list" style="color: #58a6ff;">
+                    <li>ArrayList</li>
+                    <li>LinkedList</li>
+                    <li>Vector</li>
+                    <li>Stack</li>
+                    <li style="color: #f9826c;">ArrayQueue</li>
+                    <li style="color: #f9826c;">PriorityQueue</li>
+                    <li style="color: #9d4edd;">HashSet</li>
+                    <li style="color: #9d4edd;">LinkedHashSet</li>
+                    <li style="color: #9d4edd;">TreeSet</li>
+                    <li style="color: #a5d6ff;">Collections (Utility Class)</li>
+                </ul>
+            </div>
+            <div style="flex: 1; min-width: 250px;">
+                <p style="font-weight: bold; color: #fff; margin-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 5px;">Map Implementations</p>
+                <ul class="bullet-list" style="color: #e34c26;">
+                    <li>HashTable</li>
+                    <li>HashMap</li>
+                    <li>LinkedHashMap</li>
+                    <li>TreeMap</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-header">Part 2: The Core Hierarchy Architecture</h2>
+
+        <h3 class="sub-header">1. Hierarchy of Collection Interface</h3>
+        <div class="mermaid" style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); text-align: center;">
+            classDiagram
+            direction BT
+            class Iterable { &lt;&lt;interface&gt;&gt; }
+            class Collection { &lt;&lt;interface&gt;&gt; }
+            class List { &lt;&lt;interface&gt;&gt; }
+            class Queue { &lt;&lt;interface&gt;&gt; }
+            class Set { &lt;&lt;interface&gt;&gt; }
+            class Deque { &lt;&lt;interface&gt;&gt; }
+            class SortedSet { &lt;&lt;interface&gt;&gt; }
+            class NavigableSet { &lt;&lt;interface&gt;&gt; }
+            
+            Collection --|&gt; Iterable : extends
+            List --|&gt; Collection : extends
+            Queue --|&gt; Collection : extends
+            Set --|&gt; Collection : extends
+            
+            Deque --|&gt; Queue : extends
+            SortedSet --|&gt; Set : extends
+            NavigableSet --|&gt; SortedSet : extends
+            
+            class ArrayList
+            class Vector
+            class Stack
+            class LinkedList
+            class PriorityQueue
+            class ArrayDeque
+            class HashSet
+            class LinkedHashSet
+            class TreeSet
+
+            ArrayList ..|&gt; List : implements
+            Vector ..|&gt; List : implements
+            Stack --|&gt; Vector : extends
+            LinkedList ..|&gt; List : implements
+            LinkedList ..|&gt; Deque : implements
+            
+            PriorityQueue ..|&gt; Queue : implements
+            ArrayDeque ..|&gt; Deque : implements
+            
+            HashSet ..|&gt; Set : implements
+            LinkedHashSet --|&gt; HashSet : extends
+            TreeSet ..|&gt; NavigableSet : implements
+        </div>
+
+        <h3 class="sub-header">2. Hierarchy of Map Interface</h3>
+        <div class="mermaid" style="background: rgba(0,0,0,0.4); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 50px; text-align: center;">
+            classDiagram
+            direction BT
+            class Map { &lt;&lt;interface&gt;&gt; }
+            class SortedMap { &lt;&lt;interface&gt;&gt; }
+            class NavigableMap { &lt;&lt;interface&gt;&gt; }
+            
+            SortedMap --|&gt; Map : extends
+            NavigableMap --|&gt; SortedMap : extends
+            
+            class HashTable
+            class HashMap
+            class LinkedHashMap
+            class TreeMap
+
+            HashTable ..|&gt; Map : implements
+            HashMap ..|&gt; Map : implements
+            LinkedHashMap --|&gt; HashMap : extends
+            TreeMap ..|&gt; NavigableMap : implements
+        </div>
+
+        <h2 class="section-header">Part 3: List Interface Deep Dive</h2>
+
+        <h3 class="sub-header">1. Major Operations on Collections</h3>
+        <p>Regardless of the specific list implementation you choose, you will generally perform the following six major operations:</p>
+        <ul class="bullet-list" style="font-size: 1.1rem; padding: 10px 20px; background: rgba(249, 130, 108, 0.05); border-left: 3px solid #f9826c; border-radius: 4px;">
+            <li><strong>Creation</strong> of a list</li>
+            <li><strong>Addition</strong> of elements into the list</li>
+            <li><strong>Retrieval</strong> of elements from the list</li>
+            <li><strong>Deletion</strong> of elements from the list</li>
+            <li><strong>Verification</strong> of elements in the list</li>
+            <li><strong>Updation</strong> of elements in the list</li>
+        </ul>
+
+        <h3 class="sub-header">2. Dynamic Capacity Growth: ArrayList vs Vector</h3>
+        <p>Both <code>ArrayList</code> and <code>Vector</code> use dynamic arrays internally. When they reach their maximum capacity, they automatically resize by creating a new, larger array and copying the old elements over. However, their growth formulas differ significantly:</p>
+        <table class="styled-table" style="max-width: 800px;">
+            <thead><tr><th>Implementation</th><th>Growth Rate</th><th>Mathematical Formula</th></tr></thead>
+            <tbody>
+                <tr><td style="color: #58a6ff; font-weight: bold;">ArrayList</td><td><strong>50%</strong> Increase</td><td><code>newCapacity = oldCapacity + (oldCapacity >> 1)</code></td></tr>
+                <tr><td style="color: #f9826c; font-weight: bold;">Vector</td><td><strong>100%</strong> Increase (Doubles)</td><td><code>newCapacity = oldCapacity * 2</code></td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="sub-header">3. Legacy Class: Vector & Its Methods</h3>
+        <p><code>Vector</code> is a legacy class introduced in Java 1.0. It is <strong>synchronized</strong>, meaning it is completely thread-safe but suffers from severe performance overhead in single-threaded environments. Aside from standard List methods, it has unique legacy methods:</p>
+        <ul class="bullet-list">
+            <li><code>addElement(Object o)</code>: Adds the specified component to the end of this vector.</li>
+            <li><code>firstElement()</code>: Returns the first component (the item at index 0) of this vector.</li>
+            <li><code>lastElement()</code>: Returns the last component of the vector.</li>
+            <li><code>removeElement(Object obj)</code>: Removes the first (lowest-indexed) occurrence of the argument from this vector.</li>
+            <li><code>removeAllElements()</code>: Removes all components from this vector and sets its size to zero.</li>
+            <li><code>capacity()</code>: Returns the current physical capacity of this vector array.</li>
+        </ul>
+
+        <h3 class="sub-header">4. Difference Between ArrayList and Vector</h3>
+        <table class="styled-table">
+            <thead><tr><th>Feature</th><th>ArrayList</th><th>Vector</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Synchronization</strong></td><td>Non-synchronized (Not Thread-Safe)</td><td>Synchronized (Thread-Safe)</td></tr>
+                <tr><td><strong>Performance</strong></td><td><span class="color-safe">Fast</span> (No locking overhead)</td><td><span class="color-danger">Slow</span> (Threads must wait for lock)</td></tr>
+                <tr><td><strong>Data Growth</strong></td><td>Grows by 50% when full</td><td>Doubles (100%) when full</td></tr>
+                <tr><td><strong>Legacy Status</strong></td><td>Introduced in Java 1.2 (Collections Framework)</td><td>Legacy Class (Introduced in Java 1.0)</td></tr>
+                <tr><td><strong>Traversing</strong></td><td>Uses <code>Iterator</code> and <code>ListIterator</code></td><td>Uses <code>Enumeration</code> along with Iterators</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="sub-header">5. Are the Methods Identical?</h3>
+        <p><strong>Yes and No.</strong> Because both <code>ArrayList</code> and <code>Vector</code> implement the <code>List</code> interface, all standard List operations (like <code>add()</code>, <code>get()</code>, <code>remove()</code>, <code>set()</code>, <code>contains()</code>) are <strong>exactly the same</strong> in both classes.</p>
+        <p>The key difference is that <code>Vector</code> has <em>extra</em> legacy methods (like <code>addElement()</code>) from Java 1.0 which <code>ArrayList</code> does not possess.</p>
+
+        <h3 class="sub-header">6. Code Implementation: The 6 Major Operations</h3>
+        <p>Here is a complete, executable example demonstrating how to perform the six major list operations. <em>Note: You can seamlessly swap <code>ArrayList</code> with <code>Vector</code> in this code, and it will function identically!</em></p>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.ArrayList;
+
+public class ListOperations {
+    public static void main(String[] args) {
+        
+        <span style="color: #4ade80;">// 1. Creation of a list</span>
+        ArrayList&lt;String&gt; fruits = new ArrayList&lt;&gt;();
+        
+        <span style="color: #4ade80;">// 2. Addition of elements</span>
+        fruits.add("Apple");
+        fruits.add("Banana");
+        fruits.add("Mango");
+        System.out.println("After Addition: " + fruits);
+        
+        <span style="color: #4ade80;">// 3. Retrieval of elements</span>
+        String item = fruits.get(1); <span style="color: #8b949e;">// Gets the second element</span>
+        System.out.println("Retrieved Item: " + item);
+        
+        <span style="color: #4ade80;">// 4. Updation of elements</span>
+        fruits.set(1, "Blueberry"); <span style="color: #8b949e;">// Replaces Banana with Blueberry</span>
+        System.out.println("After Updation: " + fruits);
+        
+        <span style="color: #4ade80;">// 5. Verification of elements</span>
+        boolean hasApple = fruits.contains("Apple");
+        System.out.println("Contains Apple? " + hasApple);
+        
+        <span style="color: #4ade80;">// 6. Deletion of elements</span>
+        fruits.remove("Mango"); <span style="color: #8b949e;">// Removes Mango</span>
+        fruits.remove(0);       <span style="color: #8b949e;">// Removes element at index 0 (Apple)</span>
+        System.out.println("After Deletion: " + fruits);
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output:</strong><br><br>
+            After Addition: [Apple, Banana, Mango]<br>
+            Retrieved Item: Banana<br>
+            After Updation: [Apple, Blueberry, Mango]<br>
+            Contains Apple? true<br>
+            After Deletion: [Blueberry]
+        </div>
+
+        <h3 class="sub-header">7. Vector: Legacy Methods Implementation</h3>
+        <p>While you can use the exact same modern methods shown above with <code>Vector</code>, historically it used its own synchronized legacy methods. Here is how the identical 6 operations look using Vector's legacy API, along with a demonstration of its capacity feature:</p>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #f9826c; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.Vector;
+
+public class VectorLegacyOperations {
+    public static void main(String[] args) {
+        
+        <span style="color: #4ade80;">// 1. Creation (Default capacity is 10)</span>
+        Vector&lt;String&gt; v = new Vector&lt;&gt;();
+        System.out.println("Initial Capacity: " + v.capacity());
+        
+        <span style="color: #4ade80;">// 2. Addition (Legacy Method)</span>
+        v.addElement("Apple");
+        v.addElement("Banana");
+        v.addElement("Mango");
+        System.out.println("After Addition: " + v);
+        
+        <span style="color: #4ade80;">// 3. Retrieval (Legacy Method)</span>
+        String item = v.elementAt(1);
+        System.out.println("Retrieved Item: " + item);
+        
+        <span style="color: #4ade80;">// 4. Updation (Legacy Method)</span>
+        v.setElementAt("Blueberry", 1);
+        System.out.println("After Updation: " + v);
+        
+        <span style="color: #4ade80;">// 5. Verification</span>
+        boolean hasApple = v.contains("Apple");
+        System.out.println("Contains Apple? " + hasApple);
+        
+        <span style="color: #4ade80;">// 6. Deletion (Legacy Method)</span>
+        v.removeElement("Mango");
+        System.out.println("After Deletion: " + v);
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output:</strong><br><br>
+            Initial Capacity: 10<br>
+            After Addition: [Apple, Banana, Mango]<br>
+            Retrieved Item: Banana<br>
+            After Updation: [Apple, Blueberry, Mango]<br>
+            Contains Apple? true<br>
+            After Deletion: [Blueberry]
+        </div>
+
+        <h2 class="section-header" style="margin-top: 60px;">Part 4: Stack Interface Deep Dive</h2>
+
+        <h3 class="sub-header">1. What is a Stack?</h3>
+        <p>The <code>Stack</code> class represents a <strong>Last-In-First-Out (LIFO)</strong> stack of objects. Structurally, it is a direct child class of <code>Vector</code>. This means a Stack <em>IS-A</em> Vector, inheriting all its synchronized capabilities, but it adds five specific methods to enforce LIFO behavior.</p>
+        
+        <h3 class="sub-header">2. The 5 Core Stack Operations</h3>
+        <ul class="bullet-list" style="font-size: 1.1rem; padding: 10px 20px; background: rgba(157, 78, 221, 0.05); border-left: 3px solid #9d4edd; border-radius: 4px;">
+            <li><strong>push(Object item):</strong> Pushes an item onto the top of this stack.</li>
+            <li><strong>pop():</strong> Removes the object at the top of this stack and returns that object.</li>
+            <li><strong>peek():</strong> Looks at the object at the top of this stack without removing it.</li>
+            <li><strong>empty():</strong> Tests if this stack is empty.</li>
+            <li><strong>search(Object o):</strong> Returns the 1-based position where an object is on this stack.</li>
+        </ul>
+
+        <h3 class="sub-header">3. Difference Between Vector and Stack</h3>
+        <p>Because <code>Stack extends Vector</code>, a Stack technically possesses all Vector methods (like <code>addElement()</code> or <code>get(int index)</code>). However, logically, they represent two completely different architectures:</p>
+        <table class="styled-table">
+            <thead><tr><th>Feature</th><th>Vector</th><th>Stack</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Architecture</strong></td><td>Sequential List (Random Access)</td><td>LIFO Structure (Restricted Access)</td></tr>
+                <tr><td><strong>Access Pattern</strong></td><td>You can insert/remove elements at <strong>any index</strong> natively.</td><td>You should strictly insert/remove at the <strong>Top</strong> only.</td></tr>
+                <tr><td><strong>Primary Methods</strong></td><td><code>add()</code>, <code>remove()</code>, <code>get()</code></td><td><code>push()</code>, <code>pop()</code>, <code>peek()</code></td></tr>
+                <tr><td><strong>Search Mechanism</strong></td><td><code>indexOf()</code> returns a <strong>0-based index</strong> from the front.</td><td><code>search()</code> returns a <strong>1-based index</strong> strictly from the Top.</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="sub-header">4. Code Implementation: Stack LIFO Operations</h3>
+        <p>Here is an executable example demonstrating the 5 core LIFO operations. Notice how elements added last are processed first.</p>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.Stack;
+
+public class StackOperations {
+    public static void main(String[] args) {
+        
+        <span style="color: #4ade80;">// 1. Creation</span>
+        Stack&lt;String&gt; books = new Stack&lt;&gt;();
+        
+        <span style="color: #4ade80;">// 2. Push (Addition)</span>
+        books.push("Java Core");
+        books.push("Spring Boot");
+        books.push("Microservices");
+        System.out.println("Stack Status: " + books);
+        
+        <span style="color: #4ade80;">// 3. Peek (Retrieval without Deletion)</span>
+        String topBook = books.peek(); 
+        System.out.println("Top Book is: " + topBook);
+        
+        <span style="color: #4ade80;">// 4. Search (Verification)</span>
+        <span style="color: #8b949e;">// Returns 1-based position from the TOP (Microservices is 1, Spring Boot is 2)</span>
+        int position = books.search("Spring Boot");
+        System.out.println("Position of Spring Boot: " + position);
+        
+        <span style="color: #4ade80;">// 5. Pop (Deletion)</span>
+        String removedBook = books.pop(); 
+        System.out.println("Popped Book: " + removedBook);
+        System.out.println("Stack after Pop: " + books);
+        
+        <span style="color: #4ade80;">// 6. Empty Check</span>
+        boolean isEmpty = books.empty();
+        System.out.println("Is the stack empty? " + isEmpty);
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output:</strong><br><br>
+            Stack Status: [Java Core, Spring Boot, Microservices]<br>
+            Top Book is: Microservices<br>
+            Position of Spring Boot: 2<br>
+            Popped Book: Microservices<br>
+            Stack after Pop: [Java Core, Spring Boot]<br>
+            Is the stack empty? false
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #f9826c; margin: 80px 0;">
+
+        <h2 class="section-header" style="text-align: center;">Phase 1: LinkedList & The Queue Family</h2>
+        
+        <!-- LinkedList -->
+        <h2 class="section-header">Part 5: LinkedList Deep Dive</h2>
+        
+        <h3 class="sub-header">1. What is a LinkedList?</h3>
+        <p>Unlike <code>ArrayList</code> which uses a continuous array in memory, a <code>LinkedList</code> uses a <strong>Doubly-Linked List</strong> architecture. Every element is a separate object called a "Node" that contains three things: the data, a pointer to the previous node, and a pointer to the next node.</p>
+
+        <h3 class="sub-header">2. ArrayList vs LinkedList</h3>
+        <table class="styled-table">
+            <thead><tr><th>Feature</th><th>ArrayList</th><th>LinkedList</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Internal Structure</strong></td><td>Dynamic Array (Continuous memory)</td><td>Doubly-Linked Nodes (Scattered memory)</td></tr>
+                <tr><td><strong>Search (Get)</strong></td><td><span class="color-safe">O(1) Fast</span> - Math calculation to jump to index</td><td><span class="color-danger">O(n) Slow</span> - Must traverse node by node</td></tr>
+                <tr><td><strong>Insert/Delete in Middle</strong></td><td><span class="color-danger">O(n) Slow</span> - Elements must be shifted heavily</td><td><span class="color-safe">O(1) Fast</span> - Just update pointer links</td></tr>
+                <tr><td><strong>Memory Overhead</strong></td><td>Low (just stores data)</td><td>High (stores data + two pointers per element)</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="sub-header">3. Code Implementation: The Dual Nature</h3>
+        <p>A LinkedList implements both the <code>List</code> interface AND the <code>Deque</code> (Double Ended Queue) interface. This means it can act like a standard list or a queue natively.</p>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.LinkedList;
+
+public class LinkedListOps {
+    public static void main(String[] args) {
+        LinkedList&lt;String&gt; list = new LinkedList&lt;&gt;();
+        
+        <span style="color: #4ade80;">// 1. Standard List Operations</span>
+        list.add("Middle");
+        
+        <span style="color: #4ade80;">// 2. Deque Specific Operations (O(1) time complexity)</span>
+        list.addFirst("Front");
+        list.addLast("End");
+        System.out.println("List: " + list);
+        
+        <span style="color: #4ade80;">// 3. Retrieval</span>
+        System.out.println("First: " + list.getFirst());
+        System.out.println("Last: " + list.getLast());
+        
+        <span style="color: #4ade80;">// 4. Deletion</span>
+        list.removeFirst();
+        System.out.println("After removeFirst: " + list);
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output:</strong><br><br>
+            List: [Front, Middle, End]<br>
+            First: Front<br>
+            Last: End<br>
+            After removeFirst: [Middle, End]
+        </div>
+
+        <!-- PriorityQueue -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 6: PriorityQueue Deep Dive</h2>
+
+        <h3 class="sub-header">1. What is a PriorityQueue?</h3>
+        <p>A standard queue processes elements in FIFO (First-In-First-Out) order. A <code>PriorityQueue</code> totally ignores insertion order. Instead, it processes elements based on their <strong>Priority</strong> using a <em>Min-Heap</em> or <em>Max-Heap</em> data structure internally. By default, Java uses a Min-Heap (smallest numbers come out first).</p>
+
+        <h3 class="sub-header">2. Code Implementation: Natural Ordering</h3>
+        <p>Notice how we insert numbers randomly, but when we remove (poll) them, they always come out in perfectly sorted (ascending) order.</p>
+        
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.PriorityQueue;
+
+public class PQOperations {
+    public static void main(String[] args) {
+        <span style="color: #4ade80;">// Default is Min-Heap (Smallest value has highest priority)</span>
+        PriorityQueue&lt;Integer&gt; pq = new PriorityQueue&lt;&gt;();
+        
+        <span style="color: #4ade80;">// Insertion (offer)</span>
+        pq.offer(50);
+        pq.offer(10);
+        pq.offer(30);
+        pq.offer(5);
+        
+        <span style="color: #8b949e;">// Note: Printing the Queue directly doesn't guarantee sorted output (it's a tree structure)</span>
+        System.out.println("Internal Tree Structure: " + pq);
+        
+        <span style="color: #4ade80;">// Extraction (poll) ALWAYS retrieves the highest priority (smallest number)</span>
+        System.out.println("Processing Queue:");
+        while (!pq.isEmpty()) {
+            System.out.println("Removed: " + pq.poll()); 
+        }
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output:</strong><br><br>
+            Internal Tree Structure: [5, 10, 30, 50]<br>
+            Processing Queue:<br>
+            Removed: 5<br>
+            Removed: 10<br>
+            Removed: 30<br>
+            Removed: 50
+        </div>
+
+        <!-- ArrayDeque -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 7: ArrayDeque Deep Dive</h2>
+
+        <h3 class="sub-header">1. What is an ArrayDeque?</h3>
+        <p>An <code>ArrayDeque</code> (Double Ended Queue) is a resizable array that allows you to add or remove elements from both the front and the back. It is arguably the most powerful collection for queue operations.</p>
+        <ul class="bullet-list">
+            <li><strong class="color-safe">Faster than Stack:</strong> Because it has no synchronization overhead.</li>
+            <li><strong class="color-safe">Faster than LinkedList:</strong> Because it uses an array underneath, meaning better CPU cache locality and zero memory overhead from creating Node objects.</li>
+        </ul>
+
+        <h3 class="sub-header">2. Code Implementation: The Ultimate Collection</h3>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.ArrayDeque;
+
+public class ArrayDequeOps {
+    public static void main(String[] args) {
+        ArrayDeque&lt;String&gt; deque = new ArrayDeque&lt;&gt;();
+        
+        <span style="color: #4ade80;">// --- Using it as a Fast Stack (LIFO) ---</span>
+        deque.push("Book1");
+        deque.push("Book2");
+        System.out.println("Stack Pop: " + deque.pop()); <span style="color: #8b949e;">// Outputs Book2</span>
+        
+        deque.clear();
+        
+        <span style="color: #4ade80;">// --- Using it as a Fast Queue (FIFO) ---</span>
+        deque.offer("Person1");
+        deque.offer("Person2");
+        deque.offer("Person3");
+        
+        <span style="color: #8b949e;">// Polling removes from the front</span>
+        System.out.println("Queue Poll: " + deque.poll()); <span style="color: #8b949e;">// Outputs Person1</span>
+        
+        <span style="color: #8b949e;">// Deque special features</span>
+        deque.offerFirst("VIP_Person"); <span style="color: #8b949e;">// Jumps the line</span>
+        deque.offerLast("Late_Person");
+        
+        System.out.println("Final Queue: " + deque);
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output:</strong><br><br>
+            Stack Pop: Book2<br>
+            Queue Poll: Person1<br>
+            Final Queue: [VIP_Person, Person2, Person3, Late_Person]
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #f9826c; margin: 80px 0;">
+
+        <h2 class="section-header" style="text-align: center;">Phase 2: The Set Interface Deep Dive</h2>
+        <p style="text-align: center; color: #a5d6ff; margin-bottom: 40px; font-style: italic;">Unlike Lists, Sets guarantee mathematical uniqueness. A Set absolutely cannot contain duplicate elements.</p>
+
+        <!-- HashSet -->
+        <h2 class="section-header">Part 8: HashSet Deep Dive</h2>
+        
+        <h3 class="sub-header">1. Internal Architecture: The "Dummy" HashMap</h3>
+        <p>A <code>HashSet</code> is actually backed entirely by a <code>HashMap</code>. When you add an element to a HashSet, Java internally places it as a <strong>Key</strong> inside a HashMap, and associates it with a dummy, constant value called <code>PRESENT</code>.</p>
+        <ul class="bullet-list">
+            <li><strong>Performance:</strong> <span class="color-safe">O(1)</span> Best performance for standard operations (add, remove, contains).</li>
+            <li><strong>Ordering:</strong> <span class="color-danger">Completely Unordered.</span> The output sequence has absolutely no relation to insertion sequence.</li>
+        </ul>
+
+        <h3 class="sub-header">2. Code Implementation: The Unordered Unique Set</h3>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.HashSet;
+
+public class HashSetOps {
+    public static void main(String[] args) {
+        HashSet&lt;String&gt; set = new HashSet&lt;&gt;();
+        
+        <span style="color: #4ade80;">// 1. Adding Elements</span>
+        set.add("Apple");
+        set.add("Banana");
+        set.add("Mango");
+        
+        <span style="color: #4ade80;">// 2. Attempting to add a duplicate</span>
+        boolean isAdded = set.add("Apple"); <span style="color: #8b949e;">// Ignored</span>
+        System.out.println("Was duplicate Apple added? " + isAdded);
+        
+        <span style="color: #4ade80;">// 3. Output is random/unordered</span>
+        System.out.println("HashSet Output: " + set);
+    }
+}</div>
+        </div>
+
+        <!-- LinkedHashSet -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 9: LinkedHashSet Deep Dive</h2>
+        
+        <h3 class="sub-header">1. Architecture: The Order Preserver</h3>
+        <p><code>LinkedHashSet</code> extends HashSet but maintains a Doubly-Linked List across all its elements. This allows it to preserve the exact sequence in which you inserted elements, at a slight cost to memory and speed compared to a standard HashSet.</p>
+
+        <h3 class="sub-header">2. Code Implementation: Preserving Insertion</h3>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.LinkedHashSet;
+
+public class LinkedHashSetOps {
+    public static void main(String[] args) {
+        LinkedHashSet&lt;String&gt; lhSet = new LinkedHashSet&lt;&gt;();
+        
+        lhSet.add("Apple");
+        lhSet.add("Banana");
+        lhSet.add("Mango");
+        
+        <span style="color: #4ade80;">// Output maintains EXACT insertion order</span>
+        System.out.println("LinkedHashSet Output: " + lhSet);
+    }
+}</div>
+        </div>
+
+        <!-- TreeSet -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 10: TreeSet Deep Dive</h2>
+        
+        <h3 class="sub-header">1. Architecture: The Red-Black Tree</h3>
+        <p><code>TreeSet</code> implements the <code>NavigableSet</code> interface. It stores elements internally inside a Self-Balancing Binary Search Tree (Red-Black Tree). Because it must continuously balance the tree during insertions, its performance drops to <span class="color-danger">O(log n)</span>, but it provides powerful automatic sorting.</p>
+
+        <h3 class="sub-header">2. Code Implementation: Automatic Sorting</h3>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.TreeSet;
+
+public class TreeSetOps {
+    public static void main(String[] args) {
+        TreeSet&lt;Integer&gt; tree = new TreeSet&lt;&gt;();
+        
+        <span style="color: #4ade80;">// Inserting Randomly</span>
+        tree.add(50);
+        tree.add(10);
+        tree.add(40);
+        tree.add(20);
+        
+        <span style="color: #4ade80;">// Outputs in perfect numerical order</span>
+        System.out.println("TreeSet Output: " + tree);
+        
+        <span style="color: #4ade80;">// Powerful NavigableSet Methods</span>
+        System.out.println("Highest number below 40: " + tree.lower(40));
+        System.out.println("Lowest number above 40: " + tree.higher(40));
+    }
+}</div>
+        </div>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <strong style="color: var(--accent-main);">Expected Output Summary:</strong><br><br>
+            HashSet: [Banana, Apple, Mango] <span style="color: #8b949e;">// (Random)</span><br>
+            LinkedHashSet: [Apple, Banana, Mango] <span style="color: #8b949e;">// (Inserted Order)</span><br>
+            TreeSet: [10, 20, 40, 50] <span style="color: #8b949e;">// (Sorted Order)</span><br>
+            TreeSet Navigable: 20, 50
+        </div>
+
+        <hr style="border:0; border-top:1px dashed #f9826c; margin: 80px 0;">
+
+        <h2 class="section-header" style="text-align: center;">Phase 3: The Map Interface Deep Dive</h2>
+        <p style="text-align: center; color: #a5d6ff; margin-bottom: 40px; font-style: italic;">Maps DO NOT implement the Collection interface. They are a separate entity designed to store data in <strong>Key-Value pairs</strong>. Keys must be strictly mathematically unique, while Values can be duplicated limitlessly.</p>
+
+        <!-- HashMap -->
+        <h2 class="section-header">Part 11: HashMap Deep Dive</h2>
+        
+        <h3 class="sub-header">1. Architecture: Buckets & Hashing</h3>
+        <p>A <code>HashMap</code> uses an internal Array of "Buckets". When you `put(Key, Value)`, it runs the Key through a <code>hashCode()</code> algorithm to determine exactly which bucket to drop the data into. If a "Hash Collision" occurs (two keys get the same hash), it creates a LinkedList (or a balanced tree in Java 8+) inside that specific bucket.</p>
+        <ul class="bullet-list">
+            <li><strong>Performance:</strong> <span class="color-safe">O(1)</span> Extremely fast retrieval.</li>
+            <li><strong>Ordering:</strong> <span class="color-danger">Completely Unordered.</span> Keys are scrambled based on their hash algorithms.</li>
+            <li><strong>Nulls:</strong> Allows exactly ONE null Key, and unlimited null Values.</li>
+        </ul>
+
+        <h3 class="sub-header">2. Code Implementation: The Dictionary Pattern</h3>
+        <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.1); margin-top: 20px;">
+            <div style="font-family: 'Fira Code', monospace; color: #a5d6ff; white-space: pre; overflow-x: auto; font-size: 0.95em;">import java.util.HashMap;
+
+public class HashMapOps {
+    public static void main(String[] args) {
+        HashMap&lt;String, Integer&gt; map = new HashMap&lt;&gt;();
+        
+        <span style="color: #4ade80;">// 1. Adding Key-Value Pairs</span>
+        map.put("Alice", 95);
+        map.put("Bob", 80);
+        map.put("Charlie", 90);
+        
+        <span style="color: #4ade80;">// 2. Handling Duplicate Keys (Overwrites the old value)</span>
+        map.put("Alice", 99); 
+        
+        <span style="color: #4ade80;">// 3. Retrieval</span>
+        int alicesScore = map.get("Alice");
+        System.out.println("Alice's Score: " + alicesScore);
+        
+        <span style="color: #4ade80;">// 4. Verification</span>
+        System.out.println("Has Bob? " + map.containsKey("Bob"));
+        
+        <span style="color: #4ade80;">// 5. Iteration (Getting all keys)</span>
+        System.out.println("All Students: " + map.keySet());
+        
+        <span style="color: #8b949e;">// Output is structurally Unordered</span>
+        System.out.println("Full Map: " + map);
+    }
+}</div>
+        </div>
+
+        <!-- LinkedHashMap -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 12: LinkedHashMap Deep Dive</h2>
+        
+        <h3 class="sub-header">1. Architecture: The Order Cache</h3>
+        <p>A <code>LinkedHashMap</code> is identical to a HashMap but wires a Doubly-Linked List through all its entries. It is heavily used to build Caches (like LRU Cache) because it perfectly preserves the <strong>Insertion Order</strong> of the Keys.</p>
+
+        <!-- TreeMap -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 13: TreeMap Deep Dive</h2>
+        
+        <h3 class="sub-header">1. Architecture: The Sorted Dictionary</h3>
+        <p>A <code>TreeMap</code> internally utilizes a Red-Black Tree. It completely ignores insertion order and instead automatically <strong>Sorts</strong> all entries based on the natural ordering of the Keys (e.g., A-Z for Strings, 1-100 for Integers).</p>
+
+        <!-- HashTable -->
+        <h2 class="section-header" style="margin-top: 60px;">Part 14: HashTable (Legacy Class) Deep Dive</h2>
+        
+        <h3 class="sub-header">1. HashMap vs HashTable</h3>
+        <p><code>HashTable</code> is the legacy equivalent of HashMap from Java 1.0. Just like <code>Vector</code> is to <code>ArrayList</code>, <code>HashTable</code> is the synchronized, slow predecessor to the modern HashMap.</p>
+        
+        <table class="styled-table">
+            <thead><tr><th>Feature</th><th>HashMap (Modern)</th><th>HashTable (Legacy)</th></tr></thead>
+            <tbody>
+                <tr><td><strong>Synchronization</strong></td><td>Non-synchronized (Not Thread-Safe)</td><td>Synchronized (Thread-Safe)</td></tr>
+                <tr><td><strong>Performance</strong></td><td><span class="color-safe">Fast</span> (No locking overhead)</td><td><span class="color-danger">Slow</span> (Threads must wait)</td></tr>
+                <tr><td><strong>Null Handling</strong></td><td>Allows 1 Null Key, Multiple Null Values</td><td><span class="color-danger">Throws NullPointerException</span> for any Null Key or Value</td></tr>
+                <tr><td><strong>Legacy Status</strong></td><td>Introduced in Java 1.2</td><td>Introduced in Java 1.0</td></tr>
+            </tbody>
+        </table>
+
+        <h3 class="sub-header">2. Map Outputs Comparison Summary</h3>
+        <div style="background: #010409; padding: 15px; border-radius: 6px; font-family: 'Courier New', monospace; color: #e5e7eb; margin: 15px 0; border: 1px solid rgba(255,255,255,0.1);">
+            <span style="color: #8b949e;">// If we insert: (Zebra=1), (Apple=2), (Mango=3)</span><br><br>
+            <strong style="color: var(--accent-main);">HashMap:</strong> {Mango=3, Apple=2, Zebra=1} <span style="color: #8b949e;">// (Random Hash Order)</span><br>
+            <strong style="color: var(--accent-main);">LinkedHashMap:</strong> {Zebra=1, Apple=2, Mango=3} <span style="color: #8b949e;">// (Inserted Order)</span><br>
+            <strong style="color: var(--accent-main);">TreeMap:</strong> {Apple=2, Mango=3, Zebra=1} <span style="color: #8b949e;">// (Alphabetically Sorted by Key)</span>
+        </div>
+
+    </main>
+</body>
+</html>
